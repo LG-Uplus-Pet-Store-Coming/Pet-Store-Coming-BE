@@ -1,0 +1,19 @@
+# server:
+#   port: 5000
+#   servlet:
+#     encoding:
+#       charset: utf-8
+
+# spring:
+#   application:
+#     name: pet_store_coming_be
+
+#   datasource:
+#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
+#     username: ${rds.username}
+#     password: ${rds.password}
+
+#   devtools:
+#     restart:
+#       enabled: true
