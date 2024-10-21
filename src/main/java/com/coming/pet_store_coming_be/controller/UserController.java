@@ -42,6 +42,7 @@ public class UserController {
     }
 
     // 2. 아이디가 중복되지 않았을 경우 회원가입 진행
+    userService.signUpUser(user);
     // Map<String, Object>
 
     return new ResponseEntity<>(response, HttpStatus.OK);

@@ -22,8 +22,8 @@ public class UserIdentifierDTO {
   }
 
 
-  public UUID getUserIdentifierId() {
-    return this.userIdentifierId;
+  public String getUserIdentifierId() {
+    return this.userIdentifierId.toString();
   }
 
   public void setUserIdentifierId(UUID userIdentifierId) {
