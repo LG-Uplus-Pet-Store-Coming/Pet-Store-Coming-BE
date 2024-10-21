@@ -3,4 +3,10 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.UserDAO">
 
+  <select id="getUserByEmail" resultType="boolean" parameterType="String"> 
+    select count(1)
+    from user
+    where email = #{email}
+  </select>
+
 </mapper>
