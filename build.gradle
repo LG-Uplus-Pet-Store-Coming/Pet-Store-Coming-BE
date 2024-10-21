@@ -24,11 +24,13 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'mysql:mysql-connector-java:8.0.33'  // MySQL 의존성 추가
+	
+	// MySQL 의존성 추가
+	implementation 'mysql:mysql-connector-java:8.0.33'
 	
 	// MyBatis 의존성 추가
-	// implementation 'org.mybatis:mybatis:3.5.16'
-	// implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	implementation 'org.mybatis:mybatis:3.5.16'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 }
 
 tasks.named('test') {
