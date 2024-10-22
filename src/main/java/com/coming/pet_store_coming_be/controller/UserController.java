@@ -65,23 +65,40 @@ public class UserController {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
-  @GetMapping("/login") // 로그인 Contoller
-  public String getMethodName(@RequestParam("email") String email, @RequestParam("password") String password) throws SQLException {
+  @GetMapping("/auth/login") // 로그인 Contoller
+  public ResponseEntity<Map<String, Object>> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) throws SQLException {
     
-    // 1. 입력으로 주어진 email 파라미터를 통해 DB에서 해당 데이터를 가져온다.
+    // 입력으로 주어진 email 파라미터를 통해 DB에서 해당 데이터를 가져온다.
     UserDTO userInfo = userService.emailCheck(email);
     Map<String, Object> response = new HashMap<>();
 
-    // 데이터를 성공적으로 가져왔을 경우
-    if(userInfo != null) {
-
+    if(userInfo == null) { // 데이터를 가져오지 못했을 경우
+      response.put("status", HttpStatus.NOT_FOUND.value());
+      response.put("success", false);
+      response.put("message", "User with the provided email address could not be found.");
+      response.put("errorCode", "USER_NOT_FOUND");
+      
+      return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    } 
+    
+    else if(!userValidationService.isPasswordMath(password, userInfo.getPassword())) { // 비밀번호가 일치하지 않을 경우
+      response.put("status", HttpStatus.UNAUTHORIZED.value()); // 401 상태 코드
+      response.put("success", false);
+      response.put("message", "The password provided is incorrect.");
+      response.put("errorCode", "INVALID_PASSWORD");
+      
+      return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    // 데이터를 가져오지 못했을 경우
+    // JWT 생성
+    String token = "";
 
+    response.put("status", HttpStatus.OK.value());
+    response.put("success", true);
+    response.put("message", "Login successful.");
+    response.put("token", token);
 
-
-    return "Hello";
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
 
