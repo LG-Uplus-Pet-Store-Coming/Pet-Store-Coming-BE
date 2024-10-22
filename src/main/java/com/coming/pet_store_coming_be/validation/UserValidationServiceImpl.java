@@ -15,7 +15,7 @@ public class UserValidationServiceImpl implements UserValidationService {
 
   @Override
   public boolean isUserEmailAvailalbe(String email) throws SQLException {
-    return dao.getUserByEmail(email);
+    return dao.getUserByEmail(email).isPresent();
   }
   
 }
