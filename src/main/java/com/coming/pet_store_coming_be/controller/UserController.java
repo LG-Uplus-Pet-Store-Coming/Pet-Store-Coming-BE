@@ -99,13 +99,18 @@ public class UserController {
     String refreshToken = tokenProvider.createRefreshToken(userInfo.getUserIdentifierId()); // 리프레시 토큰 생성
     Date tokenExpiry = tokenProvider.setTokenExpiry(); // 토큰 만료 시간 설정
 
+    // 로그인 한 사용자에게 refresh token과 token expiry 기간 설정
     userInfo.setRefreshToken(refreshToken);
     userInfo.setTokenExpiry(tokenExpiry);
+
+    // 로그인 사용자 토큰 정보 업데이트
+    userService.refreshTokenAndExpiry(userInfo.getUserIdentifierId(), refreshToken, tokenExpiry);
 
     response.put("status", HttpStatus.OK.value());
     response.put("success", true);
     response.put("message", "Login successful.");
     response.put("token", token);
+    response.put("refreshToken", tokenExpiry);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }

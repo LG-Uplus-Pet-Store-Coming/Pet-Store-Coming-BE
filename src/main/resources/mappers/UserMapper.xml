@@ -21,4 +21,10 @@
     )
   </insert>
 
+  <update id="updateRefreshTokenAndExpiry" parameterType="map">
+    update user
+    set refresh_token = #{refreshToken}, token_expiry = #{tokenExpiry}
+    where user_identifier_id = #{id}
+  </update>
+
 </mapper>

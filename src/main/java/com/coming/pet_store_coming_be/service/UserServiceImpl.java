@@ -3,10 +3,12 @@ package com.coming.pet_store_coming_be.service;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.UserDAO;
@@ -54,6 +56,17 @@ public class UserServiceImpl implements UserService {
   @Override // Email을 통해 UserDTO 데이터 전달
   public UserDTO emailCheck(String email) throws SQLException {
     return userDAO.getUserByEmail(email).orElse(null);
+  }
+
+  @Override
+  public void refreshTokenAndExpiry(String id, String refreshToken, Date tokenExpiry) throws SQLException {
+    Map<String, Object> params = new HashMap<>();
+
+    params.put("id", id);
+    params.put("refreshToken", refreshToken);
+    params.put("tokenExpiry", tokenExpiry);
+
+    userDAO.updateRefreshTokenAndExpiry(params);
   }
 
 }
