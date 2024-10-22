@@ -1,11 +1,10 @@
 package com.coming.pet_store_coming_be.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class UserIdentifierDTO {
   
-  private UUID userIdentifierId;
+  private String userIdentifierId;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
@@ -15,7 +14,7 @@ public class UserIdentifierDTO {
   }
 
 
-  public UserIdentifierDTO(UUID userIdentifierId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public UserIdentifierDTO(String userIdentifierId, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.userIdentifierId = userIdentifierId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -26,7 +25,7 @@ public class UserIdentifierDTO {
     return this.userIdentifierId.toString();
   }
 
-  public void setUserIdentifierId(UUID userIdentifierId) {
+  public void setUserIdentifierId(String userIdentifierId) {
     this.userIdentifierId = userIdentifierId;
   }
 

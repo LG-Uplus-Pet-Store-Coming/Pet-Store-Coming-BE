@@ -10,6 +10,7 @@ import com.coming.pet_store_coming_be.validation.UserValidationService;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,16 +37,30 @@ public class UserController {
     // 1. 아이디 중복 확인
     if(userValidationService.isUserEmailAvailalbe(user.getEmail())) {
       response.put("status", HttpStatus.CONFLICT.value());
-      response.put("message", "Duplicate User ID. Please choose a different one.");
-      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+      response.put("success", false);
+      response.put("errorCode", "DUPLICATE_EMAIL");
+      response.put("message", "Duplicate User Email. Please choose a different one.");
 
+      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
     // 2. 아이디가 중복되지 않았을 경우 회원가입 진행
-    userService.signUpUser(user);
-    // Map<String, Object>
+    if(userService.signUpUser(user)) {
+      // 회원가입 성공
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("message", "Signup completed successfully.");
 
-    return new ResponseEntity<>(response, HttpStatus.OK);
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 회원가입 실패
+    response.put("status", HttpStatus.BAD_REQUEST.value());
+    response.put("success", false);
+    response.put("message", "The signup request is invalid. Please check the input values.");
+    response.put("errorCode", "INVALID_SIGNUP_REQUEST");
+
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
 }

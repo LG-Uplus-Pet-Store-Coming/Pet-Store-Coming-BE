@@ -3,7 +3,7 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.UserIdentifierDAO">
 
-  <insert id="createUserIdentifier" parameterType="UserIdentifierDTO"> 
+  <insert id="insertUserIdentifier" parameterType="UserIdentifierDTO"> 
     insert into user_identifier (id, created_at, updated_at)
     values (#{userIdentifierId}, #{createdAt}, #{updatedAt})
   </insert>

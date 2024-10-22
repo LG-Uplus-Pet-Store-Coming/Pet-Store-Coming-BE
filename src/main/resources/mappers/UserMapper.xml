@@ -9,4 +9,16 @@
     where email = #{email}
   </select>
 
+  <insert id="insertSignUpUser" parameterType="UserDTO">
+    insert into user (user_identifier_id, email, password, name, address, phone_number)
+    values (
+      #{userIdentifierId},
+      #{email},
+      #{password},
+      #{name},
+      #{address},
+      #{phoneNumber}
+    )
+  </insert>
+
 </mapper>

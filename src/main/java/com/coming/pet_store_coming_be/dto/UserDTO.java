@@ -1,10 +1,8 @@
 package com.coming.pet_store_coming_be.dto;
 
-import java.util.UUID;
-
 public class UserDTO {
  
-  private UUID userIdentifierId;
+  private String userIdentifierId;
   private String email;
   private String password;
   private String name;
@@ -22,7 +20,7 @@ public class UserDTO {
   
   }
 
-  public UserDTO(UUID userIdentifierId, String email, String password, String name, String address, String phoneNumber, String profileImageUrl, String profileImageAlt, String refreshToken, String tokenExpiry, String isActive, String role) {
+  public UserDTO(String userIdentifierId, String email, String password, String name, String address, String phoneNumber, String profileImageUrl, String profileImageAlt, String refreshToken, String tokenExpiry, String isActive, String role) {
     this.userIdentifierId = userIdentifierId;
     this.email = email;
     this.password = password;
@@ -37,11 +35,11 @@ public class UserDTO {
     this.role = role;
   }
 
-  public UUID getUserIdentifierId() {
+  public String getUserIdentifierId() {
     return this.userIdentifierId;
   }
 
-  public void setUserIdentifierId(UUID userIdentifierId) {
+  public void setUserIdentifierId(String userIdentifierId) {
     this.userIdentifierId = userIdentifierId;
   }
 
