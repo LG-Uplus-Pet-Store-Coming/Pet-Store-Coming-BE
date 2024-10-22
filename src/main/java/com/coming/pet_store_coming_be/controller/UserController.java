@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.UserService;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
@@ -30,6 +31,9 @@ public class UserController {
 
   @Autowired
   UserValidationService userValidationService;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @PostMapping("/sign-up") // 회원가입 Contoller
   public ResponseEntity<Map<String, Object>> signUpUser(@RequestBody UserDTO user) throws SQLException {
@@ -91,7 +95,7 @@ public class UserController {
     }
 
     // JWT 생성
-    String token = "";
+    String token = tokenProvider.createToken(userInfo);
 
     response.put("status", HttpStatus.OK.value());
     response.put("success", true);

@@ -12,27 +12,12 @@ public class UserDTO {
   private String profileImageAlt;
   private String refreshToken;
   private String tokenExpiry;
-  private String isActive;
-  private String role;
+  private boolean isActive;
+  private boolean role;
 
 
   public UserDTO() {
   
-  }
-
-  public UserDTO(String userIdentifierId, String email, String password, String name, String address, String phoneNumber, String profileImageUrl, String profileImageAlt, String refreshToken, String tokenExpiry, String isActive, String role) {
-    this.userIdentifierId = userIdentifierId;
-    this.email = email;
-    this.password = password;
-    this.name = name;
-    this.address = address;
-    this.phoneNumber = phoneNumber;
-    this.profileImageUrl = profileImageUrl;
-    this.profileImageAlt = profileImageAlt;
-    this.refreshToken = refreshToken;
-    this.tokenExpiry = tokenExpiry;
-    this.isActive = isActive;
-    this.role = role;
   }
 
   public String getUserIdentifierId() {
@@ -115,39 +100,28 @@ public class UserDTO {
     this.tokenExpiry = tokenExpiry;
   }
 
-  public String getIsActive() {
+  public boolean isIsActive() {
     return this.isActive;
   }
 
-  public void setIsActive(String isActive) {
+  public boolean getIsActive() {
+    return this.isActive;
+  }
+
+  public void setIsActive(boolean isActive) {
     this.isActive = isActive;
   }
 
-  public String getRole() {
+  public boolean isRole() {
     return this.role;
   }
 
-  public void setRole(String role) {
-    this.role = role;
+  public boolean getRole() {
+    return this.role;
   }
 
-
-  @Override
-  public String toString() {
-    return "{" +
-      " userIdentifierId='" + getUserIdentifierId() + "'" +
-      ", email='" + getEmail() + "'" +
-      ", password='" + getPassword() + "'" +
-      ", name='" + getName() + "'" +
-      ", address='" + getAddress() + "'" +
-      ", phoneNumber='" + getPhoneNumber() + "'" +
-      ", profileImageUrl='" + getProfileImageUrl() + "'" +
-      ", profileImageAlt='" + getProfileImageAlt() + "'" +
-      ", refreshToken='" + getRefreshToken() + "'" +
-      ", tokenExpiry='" + getTokenExpiry() + "'" +
-      ", isActive='" + getIsActive() + "'" +
-      ", role='" + getRole() + "'" +
-      "}";
+  public void setRole(boolean role) {
+    this.role = role;
   }
 
 }
