@@ -11,6 +11,7 @@ import com.coming.pet_store_coming_be.config.JwtProperties;
 import com.coming.pet_store_coming_be.dto.UserDTO;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -67,6 +68,23 @@ public class TokenProvider {
       .compact(); // 리플레시 토큰 생성
   }
 
+  // 토큰 만료 시간 확인 로직
+  public boolean isTokenExpired(String token) {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    Claims claims = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+    Date exprirationDate = claims.getExpiration();
+
+    return exprirationDate.before(exprirationDate);
+  }
+
+  // Access Token 갱신 로직
   public String renewAccessToken(String refreshToken) throws Exception {
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
     Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
@@ -87,6 +105,17 @@ public class TokenProvider {
     UserDTO user = userValidationService.isUserIdentifierMath(userIdentifier);
 
     return createToken(user);
+  }
+
+  // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
+  public String getUserIdentifierFromToken(String token) {
+    Claims claims = Jwts.parserBuilder()
+      .setSigningKey(jwtProperties.getSecretKey().getBytes())
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+    return claims.getSubject();
   }
 
   // 토큰 만료 시간 설정 로직

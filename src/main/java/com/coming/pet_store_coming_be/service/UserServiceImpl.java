@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     return userDAO.getUserByEmail(email).orElse(null);
   }
 
-  @Override
+  @Override // 리프레시 토큰, 토큰 만료 시간, 로그인 여부 상태 업데이트
   public void refreshTokenAndExpiry(String id, String refreshToken, Date tokenExpiry, boolean isActive) throws SQLException {
     Map<String, Object> params = new HashMap<>();
 
@@ -66,6 +66,18 @@ public class UserServiceImpl implements UserService {
     params.put("refreshToken", refreshToken);
     params.put("tokenExpiry", tokenExpiry);
     params.put("isActive", isActive);
+
+    userDAO.updateRefreshTokenAndExpiry(params);
+  }
+
+  @Override // 로그아웃 (리프레시 토큰, 토큰 만료 시간, 로그인 여부 상태 업데이트)
+  public void logout(String userIdentifierId) throws SQLException {
+    Map<String, Object> params = new HashMap<>();
+
+    params.put("id", userIdentifierId);
+    params.put("refreshToken", null);
+    params.put("tokenExpiry", null);
+    params.put("isActive", false);
 
     userDAO.updateRefreshTokenAndExpiry(params);
   }

@@ -18,10 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 @RestController
 @RequestMapping("/user")
@@ -121,6 +120,21 @@ public class UserController {
     response.put("message", "Login successful.");
     response.put("token", token);
     response.put("refreshToken", tokenExpiry);
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
+  @PostMapping("/auth/logout") // 로그아웃 API
+  public ResponseEntity<Map<String, Object>> logutUser(@RequestHeader("Authorization") String token) throws SQLException {
+    Map<String, Object> response = new HashMap<>();
+
+    String userIdentifierId = tokenProvider.getUserIdentifierFromToken(token);
+
+    userService.logout(userIdentifierId);
+
+    response.put("status", HttpStatus.OK.value());
+    response.put("success", true);
+    response.put("message", "Logout successful.");
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
