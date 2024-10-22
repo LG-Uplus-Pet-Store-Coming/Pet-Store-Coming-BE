@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.config.JwtProperties;
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.validation.UserValidationService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,6 +23,9 @@ public class TokenProvider {
   
   @Autowired
   private JwtProperties jwtProperties;
+
+  @Autowired
+  UserValidationService userValidationService;
 
   // 토큰 생성 로직
   public String createToken(UserDTO user) {
@@ -61,6 +65,28 @@ public class TokenProvider {
       .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime())) // 만료 시간 설정
       .signWith(secretKey, SignatureAlgorithm.HS512)
       .compact(); // 리플레시 토큰 생성
+  }
+
+  public String renewAccessToken(String refreshToken) throws Exception {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    // refreshToken 유효성 검증
+    Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(refreshToken);
+    
+    String userIdentifier = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(refreshToken)
+      .getBody()
+      .getSubject();
+
+    UserDTO user = userValidationService.isUserIdentifierMath(userIdentifier);
+
+    return createToken(user);
   }
 
   // 토큰 만료 시간 설정 로직

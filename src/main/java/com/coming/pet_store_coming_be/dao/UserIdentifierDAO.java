@@ -8,8 +8,5 @@ import com.coming.pet_store_coming_be.dto.UserIdentifierDTO;
 
 @Mapper
 public interface UserIdentifierDAO {
-
-  // UserIdentifier 데이터 생성 (사용자에 대한 고유 식별자)
-  public int insertUserIdentifier(UserIdentifierDTO userIdentifier) throws SQLException;
-  
+  public int insertUserIdentifier(UserIdentifierDTO userIdentifier) throws SQLException; // UserIdentifier 데이터 생성 (사용자에 대한 고유 식별자)
 }

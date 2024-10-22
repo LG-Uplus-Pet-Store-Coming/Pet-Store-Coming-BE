@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.UserDAO;
+import com.coming.pet_store_coming_be.dto.UserDTO;
 
 @Service
 public class UserValidationServiceImpl implements UserValidationService {
@@ -23,6 +24,11 @@ public class UserValidationServiceImpl implements UserValidationService {
   public boolean isPasswordMath(String rawPassword, String encryptedPassword) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     return passwordEncoder.matches(rawPassword, encryptedPassword);
+  }
+
+  @Override
+  public UserDTO isUserIdentifierMath(String userIdentifier) throws SQLException {
+    return dao.getUserByIdentifier(userIdentifier);
   }
   
 }
