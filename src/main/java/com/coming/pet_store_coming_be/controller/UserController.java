@@ -69,6 +69,18 @@ public class UserController {
   public String getMethodName(@RequestParam("email") String email, @RequestParam("password") String password) throws SQLException {
     
     // 1. 입력으로 주어진 email 파라미터를 통해 DB에서 해당 데이터를 가져온다.
+    UserDTO userInfo = userService.emailCheck(email);
+    Map<String, Object> response = new HashMap<>();
+
+    // 데이터를 성공적으로 가져왔을 경우
+    if(userInfo != null) {
+
+    }
+
+    // 데이터를 가져오지 못했을 경우
+
+
+
     return "Hello";
   }
   

@@ -51,9 +51,9 @@ public class UserServiceImpl implements UserService {
     return false;
   }
 
-  @Override
-  public boolean emailCheck(String email) throws SQLException {
-    return false;
+  @Override // Email을 통해 UserDTO 데이터 전달
+  public UserDTO emailCheck(String email) throws SQLException {
+    return userDAO.getUserByEmail(email).orElse(null);
   }
 
 }
