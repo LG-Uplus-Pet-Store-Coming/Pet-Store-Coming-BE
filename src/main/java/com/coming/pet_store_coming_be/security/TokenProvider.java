@@ -23,6 +23,7 @@ public class TokenProvider {
   @Autowired
   private JwtProperties jwtProperties;
 
+  // 토큰 생성 로직
   public String createToken(UserDTO user) {
     Map<String, Object> claims = new HashMap<>();
 
@@ -36,8 +37,8 @@ public class TokenProvider {
     claims.put("isActive", user.getIsActive());
     claims.put("role", user.getRole());
 
-    byte[] keyBytes = jwtProperties.getSecretKey().getBytes();
-    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName());
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
 
     // 생성한 토큰 반환
     return Jwts.builder()
@@ -47,6 +48,24 @@ public class TokenProvider {
       .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime())) // 만료 시간 설정
       .signWith(secretKey, SignatureAlgorithm.HS512)
       .compact(); // 토큰 생성
+  }
+
+  // 리프레시 토큰 생성 로직
+  public String createRefreshToken(String userIdentifierId) {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    return Jwts.builder()
+      .setSubject(userIdentifierId) // 사용자 식별자 설정
+      .setIssuedAt(new Date()) // 토큰 발행 시간 설정
+      .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime())) // 만료 시간 설정
+      .signWith(secretKey, SignatureAlgorithm.HS512)
+      .compact(); // 리플레시 토큰 생성
+  }
+
+  // 토큰 만료 시간 설정 로직
+  public Date setTokenExpiry() {
+    return new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime());
   }
 
 }

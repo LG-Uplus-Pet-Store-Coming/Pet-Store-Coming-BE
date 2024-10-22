@@ -1,5 +1,7 @@
 package com.coming.pet_store_coming_be.dto;
 
+import java.util.Date;
+
 public class UserDTO {
  
   private String userIdentifierId;
@@ -11,13 +13,28 @@ public class UserDTO {
   private String profileImageUrl;
   private String profileImageAlt;
   private String refreshToken;
-  private String tokenExpiry;
+  private Date tokenExpiry;
   private boolean isActive;
   private boolean role;
 
 
   public UserDTO() {
   
+  }
+
+  public UserDTO(String userIdentifierId, String email, String password, String name, String address, String phoneNumber, String profileImageUrl, String profileImageAlt, String refreshToken, Date tokenExpiry, boolean isActive, boolean role) {
+    this.userIdentifierId = userIdentifierId;
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.address = address;
+    this.phoneNumber = phoneNumber;
+    this.profileImageUrl = profileImageUrl;
+    this.profileImageAlt = profileImageAlt;
+    this.refreshToken = refreshToken;
+    this.tokenExpiry = tokenExpiry;
+    this.isActive = isActive;
+    this.role = role;
   }
 
   public String getUserIdentifierId() {
@@ -92,11 +109,11 @@ public class UserDTO {
     this.refreshToken = refreshToken;
   }
 
-  public String getTokenExpiry() {
+  public Date getTokenExpiry() {
     return this.tokenExpiry;
   }
 
-  public void setTokenExpiry(String tokenExpiry) {
+  public void setTokenExpiry(Date tokenExpiry) {
     this.tokenExpiry = tokenExpiry;
   }
 

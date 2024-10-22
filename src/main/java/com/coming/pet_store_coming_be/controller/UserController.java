@@ -8,6 +8,7 @@ import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.UserService;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,8 +95,12 @@ public class UserController {
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    // JWT 생성
-    String token = tokenProvider.createToken(userInfo);
+    String token = tokenProvider.createToken(userInfo); // JWT 토큰 생성
+    String refreshToken = tokenProvider.createRefreshToken(userInfo.getUserIdentifierId()); // 리프레시 토큰 생성
+    Date tokenExpiry = tokenProvider.setTokenExpiry(); // 토큰 만료 시간 설정
+
+    userInfo.setRefreshToken(refreshToken);
+    userInfo.setTokenExpiry(tokenExpiry);
 
     response.put("status", HttpStatus.OK.value());
     response.put("success", true);
