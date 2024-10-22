@@ -23,7 +23,7 @@
 
   <update id="updateRefreshTokenAndExpiry" parameterType="map">
     update user
-    set refresh_token = #{refreshToken}, token_expiry = #{tokenExpiry}
+    set refresh_token = #{refreshToken}, token_expiry = #{tokenExpiry}, is_active = #{isActive}
     where user_identifier_id = #{id}
   </update>
 

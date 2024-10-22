@@ -59,12 +59,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void refreshTokenAndExpiry(String id, String refreshToken, Date tokenExpiry) throws SQLException {
+  public void refreshTokenAndExpiry(String id, String refreshToken, Date tokenExpiry, boolean isActive) throws SQLException {
     Map<String, Object> params = new HashMap<>();
 
     params.put("id", id);
     params.put("refreshToken", refreshToken);
     params.put("tokenExpiry", tokenExpiry);
+    params.put("isActive", isActive);
 
     userDAO.updateRefreshTokenAndExpiry(params);
   }

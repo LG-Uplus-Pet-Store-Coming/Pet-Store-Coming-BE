@@ -95,6 +95,15 @@ public class UserController {
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    else if(userInfo.getIsActive()) { // 중복 로그인을 시도할 경우
+      response.put("status", HttpStatus.CONFLICT.value());  // 409 상태 코드
+      response.put("success", false);
+      response.put("message", "You are already logged in on another device.");
+      response.put("errorCode", "DUPLICATE_LOGIN_ATTEMPT");
+
+      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
     String token = tokenProvider.createToken(userInfo); // JWT 토큰 생성
     String refreshToken = tokenProvider.createRefreshToken(userInfo.getUserIdentifierId()); // 리프레시 토큰 생성
     Date tokenExpiry = tokenProvider.setTokenExpiry(); // 토큰 만료 시간 설정
@@ -102,9 +111,10 @@ public class UserController {
     // 로그인 한 사용자에게 refresh token과 token expiry 기간 설정
     userInfo.setRefreshToken(refreshToken);
     userInfo.setTokenExpiry(tokenExpiry);
+    userInfo.setIsActive(true);
 
     // 로그인 사용자 토큰 정보 업데이트
-    userService.refreshTokenAndExpiry(userInfo.getUserIdentifierId(), refreshToken, tokenExpiry);
+    userService.refreshTokenAndExpiry(userInfo.getUserIdentifierId(), refreshToken, tokenExpiry, userInfo.getIsActive());
 
     response.put("status", HttpStatus.OK.value());
     response.put("success", true);
