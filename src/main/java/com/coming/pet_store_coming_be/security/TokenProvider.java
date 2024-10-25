@@ -79,9 +79,13 @@ public class TokenProvider {
       .parseClaimsJws(token)
       .getBody();
 
-    Date exprirationDate = claims.getExpiration();
+    // Date exprirationDate = claims.getExpiration();
 
-    return exprirationDate.before(exprirationDate);
+    // return exprirationDate.before(exprirationDate);
+
+    Date expirationDate = claims.getExpiration(); // 현재 토큰의 만료 시간
+
+    return expirationDate.before(new Date()); // 현재 시간과 비교하여 만료 여부 확인
   }
 
   // Access Token 갱신 로직

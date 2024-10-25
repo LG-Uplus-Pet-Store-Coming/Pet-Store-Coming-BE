@@ -35,7 +35,7 @@ public class UserController {
   @Autowired
   TokenProvider tokenProvider;
 
-  @PostMapping("/sign-up") // 회원가입 Contoller
+  @PostMapping("/sign-up") // 회원가입 API
   public ResponseEntity<Map<String, Object>> signUpUser(@RequestBody UserDTO user) throws SQLException {
 
     Map<String, Object> response = new HashMap<>();
@@ -69,7 +69,7 @@ public class UserController {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
-  @GetMapping("/auth/login") // 로그인 Contoller
+  @GetMapping("/auth/login") // 로그인 API
   public ResponseEntity<Map<String, Object>> loginUser(@RequestParam("email") String email, @RequestParam("password") String password) throws SQLException {
     
     // 입력으로 주어진 email 파라미터를 통해 DB에서 해당 데이터를 가져온다.
