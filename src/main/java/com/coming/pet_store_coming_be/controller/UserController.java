@@ -123,6 +123,16 @@ public class UserController {
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
+
+  @GetMapping("/social/userInfo")
+  public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader("Authorization") String accessToken) {
+    Map<String, Object> response = new HashMap<>();
+    
+    System.out.println("Hello");
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
   
   @PostMapping("/auth/logout") // 로그아웃 API
   public ResponseEntity<Map<String, Object>> logutUser(@RequestHeader("Authorization") String token) throws SQLException {
