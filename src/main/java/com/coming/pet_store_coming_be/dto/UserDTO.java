@@ -1,48 +1,46 @@
 package com.coming.pet_store_coming_be.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class UserDTO {
  
-  private String userIdentifierId;
+  private String id;
   private String email;
   private String password;
   private String name;
   private String address;
-  private String phoneNumber;
-  private String profileImageUrl;
-  private String profileImageAlt;
   private String refreshToken;
-  private Date tokenExpiry;
   private boolean isActive;
-  private boolean role;
+  private String role;
+  private String platform;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
 
   public UserDTO() {
   
   }
 
-  public UserDTO(String userIdentifierId, String email, String password, String name, String address, String phoneNumber, String profileImageUrl, String profileImageAlt, String refreshToken, Date tokenExpiry, boolean isActive, boolean role) {
-    this.userIdentifierId = userIdentifierId;
+  public UserDTO(String id, String email, String password, String name, String address, String refreshToken, boolean isActive, String role, String platform, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    this.id = id;
     this.email = email;
     this.password = password;
     this.name = name;
     this.address = address;
-    this.phoneNumber = phoneNumber;
-    this.profileImageUrl = profileImageUrl;
-    this.profileImageAlt = profileImageAlt;
     this.refreshToken = refreshToken;
-    this.tokenExpiry = tokenExpiry;
     this.isActive = isActive;
     this.role = role;
+    this.platform = platform;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
-  public String getUserIdentifierId() {
-    return this.userIdentifierId;
+  public String getId() {
+    return this.id;
   }
 
-  public void setUserIdentifierId(String userIdentifierId) {
-    this.userIdentifierId = userIdentifierId;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getEmail() {
@@ -77,44 +75,12 @@ public class UserDTO {
     this.address = address;
   }
 
-  public String getPhoneNumber() {
-    return this.phoneNumber;
-  }
-
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
-  public String getProfileImageUrl() {
-    return this.profileImageUrl;
-  }
-
-  public void setProfileImageUrl(String profileImageUrl) {
-    this.profileImageUrl = profileImageUrl;
-  }
-
-  public String getProfileImageAlt() {
-    return this.profileImageAlt;
-  }
-
-  public void setProfileImageAlt(String profileImageAlt) {
-    this.profileImageAlt = profileImageAlt;
-  }
-
   public String getRefreshToken() {
     return this.refreshToken;
   }
 
   public void setRefreshToken(String refreshToken) {
     this.refreshToken = refreshToken;
-  }
-
-  public Date getTokenExpiry() {
-    return this.tokenExpiry;
-  }
-
-  public void setTokenExpiry(Date tokenExpiry) {
-    this.tokenExpiry = tokenExpiry;
   }
 
   public boolean isIsActive() {
@@ -129,16 +95,53 @@ public class UserDTO {
     this.isActive = isActive;
   }
 
-  public boolean isRole() {
+  public String getRole() {
     return this.role;
   }
 
-  public boolean getRole() {
-    return this.role;
-  }
-
-  public void setRole(boolean role) {
+  public void setRole(String role) {
     this.role = role;
+  }
+
+  public String getPlatform() {
+    return this.platform;
+  }
+
+  public void setPlatform(String platform) {
+    this.platform = platform;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return this.createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return this.updatedAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  @Override
+  public String toString() {
+    return "{" +
+      " id='" + getId() + "'" +
+      ", email='" + getEmail() + "'" +
+      ", password='" + getPassword() + "'" +
+      ", name='" + getName() + "'" +
+      ", address='" + getAddress() + "'" +
+      ", refreshToken='" + getRefreshToken() + "'" +
+      ", isActive='" + isIsActive() + "'" +
+      ", role='" + getRole() + "'" +
+      ", platform='" + getPlatform() + "'" +
+      ", createdAt='" + getCreatedAt() + "'" +
+      ", updatedAt='" + getUpdatedAt() + "'" +
+      "}";
   }
 
 }

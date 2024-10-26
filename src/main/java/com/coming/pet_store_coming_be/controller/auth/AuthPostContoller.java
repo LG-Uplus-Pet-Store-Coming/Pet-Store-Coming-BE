@@ -43,7 +43,20 @@ public class AuthPostContoller {
       return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    // 2. 아이디가 중복되지 않았을 경우 회원가입 진행
+    // 2. 입력값이 잘못되었을 경우
+    if(!authService.signUpUser(user)) {
+      response.put("status", HttpStatus.BAD_REQUEST.value());
+      response.put("success", false);
+      response.put("message", "The signup request is invalid. Please check the input values.");
+      response.put("errorCode", "INVALID_SIGNUP_REQUEST");
+
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);  
+    }
+
+    // 3. 회원가입을 성공한 경우
+    response.put("status", HttpStatus.OK.value());
+    response.put("success", true);
+    response.put("message", "Signup completed successfully.");
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
