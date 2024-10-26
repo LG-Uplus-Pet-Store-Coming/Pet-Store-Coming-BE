@@ -3,6 +3,9 @@ package com.coming.pet_store_coming_be.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -30,11 +34,6 @@ public class AuthController {
 
   @Value("${kakao.token-url}")
   private String kakaoTokenUrl;
-
-  @GetMapping("/test")
-  public String getMethodName() {
-      return "Hello";
-  }
   
   @SuppressWarnings("unchecked")
   @PostMapping("/social/kakao") // 카카오 소셜 로그인 API
@@ -73,5 +72,24 @@ public class AuthController {
     response.put("message", "Successfully retrieved token");
 
     return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  //@RequestHeader("Authorization") String accessToken
+
+  @SuppressWarnings("unchecked")
+  @GetMapping("/social/userInfo")
+  public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader("Authorization") String accessToken) {
+    // Map<String, Object> response = new HashMap<>();
+    
+    String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
+    RestTemplate restTemplate = new RestTemplate();
+
+    // 요청 헤더 설정
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Authorization", accessToken);
+
+    ResponseEntity<Map> response = restTemplate.exchange(userInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), Map.class);
+
+    return ResponseEntity.ok(response.getBody());
   }
 }
