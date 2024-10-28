@@ -3,7 +3,8 @@ package com.coming.pet_store_coming_be.service.auth;
 import java.sql.SQLException;
 
 import java.util.UUID;
-import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,6 +51,17 @@ public class AuthServiceImpl implements AuthService {
   public boolean isPasswordMath(String rawPassword, String encryptedPassword) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     return passwordEncoder.matches(rawPassword, encryptedPassword);
+  }
+
+  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 인터페이스 메서드
+  public void refreshTokenAndExpiry(String id, String refreshToken, boolean isActive) {
+    Map<String, Object> params = new HashMap<>();
+
+    params.put("id", id);
+    params.put("refreshToken", refreshToken);
+    params.put("isActive", isActive);
+
+
   }
 
 }
