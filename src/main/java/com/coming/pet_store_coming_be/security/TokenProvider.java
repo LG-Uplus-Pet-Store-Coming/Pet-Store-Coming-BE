@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.config.JwtProperties;
@@ -153,8 +152,7 @@ public class TokenProvider {
 
   // 토큰이 블랙리스트에 등록되어 무효화되었는지 확인
   public boolean isTokenInvalid(String token) {
-    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-    return valueOperations.get(token) != null;
+    return redisTemplate.hasKey(token);
   }
 
 
