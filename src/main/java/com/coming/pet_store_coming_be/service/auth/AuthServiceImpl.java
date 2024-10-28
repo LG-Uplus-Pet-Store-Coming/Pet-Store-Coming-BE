@@ -3,8 +3,6 @@ package com.coming.pet_store_coming_be.service.auth;
 import java.sql.SQLException;
 
 import java.util.UUID;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,32 +55,15 @@ public class AuthServiceImpl implements AuthService {
     return passwordEncoder.matches(rawPassword, encryptedPassword);
   }
 
-  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
-  public void refreshTokenAndExpiry(String id, String refreshToken, String deviceId) throws SQLException{
-    
+  @Override // 기존 디바이스 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
+  public void invalidateAndSaveNewRefreshToken(String id, String refreshToken, String deviceId) throws SQLException{
     tokenProvider.invalidatePreviousTokens(id, deviceId); // 기존 디바이스 토큰 무효화
     tokenProvider.saveRefreshToken(id, refreshToken, deviceId); // 새로운 디바이스 리프레시 토큰 저장
-
-    // DB에서 사용자 상태 갱신
-    Map<String, Object> params = new HashMap<>();
-
-    params.put("id", id);
-    params.put("refreshToken", refreshToken);
-
-    authDAO.updateRefreshTokenAndExpiry(params);
   }
 
-  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
+  @Override // 로그아웃 비즈니스 로직 설계
   public void logoutUser(String token, String userId) throws SQLException {
     tokenProvider.invalidateToken(token); // 토큰을 블랙리스트에 추가하여 무효화
-
-    // 사용자 정보 업데이트(isActive 상태, refreshToken 삭제)
-    Map<String, Object> params = new HashMap<>();
-    params.put("id", userId);
-    params.put("refreshToken", null);
-    params.put("isActive", false);
-
-    authDAO.updateRefreshTokenAndExpiry(params);
   }
 
 }

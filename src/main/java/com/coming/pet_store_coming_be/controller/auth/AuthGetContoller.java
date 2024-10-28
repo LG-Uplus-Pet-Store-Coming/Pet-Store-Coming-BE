@@ -68,11 +68,11 @@ public class AuthGetContoller {
     //   return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     // }
 
-    // 3. 중복 로그인을 시도할 수 있기 때문에 기존 디바이스의 모든 토큰을 무효화하고 새로운 디바이스에 로그인
+    // 3. 모든 조건이 일치하지 않을 경우
     String token = tokenProvider.createToken(userInfo); // 토큰 생성
     String refreshToken = tokenProvider.createRefreshToken(userInfo.getEmail(), deviceId);
     
-    authService.refreshTokenAndExpiry(userInfo.getId(), refreshToken, deviceId);
+    authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, deviceId); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
 
     // // 로그인 성공 시 refresh_token 및 is_active 갱신
     // userInfo.setRefreshToken(tokenProvider.createRefreshToken(userInfo.getId()));
