@@ -15,6 +15,7 @@ import com.coming.pet_store_coming_be.dto.UserDTO;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -74,13 +75,24 @@ public class TokenProvider {
 
   // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
   public String getUserIdFromToken(String token) {
-    Claims claims = Jwts.parserBuilder()
-      .setSigningKey(jwtProperties.getSecretKey().getBytes())
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    // 예외 처리를 통해 토큰 만료된 토큰을 처리
+    try {
+      Claims claims = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
       .build()
       .parseClaimsJws(token)
       .getBody();
 
-    return claims.getSubject();
+      return claims.getSubject();
+    } catch (ExpiredJwtException e) {
+      // 만료된 토큰의 경우 예외에서 Claims를 가져옴
+      return e.getClaims().getSubject();
+    }
+
+
   }
 
   // 토큰 블래리스트에 추가하여 무효화

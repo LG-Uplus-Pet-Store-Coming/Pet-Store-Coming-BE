@@ -68,9 +68,9 @@ public class AuthPostContoller {
   
   @PostMapping("/logout")
   public String postUserLogout(@RequestHeader("Authorization") String token) throws SQLException {
-    authService.logoutUser(tokenProvider.getUserIdFromToken(token)); // 토큰을 복호화 시켜 사용자의 정보 중 Id 값을 보낸다.
+    authService.logoutUser(token, tokenProvider.getUserIdFromToken(token));
 
-      return "entity";
+    return "entity";
   }
   
 

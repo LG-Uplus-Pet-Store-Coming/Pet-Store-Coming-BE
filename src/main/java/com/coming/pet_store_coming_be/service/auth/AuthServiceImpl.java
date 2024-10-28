@@ -65,14 +65,18 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
-  public void logoutUser(String userId) throws SQLException{
+  public void logoutUser(String token, String userId) throws SQLException {
+    System.out.println(token);
+    System.out.println(userId);
+
+
     Map<String, Object> params = new HashMap<>();
 
     params.put("id", userId);
     params.put("refreshToken", null);
     params.put("isActive", false);
 
-    authDAO.updateRefreshTokenAndExpiry(params);
+    // authDAO.updateRefreshTokenAndExpiry(params);
   }
 
 }

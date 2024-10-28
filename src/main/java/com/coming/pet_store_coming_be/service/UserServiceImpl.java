@@ -74,6 +74,9 @@ public class UserServiceImpl implements UserService {
   public void logout(String userIdentifierId) throws SQLException {
     Map<String, Object> params = new HashMap<>();
 
+    // 
+
+    // DB 로그인 여부 상태 업데이트
     params.put("id", userIdentifierId);
     params.put("refreshToken", null);
     params.put("tokenExpiry", null);
