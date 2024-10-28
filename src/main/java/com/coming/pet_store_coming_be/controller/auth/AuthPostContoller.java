@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.auth.AuthService;
 
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 /*
@@ -28,6 +30,9 @@ public class AuthPostContoller {
   
   @Autowired
   AuthService authService;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @PostMapping("/sign-up") // 회원가입 API 설계
   public ResponseEntity<Map<String, Object>> postCreateAccount(@RequestBody UserDTO user) throws SQLException {
@@ -61,7 +66,13 @@ public class AuthPostContoller {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
+  @PostMapping("/logout") // 로그아웃 API
+  public String postUserLogout(@RequestHeader("Authorization") String token) throws SQLException {
+    authService.logoutUser(token, tokenProvider.getUserIdFromToken(token));
 
+    return "entity";
+  }
+  
 
 
 }

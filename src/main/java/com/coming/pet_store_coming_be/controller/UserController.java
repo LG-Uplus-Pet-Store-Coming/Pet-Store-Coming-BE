@@ -4,12 +4,10 @@ package com.coming.pet_store_coming_be.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coming.pet_store_coming_be.dto.UserDTO;
 import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.UserService;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
-import java.util.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/user")
@@ -40,13 +36,13 @@ public class UserController {
   public ResponseEntity<Map<String, Object>> logutUser(@RequestHeader("Authorization") String token) throws SQLException {
     Map<String, Object> response = new HashMap<>();
 
-    String userIdentifierId = tokenProvider.getUserIdentifierFromToken(token);
+    // String userIdentifierId = tokenProvider.getUserIdentifierFromToken(token);
 
-    userService.logout(userIdentifierId);
+    // userService.logout(userIdentifierId);
 
-    response.put("status", HttpStatus.OK.value());
-    response.put("success", true);
-    response.put("message", "Logout successful.");
+    // response.put("status", HttpStatus.OK.value());
+    // response.put("success", true);
+    // response.put("message", "Logout successful.");
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
