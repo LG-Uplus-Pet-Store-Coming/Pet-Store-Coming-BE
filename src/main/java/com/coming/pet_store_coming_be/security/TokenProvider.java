@@ -61,16 +61,23 @@ public class TokenProvider {
   }
 
   // 리프레시 토큰 생성 로직
-  public String createRefreshToken(String userId) {
+  public String createRefreshToken(String userId, String deviceId) {
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
     Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
 
-    return Jwts.builder()
+    String refreshToken = Jwts.builder()
       .setSubject(userId) // 사용자 식별자 설정
+      .claim("deviceId", deviceId)
       .setIssuedAt(new Date()) // 토큰 발행 시간 설정
       .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime())) // 만료 시간 설정
       .signWith(secretKey, SignatureAlgorithm.HS512)
       .compact(); // 리플레시 토큰 생성
+
+    // Redis에 디바이스별로 Refresh Token 저장
+    String redisKey = "refreshToken:" + userId + ":" + deviceId;
+    redisTemplate.opsForValue().set(redisKey, refreshToken, jwtProperties.getRefreshExpirationTime(), TimeUnit.MILLISECONDS);
+
+    return refreshToken; // 리프레시 토큰 반환
   }
 
   // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
