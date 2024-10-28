@@ -158,26 +158,33 @@ public class TokenProvider {
     return valueOperations.get(token) != null;
   }
 
-
-  // 토큰 만료 시간 확인 로직
-  public boolean isTokenExpired(String token) {
-    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
-    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
-
-    Claims claims = Jwts.parserBuilder()
-      .setSigningKey(secretKey)
-      .build()
-      .parseClaimsJws(token)
-      .getBody();
-
-    // Date exprirationDate = claims.getExpiration();
-
-    // return exprirationDate.before(exprirationDate);
-
-    Date expirationDate = claims.getExpiration(); // 현재 토큰의 만료 시간
-
-    return expirationDate.before(new Date()); // 현재 시간과 비교하여 만료 여부 확인
+  // 토큰 만료 시간 설정 로직
+  public Date setTokenExpiry() {
+    return new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime());
   }
+
+
+  // // 토큰 만료 시간 확인 로직
+  // public boolean isTokenExpired(String token) {
+  //   byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+  //   Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+  //   // try
+
+  //   Claims claims = Jwts.parserBuilder()
+  //     .setSigningKey(secretKey)
+  //     .build()
+  //     .parseClaimsJws(token)
+  //     .getBody();
+
+  //   // Date exprirationDate = claims.getExpiration();
+
+  //   // return exprirationDate.before(exprirationDate);
+
+  //   Date expirationDate = claims.getExpiration(); // 현재 토큰의 만료 시간
+
+  //   return expirationDate.before(new Date()); // 현재 시간과 비교하여 만료 여부 확인
+  // }
 
   // // Access Token 갱신 로직
   // public String renewAccessToken(String refreshToken) throws Exception {
@@ -201,10 +208,5 @@ public class TokenProvider {
 
   //   return createToken(user);
   // }
-
-  // 토큰 만료 시간 설정 로직
-  public Date setTokenExpiry() {
-    return new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime());
-  }
 
 }
