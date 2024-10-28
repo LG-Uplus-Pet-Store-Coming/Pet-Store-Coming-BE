@@ -73,6 +73,13 @@ public class AuthGetContoller {
     userInfo.setRefreshToken(tokenProvider.createRefreshToken(userInfo.getId()));
     userInfo.setIsActive(true);
 
+    authService.refreshTokenAndExpiry(userInfo.getId(), userInfo.getRefreshToken(), userInfo.getIsActive());
+
+    // 토큰 생성 및 UserInfo refresh_token 및 is_active 갱신을 완료한 이후 응답 생성
+    response.put("status", HttpStatus.OK.value());
+    response.put("success", true);
+    response.put("message", "Login successful.");
+    response.put("token", token);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
