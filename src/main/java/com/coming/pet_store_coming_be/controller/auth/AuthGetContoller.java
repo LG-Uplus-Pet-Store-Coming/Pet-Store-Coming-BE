@@ -58,11 +58,6 @@ public class AuthGetContoller {
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    // 3. 중복 로그인을 시도할 수 있기 때문에 기존 디바이스의 모든 토큰을 무효화하고 새로운 디바이스에 로그인
-    String token = tokenProvider.createToken(userInfo); // 토큰 생성
-    String refreshToken = tokenProvider.createRefreshToken(userInfo.getEmail(), deviceId);
-    authService.refreshTokenAndExpiry(userInfo.getId(), refreshToken, deviceId);
-
     // // 3. 중복 로그인을 시도할 경우
     // else if(userInfo.getIsActive()) {
     //   response.put("status", HttpStatus.CONFLICT.value());
@@ -73,8 +68,11 @@ public class AuthGetContoller {
     //   return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     // }
 
-    // // 모든 경우에 걸리지 않았을 경우 - 토큰 생성
-    // String token = tokenProvider.createToken(userInfo);
+    // 3. 중복 로그인을 시도할 수 있기 때문에 기존 디바이스의 모든 토큰을 무효화하고 새로운 디바이스에 로그인
+    String token = tokenProvider.createToken(userInfo); // 토큰 생성
+    String refreshToken = tokenProvider.createRefreshToken(userInfo.getEmail(), deviceId);
+    
+    authService.refreshTokenAndExpiry(userInfo.getId(), refreshToken, deviceId);
 
     // // 로그인 성공 시 refresh_token 및 is_active 갱신
     // userInfo.setRefreshToken(tokenProvider.createRefreshToken(userInfo.getId()));
@@ -86,7 +84,9 @@ public class AuthGetContoller {
     response.put("status", HttpStatus.OK.value());
     response.put("success", true);
     response.put("message", "Login successful.");
-    // response.put("token", token);
+    response.put("token", token);
+    response.put("refreshToken", refreshToken);
+    response.put("expirationTime", tokenProvider.setTokenExpiry().getTime()); // 토큰 만료 시간 추가
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
