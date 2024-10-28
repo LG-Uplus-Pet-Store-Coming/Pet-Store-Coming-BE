@@ -3,8 +3,11 @@ package com.coming.pet_store_coming_be.security;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.config.JwtProperties;
@@ -24,6 +27,9 @@ public class TokenProvider {
   
   @Autowired
   private JwtProperties jwtProperties;
+
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
 
   @Autowired
   UserValidationService userValidationService;
@@ -76,6 +82,33 @@ public class TokenProvider {
 
     return claims.getSubject();
   }
+
+  // 토큰 블래리스트에 추가하여 무효화
+  public void invalidateToken(String token) {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    // 토큰에서 만료 시간을 추출
+    Claims claims = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+    // 토큰 만료 시간 계산 후 블랙리스트에 등록
+    Date expirationDate = claims.getExpiration();
+    long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
+
+    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+    valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+  }
+
+  // 토큰이 블랙리스트에 등록되어 무효화되었는지 확인
+  public boolean isTokenInvalid(String token) {
+    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+    return valueOperations.get(token) != null;
+  }
+
 
   // 토큰 만료 시간 확인 로직
   public boolean isTokenExpired(String token) {

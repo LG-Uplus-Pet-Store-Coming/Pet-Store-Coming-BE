@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     return passwordEncoder.matches(rawPassword, encryptedPassword);
   }
 
-  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 인터페이스 메서드
+  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
   public void refreshTokenAndExpiry(String id, String refreshToken, boolean isActive) throws SQLException{
     Map<String, Object> params = new HashMap<>();
 
@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
     authDAO.updateRefreshTokenAndExpiry(params);
   }
 
-  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 인터페이스 메서드
+  @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
   public void logoutUser(String userId) throws SQLException{
     Map<String, Object> params = new HashMap<>();
 
