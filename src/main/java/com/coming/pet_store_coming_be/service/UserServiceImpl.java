@@ -3,10 +3,12 @@ package com.coming.pet_store_coming_be.service;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.UserDAO;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     // 2. 고유 번호 등록을 성공할 경우 -> 회원가입 진행
     if(identifierDAO.insertUserIdentifier(identifier) > 0) {
-      user.setUserIdentifierId(uuid); // 사용자의 기본키 및 외래키에 UUID 값 적용
+      // user.setUserIdentifierId(uuid); // 사용자의 기본키 및 외래키에 UUID 값 적용
 
       // 비밀번호 암호화
       BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -51,6 +53,33 @@ public class UserServiceImpl implements UserService {
     return false;
   }
 
-  
-  
+  @Override // Email을 통해 UserDTO 데이터 전달
+  public UserDTO emailCheck(String email) throws SQLException {
+    return userDAO.getUserByEmail(email).orElse(null);
+  }
+
+  @Override // 리프레시 토큰, 토큰 만료 시간, 로그인 여부 상태 업데이트
+  public void refreshTokenAndExpiry(String id, String refreshToken, Date tokenExpiry, boolean isActive) throws SQLException {
+    Map<String, Object> params = new HashMap<>();
+
+    params.put("id", id);
+    params.put("refreshToken", refreshToken);
+    params.put("tokenExpiry", tokenExpiry);
+    params.put("isActive", isActive);
+
+    userDAO.updateRefreshTokenAndExpiry(params);
+  }
+
+  @Override // 로그아웃 (리프레시 토큰, 토큰 만료 시간, 로그인 여부 상태 업데이트)
+  public void logout(String userIdentifierId) throws SQLException {
+    Map<String, Object> params = new HashMap<>();
+
+    params.put("id", userIdentifierId);
+    params.put("refreshToken", null);
+    params.put("tokenExpiry", null);
+    params.put("isActive", false);
+
+    userDAO.updateRefreshTokenAndExpiry(params);
+  }
+
 }

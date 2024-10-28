@@ -3,9 +3,15 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.UserDAO">
 
-  <select id="getUserByEmail" resultType="boolean" parameterType="String"> 
-    select count(1)
-    from user
+  <select id="getUserByEmail" resultType="UserDTO" parameterType="String"> 
+    select user_identifier_id as userIdentifierId, email, password, name, address, phone_number as phoneNumber, profile_image_url as profileImageUrl, profile_image_alt as profileImageAlt, refresh_token as refreshToken, token_expiry as tokenExpiry, is_active as isActive, role
+    from user 
+    where email = #{email}
+  </select>
+
+  <select id="getUserByIdentifier" resultType="UserDTO" parameterType="String"> 
+    select user_identifier_id as userIdentifierId, email, password, name, address, phone_number as phoneNumber, profile_image_url as profileImageUrl, profile_image_alt as profileImageAlt, refresh_token as refreshToken, token_expiry as tokenExpiry, is_active as isActive, role
+    from user 
     where email = #{email}
   </select>
 
@@ -20,5 +26,11 @@
       #{phoneNumber}
     )
   </insert>
+
+  <update id="updateRefreshTokenAndExpiry" parameterType="map">
+    update user
+    set refresh_token = #{refreshToken}, token_expiry = #{tokenExpiry}, is_active = #{isActive}
+    where user_identifier_id = #{id}
+  </update>
 
 </mapper>

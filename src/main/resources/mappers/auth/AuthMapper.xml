@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.auth.AuthDAO">
+
+  <select id="getUserByEmail" resultType="UserDTO" parameterType="String"> 
+    select id, email, password, name, address, refresh_token as refreshToken, is_active as isActive, role
+    from user 
+    where email = #{email}
+  </select>
+
+  <insert id="insertSignUpUser" parameterType="UserDTO">
+    insert into user (id, email, password, name, address
+      <if test="platform != null">
+        , platform
+      </if>
+    )
+    values (
+      #{id},
+      #{email},
+      #{password},
+      #{name},
+      #{address}
+      <if test="platform != null">
+        , #{platform}
+      </if>
+    )
+  </insert>
+
+</mapper>
