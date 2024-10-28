@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.auth.AuthDAO;
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
   @Autowired
   private AuthDAO authDAO;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @Override // 회원가입 비즈니스 로직 설계
   public boolean signUpUser(UserDTO user) throws SQLException {
@@ -66,17 +70,15 @@ public class AuthServiceImpl implements AuthService {
 
   @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
   public void logoutUser(String token, String userId) throws SQLException {
-    System.out.println(token);
-    System.out.println(userId);
+    tokenProvider.invalidateToken(token); // 토큰을 블랙리스트에 추가하여 무효화
 
-
+    // 사용자 정보 업데이트(isActive 상태, refreshToken 삭제)
     Map<String, Object> params = new HashMap<>();
-
     params.put("id", userId);
     params.put("refreshToken", null);
     params.put("isActive", false);
 
-    // authDAO.updateRefreshTokenAndExpiry(params);
+    authDAO.updateRefreshTokenAndExpiry(params);
   }
 
 }

@@ -92,7 +92,6 @@ public class TokenProvider {
       return e.getClaims().getSubject();
     }
 
-
   }
 
   // 토큰 블래리스트에 추가하여 무효화
@@ -100,19 +99,30 @@ public class TokenProvider {
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
     Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
 
-    // 토큰에서 만료 시간을 추출
-    Claims claims = Jwts.parserBuilder()
+    try {
+      // 토큰에서 만료 시간을 추출
+      Claims claims = Jwts.parserBuilder()
       .setSigningKey(secretKey)
       .build()
       .parseClaimsJws(token)
       .getBody();
 
-    // 토큰 만료 시간 계산 후 블랙리스트에 등록
-    Date expirationDate = claims.getExpiration();
-    long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
+      Date expirationDate = claims.getExpiration();
+      long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
 
-    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-    valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+      // 만료 시간만큼 Redis에 저장하여 블랙리스트에 등록
+      ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+      valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+    } catch (ExpiredJwtException e) {
+      // 만료된 토큰의 경우 Claims를 예외에서 가져옴
+      Claims claims = e.getClaims();
+      Date expirationDate = claims.getExpiration();
+      long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
+
+      // 만료된 토큰도 블랙리스트에 등록 (남은 시간 동안 유지)
+      ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+      valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+    }
   }
 
   // 토큰이 블랙리스트에 등록되어 무효화되었는지 확인

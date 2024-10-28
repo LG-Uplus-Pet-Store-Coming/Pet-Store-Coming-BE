@@ -66,7 +66,7 @@ public class AuthPostContoller {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-  @PostMapping("/logout")
+  @PostMapping("/logout") // 로그아웃 API
   public String postUserLogout(@RequestHeader("Authorization") String token) throws SQLException {
     authService.logoutUser(token, tokenProvider.getUserIdFromToken(token));
 
