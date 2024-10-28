@@ -3,8 +3,11 @@ package com.coming.pet_store_coming_be.security;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.config.JwtProperties;
@@ -12,6 +15,7 @@ import com.coming.pet_store_coming_be.dto.UserDTO;
 import com.coming.pet_store_coming_be.validation.UserValidationService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -24,6 +28,9 @@ public class TokenProvider {
   
   @Autowired
   private JwtProperties jwtProperties;
+
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
 
   @Autowired
   UserValidationService userValidationService;
@@ -65,6 +72,65 @@ public class TokenProvider {
       .signWith(secretKey, SignatureAlgorithm.HS512)
       .compact(); // 리플레시 토큰 생성
   }
+
+  // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
+  public String getUserIdFromToken(String token) {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    // 예외 처리를 통해 토큰 만료된 토큰을 처리
+    try {
+      Claims claims = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+      return claims.getSubject();
+    } catch (ExpiredJwtException e) {
+      // 만료된 토큰의 경우 예외에서 Claims를 가져옴
+      return e.getClaims().getSubject();
+    }
+
+  }
+
+  // 토큰 블래리스트에 추가하여 무효화
+  public void invalidateToken(String token) {
+    byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
+    Key secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName()); // Key 객체 생성
+
+    try {
+      // 토큰에서 만료 시간을 추출
+      Claims claims = Jwts.parserBuilder()
+      .setSigningKey(secretKey)
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+      Date expirationDate = claims.getExpiration();
+      long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
+
+      // 만료 시간만큼 Redis에 저장하여 블랙리스트에 등록
+      ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+      valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+    } catch (ExpiredJwtException e) {
+      // 만료된 토큰의 경우 Claims를 예외에서 가져옴
+      Claims claims = e.getClaims();
+      Date expirationDate = claims.getExpiration();
+      long expirationMillis = expirationDate.getTime() - System.currentTimeMillis();
+
+      // 만료된 토큰도 블랙리스트에 등록 (남은 시간 동안 유지)
+      ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+      valueOperations.set(token, "invalid", expirationMillis, TimeUnit.MILLISECONDS);
+    }
+  }
+
+  // 토큰이 블랙리스트에 등록되어 무효화되었는지 확인
+  public boolean isTokenInvalid(String token) {
+    ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+    return valueOperations.get(token) != null;
+  }
+
 
   // 토큰 만료 시간 확인 로직
   public boolean isTokenExpired(String token) {
@@ -108,17 +174,6 @@ public class TokenProvider {
 
   //   return createToken(user);
   // }
-
-  // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
-  public String getUserIdentifierFromToken(String token) {
-    Claims claims = Jwts.parserBuilder()
-      .setSigningKey(jwtProperties.getSecretKey().getBytes())
-      .build()
-      .parseClaimsJws(token)
-      .getBody();
-
-    return claims.getSubject();
-  }
 
   // 토큰 만료 시간 설정 로직
   public Date setTokenExpiry() {
