@@ -23,7 +23,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import javax.crypto.spec.SecretKeySpec;
 
-
 @Service
 public class TokenProvider {
   
@@ -45,7 +44,6 @@ public class TokenProvider {
     claims.put("email", user.getEmail());
     claims.put("name", user.getName());
     claims.put("address", user.getAddress());
-    claims.put("isActive", user.getIsActive());
     claims.put("role", user.getRole());
 
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환

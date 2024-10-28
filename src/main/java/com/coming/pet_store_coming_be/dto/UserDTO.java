@@ -9,8 +9,6 @@ public class UserDTO {
   private String password;
   private String name;
   private String address;
-  private String refreshToken;
-  private boolean isActive;
   private String role;
   private String platform;
   private LocalDateTime createdAt;
@@ -21,14 +19,12 @@ public class UserDTO {
   
   }
 
-  public UserDTO(String id, String email, String password, String name, String address, String refreshToken, boolean isActive, String role, String platform, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public UserDTO(String id, String email, String password, String name, String address, String role, String platform, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.email = email;
     this.password = password;
     this.name = name;
     this.address = address;
-    this.refreshToken = refreshToken;
-    this.isActive = isActive;
     this.role = role;
     this.platform = platform;
     this.createdAt = createdAt;
@@ -36,7 +32,7 @@ public class UserDTO {
   }
 
   public String getId() {
-    return this.id;
+    return id;
   }
 
   public void setId(String id) {
@@ -44,7 +40,7 @@ public class UserDTO {
   }
 
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   public void setEmail(String email) {
@@ -52,7 +48,7 @@ public class UserDTO {
   }
 
   public String getPassword() {
-    return this.password;
+    return password;
   }
 
   public void setPassword(String password) {
@@ -60,7 +56,7 @@ public class UserDTO {
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public void setName(String name) {
@@ -68,35 +64,15 @@ public class UserDTO {
   }
 
   public String getAddress() {
-    return this.address;
+    return address;
   }
 
   public void setAddress(String address) {
     this.address = address;
   }
 
-  public String getRefreshToken() {
-    return this.refreshToken;
-  }
-
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-  public boolean isIsActive() {
-    return this.isActive;
-  }
-
-  public boolean getIsActive() {
-    return this.isActive;
-  }
-
-  public void setIsActive(boolean isActive) {
-    this.isActive = isActive;
-  }
-
   public String getRole() {
-    return this.role;
+    return role;
   }
 
   public void setRole(String role) {
@@ -104,7 +80,7 @@ public class UserDTO {
   }
 
   public String getPlatform() {
-    return this.platform;
+    return platform;
   }
 
   public void setPlatform(String platform) {
@@ -112,7 +88,7 @@ public class UserDTO {
   }
 
   public LocalDateTime getCreatedAt() {
-    return this.createdAt;
+    return createdAt;
   }
 
   public void setCreatedAt(LocalDateTime createdAt) {
@@ -120,7 +96,7 @@ public class UserDTO {
   }
 
   public LocalDateTime getUpdatedAt() {
-    return this.updatedAt;
+    return updatedAt;
   }
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
@@ -129,19 +105,9 @@ public class UserDTO {
 
   @Override
   public String toString() {
-    return "{" +
-      " id='" + getId() + "'" +
-      ", email='" + getEmail() + "'" +
-      ", password='" + getPassword() + "'" +
-      ", name='" + getName() + "'" +
-      ", address='" + getAddress() + "'" +
-      ", refreshToken='" + getRefreshToken() + "'" +
-      ", isActive='" + isIsActive() + "'" +
-      ", role='" + getRole() + "'" +
-      ", platform='" + getPlatform() + "'" +
-      ", createdAt='" + getCreatedAt() + "'" +
-      ", updatedAt='" + getUpdatedAt() + "'" +
-      "}";
+    return "UserDTO [id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", address="
+        + address + ", role=" + role + ", platform=" + platform + ", createdAt=" + createdAt + ", updatedAt="
+        + updatedAt + "]";
   }
 
 }
