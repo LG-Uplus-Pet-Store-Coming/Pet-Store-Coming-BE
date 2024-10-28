@@ -66,6 +66,17 @@ public class TokenProvider {
       .compact(); // 리플레시 토큰 생성
   }
 
+  // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
+  public String getUserIdFromToken(String token) {
+    Claims claims = Jwts.parserBuilder()
+      .setSigningKey(jwtProperties.getSecretKey().getBytes())
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+
+    return claims.getSubject();
+  }
+
   // 토큰 만료 시간 확인 로직
   public boolean isTokenExpired(String token) {
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환
@@ -108,17 +119,6 @@ public class TokenProvider {
 
   //   return createToken(user);
   // }
-
-  // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직
-  public String getUserIdentifierFromToken(String token) {
-    Claims claims = Jwts.parserBuilder()
-      .setSigningKey(jwtProperties.getSecretKey().getBytes())
-      .build()
-      .parseClaimsJws(token)
-      .getBody();
-
-    return claims.getSubject();
-  }
 
   // 토큰 만료 시간 설정 로직
   public Date setTokenExpiry() {
