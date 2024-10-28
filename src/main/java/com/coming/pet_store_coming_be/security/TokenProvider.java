@@ -1,5 +1,6 @@
 package com.coming.pet_store_coming_be.security;
 
+import java.util.Set;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +79,25 @@ public class TokenProvider {
     redisTemplate.opsForValue().set(redisKey, refreshToken, jwtProperties.getRefreshExpirationTime(), TimeUnit.MILLISECONDS);
 
     return refreshToken; // 리프레시 토큰 반환
+  }
+
+  // 기존 디바이스 토큰 무효화
+  public void invalidatePreviousTokens(String userId, String currentDeviceId) {
+    Set<String> keys = redisTemplate.keys("refreshToken:" + userId + ":*");
+
+    if(keys != null) {
+      for(String key : keys) {
+        if(!key.endsWith(":" + currentDeviceId)) {
+          redisTemplate.delete(keys); // 현재 디바이스 외의 모든 토큰 삭제
+        }
+      }
+    }
+  }
+
+  // Redis에 디바이스별 Refresh Token 저장
+  public void saveRefreshToken(String userId, String refreshToken, String deviceId) {
+    String key = "refreshToken:" + userId + ":" + deviceId;
+    redisTemplate.opsForValue().set(key, refreshToken, jwtProperties.getRefreshExpirationTime(), TimeUnit.MILLISECONDS);
   }
 
   // JWT 토큰의 subject 부분에서 사용자 식별자 추출 로직

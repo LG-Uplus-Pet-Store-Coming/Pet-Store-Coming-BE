@@ -58,12 +58,16 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override // 리프레시 토큰, 로그인 여부 상태 업데이트 비즈니스 로직 설계
-  public void refreshTokenAndExpiry(String id, String refreshToken, boolean isActive) throws SQLException{
+  public void refreshTokenAndExpiry(String id, String refreshToken, String deviceId) throws SQLException{
+    
+    tokenProvider.invalidatePreviousTokens(id, deviceId); // 기존 디바이스 토큰 무효화
+    tokenProvider.saveRefreshToken(id, refreshToken, deviceId); // 새로운 디바이스 리프레시 토큰 저장
+
+    // DB에서 사용자 상태 갱신
     Map<String, Object> params = new HashMap<>();
 
     params.put("id", id);
     params.put("refreshToken", refreshToken);
-    params.put("isActive", isActive);
 
     authDAO.updateRefreshTokenAndExpiry(params);
   }
