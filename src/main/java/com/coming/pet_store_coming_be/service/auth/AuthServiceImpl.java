@@ -18,11 +18,6 @@ public class AuthServiceImpl implements AuthService {
   @Autowired
   private AuthDAO authDAO;
 
-  @Override // 이메일 값을 통해 사용자 정보를 가져오는 비즈니스 로직 설계
-  public UserDTO getUserEmailMath(String email) throws SQLException {
-    return authDAO.getUserByEmail(email).orElse(null);
-  };
-  
   @Override // 회원가입 비즈니스 로직 설계
   public boolean signUpUser(UserDTO user) throws SQLException {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // BCryptPasswordEncoder 인스턴스 생성
@@ -46,9 +41,15 @@ public class AuthServiceImpl implements AuthService {
     return authDAO.getUserByEmail(email).isPresent();
   }
 
+  @Override // 이메일 값을 통해 사용자 정보를 가져오는 비즈니스 로직 설계
+  public UserDTO getUserEmailMath(String email) throws SQLException {
+    return authDAO.getUserByEmail(email).orElse(null);
+  };
+
   @Override  // 입력한 비밀번호와 암호화 된 비밀번호가 같을 지 체크를 위한 비즈니스 로직 설계
   public boolean isPasswordMath(String rawPassword, String encryptedPassword) {
-    return false;
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    return passwordEncoder.matches(rawPassword, encryptedPassword);
   }
 
 }

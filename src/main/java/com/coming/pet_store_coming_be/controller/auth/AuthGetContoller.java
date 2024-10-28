@@ -29,21 +29,38 @@ public class AuthGetContoller {
   public ResponseEntity<Map<String, Object>> getLoginUser(@RequestParam("email") String email, @RequestParam("email") String password) throws SQLException {
     Map<String, Object>  response = new HashMap<>();
     
-    // 1. 입력으로 주어진 email를 통해 DB에서 해당 데이터를 사용자 정보를 가져온다.
+    // 입력으로 주어진 email를 통해 DB에서 해당 데이터를 사용자 정보를 가져온다.
     UserDTO userInfo = authService.getUserEmailMath(email);
 
-    // 1-1. email에 해당하는 사용자 정보 데이터가 없을 경우
+    // 1. email에 해당하는 사용자 정보 데이터가 없을 경우
     if(userInfo == null) {
       response.put("status", HttpStatus.NOT_FOUND.value());
       response.put("success", false);
-      response.put("errorCode", "USER_NOT_FOUND");
       response.put("message", "User wuth the provided email address could not be found.");
+      response.put("errorCode", "USER_NOT_FOUND");
 
       return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    // 1-2. email에 해당하는 사용자 정보 데이터를 가져왔을 경우 - 비밀번호 일치 여부 확인
-    // else if(!user)
+    // 2. email에 해당하는 사용자 정보 데이터를 가져왔을 경우 - 비밀번호 일치 여부 확인
+    else if(!authService.isPasswordMath(password, userInfo.getPassword())) {
+      response.put("status", HttpStatus.UNAUTHORIZED.value());
+      response.put("success", false);
+      response.put("message", "The password provided is incorrect.");
+      response.put("errorCode", "INVALID_PASSWORD");
+
+      return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    // 3. 중복 로그인을 시도할 경우
+    else if(userInfo.getIsActive()) {
+      response.put("status", HttpStatus.CONFLICT.value());
+      response.put("success", false);
+      response.put("message", "You are already logged in on another device.");
+      response.put("errorCode", "DUPLICATE_LOGIN_ATTEMPT");
+
+      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
 
 
 
