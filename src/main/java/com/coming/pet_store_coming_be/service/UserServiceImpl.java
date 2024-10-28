@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     // 2. 고유 번호 등록을 성공할 경우 -> 회원가입 진행
     if(identifierDAO.insertUserIdentifier(identifier) > 0) {
-      user.setUserIdentifierId(uuid); // 사용자의 기본키 및 외래키에 UUID 값 적용
+      // user.setUserIdentifierId(uuid); // 사용자의 기본키 및 외래키에 UUID 값 적용
 
       // 비밀번호 암호화
       BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
