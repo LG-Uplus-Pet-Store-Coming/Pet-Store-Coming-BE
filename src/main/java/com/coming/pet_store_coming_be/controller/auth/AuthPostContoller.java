@@ -30,7 +30,7 @@ public class AuthPostContoller {
   AuthService authService;
 
   @PostMapping("/sign-up") // 회원가입 API 설계
-  public ResponseEntity<Map<String, Object>> postMethodName(@RequestBody UserDTO user) throws SQLException {
+  public ResponseEntity<Map<String, Object>> postCreateAccount(@RequestBody UserDTO user) throws SQLException {
     Map<String, Object> response = new HashMap<>();
     
     // 1. 이메일 중복 확인
@@ -61,5 +61,7 @@ public class AuthPostContoller {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
+
+
 
 }
