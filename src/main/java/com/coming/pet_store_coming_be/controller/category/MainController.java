@@ -36,8 +36,8 @@ public class MainController {
 
     // 모든 메인 카테고리 정보 가져오기
     List<MainCategoryDTO> categorys = new ArrayList<>();
+    // categorys;
 
-    
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
