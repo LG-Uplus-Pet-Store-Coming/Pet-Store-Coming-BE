@@ -3,7 +3,6 @@ package com.coming.pet_store_coming_be.controller.category;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 import java.sql.SQLException;
 
@@ -22,7 +21,7 @@ import com.coming.pet_store_coming_be.service.category.main_category.MainCategor
 
 @RestController
 @RequestMapping("/category/main-category")
-public class MainController {
+public class MainCategoryController {
 
   @Autowired
   MainCategoryService mainCategoryService;
