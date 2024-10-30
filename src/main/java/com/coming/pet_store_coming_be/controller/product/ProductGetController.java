@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/product")
-public class ProductContoller {
+public class ProductGetController {
   
   // 상품 등록 POST Method
 

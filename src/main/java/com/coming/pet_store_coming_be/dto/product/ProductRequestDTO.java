@@ -5,16 +5,16 @@ import java.util.List;
 public class ProductRequestDTO {
 
   private ProductDTO product;
-  private List<ProductOptionDTO> productOption;
-  private List<ProductImageDTO> productImage;
+  private List<ProductOptionDTO> options;
+  private List<ProductImageDTO> images;
 
   public ProductRequestDTO() {
   }
 
-  public ProductRequestDTO(ProductDTO product, List<ProductOptionDTO> productOption, List<ProductImageDTO> productImage) {
+  public ProductRequestDTO(ProductDTO product, List<ProductOptionDTO> options, List<ProductImageDTO> images) {
     this.product = product;
-    this.productOption = productOption;
-    this.productImage = productImage;
+    this.options = options;
+    this.images = images;
   }
 
   public ProductDTO getProduct() {
@@ -25,29 +25,29 @@ public class ProductRequestDTO {
     this.product = product;
   }
 
-  public List<ProductOptionDTO> getProductOption() {
-    return this.productOption;
+  public List<ProductOptionDTO> getOptions() {
+    return this.options;
   }
 
-  public void setProductOption(List<ProductOptionDTO> productOption) {
-    this.productOption = productOption;
+  public void setOptions(List<ProductOptionDTO> options) {
+    this.options = options;
   }
 
-  public List<ProductImageDTO> getProductImage() {
-    return this.productImage;
+  public List<ProductImageDTO> getImages() {
+    return this.images;
   }
 
-  public void setProductImage(List<ProductImageDTO> productImage) {
-    this.productImage = productImage;
+  public void setImages(List<ProductImageDTO> images) {
+    this.images = images;
   }
 
   @Override
   public String toString() {
     return "{" +
       " product='" + getProduct() + "'" +
-      ", productOption='" + getProductOption() + "'" +
-      ", productImage='" + getProductImage() + "'" +
+      ", options='" + getOptions() + "'" +
+      ", images='" + getImages() + "'" +
       "}";
   }
-  
+
 }
