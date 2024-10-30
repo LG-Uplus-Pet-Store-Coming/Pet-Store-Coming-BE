@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class MainCategoryServiceImpl implements MainCategoryService {
 
   @Autowired
-  MainCategoryDAO dao;
+  private MainCategoryDAO dao;
 
   @Override // 메인 카테고리 생성 비즈니스 로직 설계
   public boolean createMainCategory(MainCategoryDTO category) throws SQLException {
