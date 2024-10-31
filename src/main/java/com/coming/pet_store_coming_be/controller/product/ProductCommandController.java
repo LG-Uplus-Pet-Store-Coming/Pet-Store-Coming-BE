@@ -1,12 +1,15 @@
 package com.coming.pet_store_coming_be.controller.product;
 
+import java.util.List;
 import java.util.Map;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
 import com.coming.pet_store_coming_be.service.product.ProductService;
@@ -46,9 +49,33 @@ public class ProductCommandController {
   }
   
   @PostMapping("/insert") // 상품 등록 POST Method
-  public String insertProduct(@RequestParam("store_id") String storeId, @RequestBody ProductRequestDTO productRequest) {
-      return "entity";
-  }
+  public ResponseEntity<Map<String, Object>> insertProduct(@RequestPart("storeId") String storeId,
+    @RequestPart("productRequest") ProductRequestDTO productRequest,
+    @RequestPart("thumbnailImage") MultipartFile thumbnailImage,
+    @RequestPart("images") List<MultipartFile> images
+    ) {
+      Map<String, Object> response = new HashMap<>();
+
+      try {
+
+        response.put("status", HttpStatus.OK.value());
+        response.put("success", true);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+      } catch (Exception e) {
+
+        e.printStackTrace();
+
+        // 에러가 발생한 경우
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("success", false);
+        response.put("message", "Failed to create Product.");
+        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  } 
 
 
   // 상품 수정 PUT Method
