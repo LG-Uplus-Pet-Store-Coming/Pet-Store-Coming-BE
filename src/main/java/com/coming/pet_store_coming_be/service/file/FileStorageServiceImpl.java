@@ -59,38 +59,32 @@ public class FileStorageServiceImpl implements FileStorageService {
   }
 
   @Override // 대표 이미지 변경
-  public Map<String, String> updateFile(MultipartFile file, String directory, String deleteFileDirectory) {
+  public Map<String, String> updateFile(MultipartFile file, String directory, String fileName) {
     Map<String, String> response = new HashMap<>();
 
     try {
-      // 1. 이미지 파일이 없을 경우 -> 수정 안함
-      if(file == null || file.isEmpty()) {
-        return response;
-      }
-
-      // 2. 기존 파일 제거
-      Path thumbnailPath = Paths.get(deleteFileDirectory);
-
+      // 1. 기존 파일 제거
+      Path thumbnailPath = Paths.get(directory + fileName);
       if(Files.exists(thumbnailPath)) {
         Files.delete(thumbnailPath);
       }
       
-      // 3. 파일 저장 경로 생성 (경로가 없을 경우에만 생성)
+      // 2. 파일 저장 경로 생성 (경로가 없을 경우에만 생성)
       Path saveDirPath = Paths.get(directory);
       if(!Files.exists(saveDirPath)) {
         Files.createDirectories(saveDirPath);
       }
 
-      // 4. 새 이미지 파일명 생성
+      // 3. 새 이미지 파일명 생성
       String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
       String originalFileName = file.getOriginalFilename();
       String newFileName = timestamp + "_" + originalFileName;
 
-      // 5. 최종 파일 경로 지정
+      // 4. 최종 파일 경로 지정
       Path newFilePath = saveDirPath.resolve(newFileName);
 
-      System.out.println(newFilePath);
-
+      // 5. 새 파일 저장
+      Files.write(newFilePath, file.getBytes());
 
       response.put("fileName", newFileName);
 
@@ -98,8 +92,8 @@ public class FileStorageServiceImpl implements FileStorageService {
       e.printStackTrace();
       response.put("error", "File update failed due to an IO error.");
     } catch (Exception e) {
-        e.printStackTrace();
-        response.put("error", "File update failed.");
+      e.printStackTrace();
+      response.put("error", "File update failed.");
     }
 
     return response;

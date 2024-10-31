@@ -97,11 +97,27 @@ public class ProductCommandController {
     Map<String, Object> response = new HashMap<>();
 
     try {
-      
-      System.out.println(productRequest);
 
-      // 상품 대표 이미지 변경
-      // Map<String, Stirng> fileInfo = fileStorageService.updateFile(newThumbnailImage, null, null)
+      ProductDTO product = productRequest.getProduct();
+      
+      // 1. 상품 대표 이미지를 변경할 경우
+      if(newThumbnailImage != null && !newThumbnailImage.isEmpty()) {
+        Map<String, String> fileInfo = 
+        fileStorageService.updateFile(
+          newThumbnailImage, 
+          productRequest.getProduct().getThumbnailImageUrl(), 
+          productRequest.getProduct().getThumbnailImageAlt()
+        );
+
+        product.setThumbnailImageAlt(fileInfo.get("fileName"));
+      } else {
+        // 상품 대표 이미지를 변경하지 않는다면 thumbnailImageAlt 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+        product.setThumbnailImageAlt(null);
+      }
+
+      // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+      product.setThumbnailImageUrl(null);
+      
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
