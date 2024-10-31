@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
-import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
 
 public interface ProductService {
 
@@ -17,6 +16,7 @@ public interface ProductService {
   public void insertProductOption(List<ProductOptionDTO> options, String productId) throws SQLException; // 상품 옵션 등록 비즈니스 로직 인스턴스 메서드
   public void insertProductImage(List<MultipartFile> images, String productId) throws SQLException; // 상품 이미지 등록 비즈니스 로직 인스턴스 메서드
 
-  public void insertProductWithDetails(String storeId, ProductRequestDTO productRequest) throws SQLException; // 상품 등록 비즈니스 로직 인스턴스 메서드
   
+  public void deleteProduct(String id) throws SQLException; // 상품 삭제 비즈니스 로직 인스턴스 메서드
+
 }

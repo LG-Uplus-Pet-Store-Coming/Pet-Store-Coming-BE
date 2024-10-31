@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import com.coming.pet_store_coming_be.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -76,5 +78,29 @@ public class ProductCommandController {
   // 상품 수정 PUT Method
 
   // 상품 삭제 DELETE Method
+  @DeleteMapping("/delete")
+  public ResponseEntity<Map<String, Object>> deleteProduct(@RequestParam("id") String productId) {
+    Map<String, Object> response = new HashMap<>();
+    
+    try {
+      productService.deleteProduct(productId);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to delete Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+  }
 
 }

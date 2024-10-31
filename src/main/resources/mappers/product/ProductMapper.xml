@@ -39,4 +39,9 @@
     )
   </insert>
 
+  <delete id="deleteProduct" parameterType="String">
+    delete from product
+    where id = #{id}
+  </delete>
+
 </mapper>

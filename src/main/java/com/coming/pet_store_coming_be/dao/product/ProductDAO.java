@@ -9,6 +9,7 @@ import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 @Mapper
 public interface ProductDAO {
   public void insertProduct(ProductDTO product); // 상품 등록
-  public void insertProductOption(ProductOptionDTO product); // 상품 등록
-  public void insertProductImage(ProductImageDTO product); // 상품 등록
+  public void insertProductOption(ProductOptionDTO product); // 상품 옵션 등록
+  public void insertProductImage(ProductImageDTO product); // 상품 이미지 등록
+  public void deleteProduct(String id); // 상품 삭제
 }
