@@ -6,15 +6,15 @@ public class ProductRequestDTO {
 
   private ProductDTO product;
   private List<ProductOptionDTO> options;
-  private List<String> deleteImageIds;
+  private List<String> deleteImageId;
 
   public ProductRequestDTO() {
   }
 
-  public ProductRequestDTO(ProductDTO product, List<ProductOptionDTO> options, List<String> deleteImageIds) {
+  public ProductRequestDTO(ProductDTO product, List<ProductOptionDTO> options, List<String> deleteImageId) {
     this.product = product;
     this.options = options;
-    this.deleteImageIds = deleteImageIds;
+    this.deleteImageId = deleteImageId;
   }
 
   public ProductDTO getProduct() {
@@ -33,12 +33,12 @@ public class ProductRequestDTO {
     this.options = options;
   }
 
-  public List<String> getDeleteImageIds() {
-    return this.deleteImageIds;
+  public List<String> getDeleteImageId() {
+    return this.deleteImageId;
   }
 
-  public void setDeleteImageIds(List<String> deleteImageIds) {
-    this.deleteImageIds = deleteImageIds;
+  public void setDeleteImageId(List<String> deleteImageId) {
+    this.deleteImageId = deleteImageId;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class ProductRequestDTO {
     return "{" +
       " product='" + getProduct() + "'" +
       ", options='" + getOptions() + "'" +
-      ", deleteImageIds='" + getDeleteImageIds() + "'" +
+      ", deleteImageId='" + getDeleteImageId() + "'" +
       "}";
   }
 

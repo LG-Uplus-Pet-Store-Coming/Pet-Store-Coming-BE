@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.product.ProductService;
@@ -120,7 +121,20 @@ public class ProductCommandController {
       
       productService.updateProduct(product); // #1. 상품 정보 변경
 
+      // #2. 상품 옵션 정보 변경
       if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.updateProductOption(productRequest.getOptions());
+
+      // #3-1. 상품 이미지 삭제
+      if(productRequest.getDeleteImageId() != null & !productRequest.getDeleteImageId().isEmpty()) {
+        for(String imageId: productRequest.getDeleteImageId()) {
+          ProductImageDTO deleteImageFileInfo = productService.getProductImage(imageId); // 이미지 정보 가져오기
+          // productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
+
+          fileStorageService.deleteImageFile(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
+        }
+      }
+
+      // #3-2. 상품 이미지 추가
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {

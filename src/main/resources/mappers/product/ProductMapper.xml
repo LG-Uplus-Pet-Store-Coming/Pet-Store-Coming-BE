@@ -3,6 +3,12 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
+  <select id="getProductImage" parameterType="String" resultType="ProductImageDTO">
+    select product_image_url as productImageUrl, product_image_alt as productImageAlit
+    from product_image
+    where id = #{id}
+  </select>
+
   <insert id="insertProduct" parameterType="ProductDTO">
     insert into product (id, sub_category_id, store_id, name, price, description, discount_rate, discount_price, thumbnail_image_url, thumbnail_image_alt)
     values (
@@ -90,6 +96,11 @@
 
   <delete id="deleteProductOption" parameterType="String">
     delete from product_option
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteProductImage" parameterType="String">
+    delete from product_image
     where id = #{id}
   </delete>
 

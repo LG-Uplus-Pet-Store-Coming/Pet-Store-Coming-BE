@@ -17,7 +17,10 @@ public interface ProductDAO {
   public void updateProduct(ProductDTO product); // 상품 정보 변경
   public void updateProductOption(ProductOptionDTO option); // 상품 옵션 변경
 
-
+  // 상품 정보 삭제 관련 DAO
   public void deleteProduct(String id); // 상품 삭제
   public void deleteProductOption(String id); // 상품 옵션 삭제
+  public void deleteProductImage(String id); // 상품 이미지 삭제
+
+  public ProductImageDTO getProductImage(String id); // 상품 이미지 가져오기
 }

@@ -100,5 +100,19 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     return response;
   }
+
+  @Override // 상품 이미지 삭제
+  public void deleteImageFile(String directory, String deleteFileName) {
+    try {
+      Path deleteImagePath = Paths.get(directory + deleteFileName);
+      
+      // 경로에 맞는 이미지 정보가 있을 경우 삭제
+      if(Files.exists(deleteImagePath)) {
+        Files.delete(deleteImagePath);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
   
 }

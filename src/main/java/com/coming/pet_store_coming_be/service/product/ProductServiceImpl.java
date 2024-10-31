@@ -109,10 +109,20 @@ public class ProductServiceImpl implements ProductService{
       }
     }
   }
+
+  @Override // 상품 이미지 정보 가져오는 비즈니스 로직 인스턴스 메서드
+  public ProductImageDTO getProductImage(String id) throws SQLException {
+    return dao.getProductImage(id);
+  }
   
   @Override // 상품 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteProduct(String id) throws SQLException {
     dao.deleteProduct(id);
+  }
+
+  @Override // 상품 이미지 삭제 비즈니스 로직 인스턴스 메서드
+  public void deleteProductImage(String id) throws SQLException {
+    dao.deleteProductImage(id);
   }
 
 }
