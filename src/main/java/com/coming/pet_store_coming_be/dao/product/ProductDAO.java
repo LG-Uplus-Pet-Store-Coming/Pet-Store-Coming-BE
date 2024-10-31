@@ -2,6 +2,8 @@ package com.coming.pet_store_coming_be.dao.product;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
@@ -22,5 +24,7 @@ public interface ProductDAO {
   public void deleteProductOption(String id); // 상품 옵션 삭제
   public void deleteProductImage(String id); // 상품 이미지 삭제
 
+  // 상품 정보 가져오기 관련 DAO
+  public List<ProductDTO> getCategoryFindAll(String id); // 특정 메인 카테고리 상품 전체 가져오기
   public ProductImageDTO getProductImage(String id); // 상품 이미지 가져오기
 }

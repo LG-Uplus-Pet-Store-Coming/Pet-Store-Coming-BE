@@ -25,4 +25,7 @@ public interface ProductService {
 
   public ProductImageDTO getProductImage(String id) throws SQLException; // 상품 이미지 정보 가져오는 비즈니스 로직 인스턴스 메서드
 
+  // 상품 정보 가져오는 Service 인스턴스 메서드
+  public List<ProductDTO> getCategoryFindAllService(String id) throws SQLException;
+
 }
