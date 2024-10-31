@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/product")
@@ -76,6 +76,11 @@ public class ProductCommandController {
 
 
   // 상품 수정 PUT Method
+  @PutMapping("/update")
+  public String putMethodName() {
+      
+      return "entity";
+  }
 
   // 상품 삭제 DELETE Method
   @DeleteMapping("/delete")
