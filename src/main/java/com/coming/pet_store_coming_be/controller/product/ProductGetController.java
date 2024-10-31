@@ -49,6 +49,7 @@ public class ProductGetController {
   }
   
   // 2. 특정 카테고리 베스트 상품 조회
+  /* 영수형이 결제 관련을 맡고 있기 때문에 아직 베스트 상품에 대한 계산을 하지 못함 -> 베스트 상품 계산 = 리뷰 개수 + 상품 결제 수 limit 10 */
 
   // 3. 특정 카테고리 새 상품 조회
   @GetMapping("/{id}/find-new-product") // 1. 특정 카테고리 상품 전체 조회
