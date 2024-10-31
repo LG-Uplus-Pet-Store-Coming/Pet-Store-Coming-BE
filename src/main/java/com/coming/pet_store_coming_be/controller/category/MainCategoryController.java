@@ -1,7 +1,6 @@
 package com.coming.pet_store_coming_be.controller.category;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,11 +8,9 @@ import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,13 +41,8 @@ public class MainCategoryController {
       // 1. 클라이언트에서 받아온 썸네일 이미지 /uploda/main-category/thumbnail 디렉토리에 업로드
       Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
 
-      // 메인 카테고리 정보 업데이트
-      category.setId(UUID.randomUUID().toString());
-      category.setThumbnailUrl(fileInfo.get("filePath"));
-      category.setThumbnailAlt(fileInfo.get("fileName"));
-
       // 2. 디렉토리에 이미지 성공할 경우 상품 정보 등록 비즈니스 로직 처리
-      System.out.println(category);
+      mainCategoryService.createMainCategory(category, fileInfo);
 
       // 메인 카테고리 생성 성공
       response.put("status", HttpStatus.OK.value());

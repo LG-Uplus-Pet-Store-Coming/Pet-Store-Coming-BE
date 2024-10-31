@@ -3,6 +3,17 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.category.MainCategoryDAO">
 
+  <insert id="insertMainCategory" parameterType="MainCategoryDTO">
+    insert into main_category (id, name, slug, thumbnail_url, thumbnail_alt)
+    values (
+      #{id},
+      #{name},
+      #{slug},
+      #{thumbnailUrl},
+      #{thumbnailAlt}
+    )
+  </insert>
+
   <select id="findAllMainCategoryInfo" resultType="MainCategoryDTO">
     select * from main_category;
   </select>
