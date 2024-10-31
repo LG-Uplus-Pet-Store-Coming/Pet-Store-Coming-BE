@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
+
+  <insert id="insertProduct" parameterType="ProductDTO">
+    insert into product (id, sub_category_id, store_id, name, price, description, discount_rate, discount_price, thumbnail_image_url, thumbnail_image_alt)
+    values (
+      #{id},
+      #{subCategoryId},
+      #{storeId},
+      #{name},
+      #{price},
+      #{description},
+      #{discountRate},
+      #{discountPrice},
+      #{thumbnailImageUrl},
+      #{thumbnailImageAlt}
+    )
+  </insert>
+
+  <insert id="insertProductOption" parameterType="ProductOptionDTO">
+    insert into product_option (id, product_id, description, add_price)
+    values (
+      #{id},
+      #{productId}, 
+      #{description},
+      #{addPrice}
+    )
+  </insert>
+
+  <insert id="insertProductImage" parameterType="ProductImageDTO">
+    insert into product_image (id, product_id, product_image_url, product_image_alt)
+    values (
+      #{id},
+      #{productId}, 
+      #{productImageUrl},
+      #{productImageAlit}
+    )
+  </insert>
+
+</mapper>

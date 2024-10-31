@@ -8,12 +8,15 @@ import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.MainCategoryDTO;
 import com.coming.pet_store_coming_be.service.category.main_category.MainCategoryService;
@@ -26,10 +29,25 @@ public class MainCategoryController {
   @Autowired
   MainCategoryService mainCategoryService;
   
+
   // POST -> 메인 카테고리 생성
   @PostMapping("/create")
-  public ResponseEntity<Map<String, Object>> postMainCategoryInfo(@RequestBody MainCategoryDTO category) {
+  public ResponseEntity<Map<String, Object>> postMainCategoryInfo(@RequestPart("mainCategoryData") MainCategoryDTO category, @RequestPart("thumbnailImage") MultipartFile thumbnailImage) {
     Map<String, Object> response = new HashMap<>();
+
+    try {
+
+      // 메인 카테고리 생성 성공
+
+      System.out.println(category);
+      System.out.println(thumbnailImage.getOriginalFilename());
+    } catch (Exception e) {
+      
+      // 메인 카테고리 생성 실패
+
+      e.printStackTrace();
+    }
+
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
