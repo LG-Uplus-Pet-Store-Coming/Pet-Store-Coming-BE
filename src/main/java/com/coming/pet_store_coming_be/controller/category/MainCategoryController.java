@@ -41,7 +41,8 @@ public class MainCategoryController {
     try {
 
       // 1. 클라이언트에서 받아온 썸네일 이미지 /uploda/main-category/thumbnail 디렉토리에 업로드
-      fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
+      String filePath = fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
+      System.out.println(filePath);
 
       // 2. 디렉토리에 이미지 성공할 경우 상품 정보 등록 비즈니스 로직 처리
 
