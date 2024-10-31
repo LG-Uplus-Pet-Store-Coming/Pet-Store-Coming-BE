@@ -29,7 +29,26 @@ public class SubCategoryController {
   public ResponseEntity<Map<String, Object>> postMainCategoryInfo(@RequestBody SubCategoryDTO category) {
     Map<String, Object> response = new HashMap<>();
 
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    try {
+
+      // 서브 카테고리 생성 성공
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK); // 성공 응답 반환
+
+    } catch(Exception e) {
+      // 서브 카테고리 생성 실패
+       e.printStackTrace(); // 에러 메세지 출력
+
+       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+       response.put("success", false);
+       response.put("message", "Failed to create sub category.");
+       response.put("errorCode", "INTERNAL_SERVER_ERROR");
+ 
+       return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
   }
 
   // GET -> 서브 카테고리 정보 가져오기
