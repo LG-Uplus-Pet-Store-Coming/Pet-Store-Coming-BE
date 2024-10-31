@@ -19,6 +19,20 @@
     limit 10
   </select>
 
+  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where p.sub_category_id = #{id}
+  </select>
+
+  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where p.sub_category_id = #{id}
+    order by p.created_at desc
+    limit 10
+  </select>
+
   <select id="searchFindProdcut" parameterType="String" resultType="ProductDTO">
     select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
     from product p

@@ -120,6 +120,16 @@ public class ProductServiceImpl implements ProductService{
     return dao.getCategoryFindNew(id);
   }
 
+  @Override // 특정 서브 카테고리에 속한 모든 상품 정보 가져오기
+  public List<ProductDTO> getSubCategoryFindAllService(String id) throws SQLException {
+    return dao.getSubCategoryFindAll(id);
+  }
+
+  @Override // 특정 서브 카테고리에 속한 모든 상품 정보 가져오기
+  public List<ProductDTO> getSubCategoryFindNewService(String id) throws SQLException {
+    return dao.getSubCategoryFindNew(id);
+  }
+
   @Override // 상품 검색에 의한 상품 정보 가져오기
   public List<ProductDTO> getSearchFindProductService(String search) throws SQLException {
     return dao.searchFindProdcut(search);
