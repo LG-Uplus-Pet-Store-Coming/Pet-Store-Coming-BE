@@ -89,6 +89,26 @@ public class ProductServiceImpl implements ProductService{
 
     dao.updateProduct(product); // 상품 정보 수정
   }
+
+  @Override // 상품 수정 비즈니스 로직 인스턴스 메서드
+  public void updateProductOption(List<ProductOptionDTO> options) throws SQLException {
+    for(ProductOptionDTO option: options) {
+      switch (option.getOperation()) {
+        case "ADD": // 새로운 옵션이 추가된 경우
+          option.setId(UUID.randomUUID().toString());  
+          dao.insertProductOption(option);
+          break;
+      
+        case "UPDATE": // 기존에 있던 옵션의 정보가 수정된 경우
+          dao.updateProductOption(option);
+          break;
+
+        case "DELETE": // 기존에 있던 옵션의 정보가 삭제된 경우
+          dao.deleteProductOption(option.getId());
+          break;
+      }
+    }
+  }
   
   @Override // 상품 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteProduct(String id) throws SQLException {

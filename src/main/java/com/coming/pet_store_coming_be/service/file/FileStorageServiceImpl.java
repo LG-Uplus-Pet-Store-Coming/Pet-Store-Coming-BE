@@ -63,6 +63,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     Map<String, String> response = new HashMap<>();
 
     try {
+
       // 1. 기존 파일 제거
       Path thumbnailPath = Paths.get(directory + fileName);
       if(Files.exists(thumbnailPath)) {
@@ -86,6 +87,7 @@ public class FileStorageServiceImpl implements FileStorageService {
       // 5. 새 파일 저장
       Files.write(newFilePath, file.getBytes());
 
+      // response.put("fileName", newFileName);
       response.put("fileName", newFileName);
 
     } catch (IOException e) {

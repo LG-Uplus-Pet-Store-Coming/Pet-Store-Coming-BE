@@ -6,15 +6,17 @@ public class ProductOptionDTO {
   private String productId;
   private String description;
   private int addPrice;
+  private String operation;
 
   public ProductOptionDTO() {
   }
 
-  public ProductOptionDTO(String id, String productId, String description, int addPrice) {
+  public ProductOptionDTO(String id, String productId, String description, int addPrice, String operation) {
     this.id = id;
     this.productId = productId;
     this.description = description;
     this.addPrice = addPrice;
+    this.operation = operation;
   }
 
   public String getId() {
@@ -49,6 +51,14 @@ public class ProductOptionDTO {
     this.addPrice = addPrice;
   }
 
+  public String getOperation() {
+    return this.operation;
+  }
+
+  public void setOperation(String operation) {
+    this.operation = operation;
+  }
+
   @Override
   public String toString() {
     return "{" +
@@ -56,6 +66,7 @@ public class ProductOptionDTO {
       ", productId='" + getProductId() + "'" +
       ", description='" + getDescription() + "'" +
       ", addPrice='" + getAddPrice() + "'" +
+      ", operation='" + getOperation() + "'" +
       "}";
   }
 

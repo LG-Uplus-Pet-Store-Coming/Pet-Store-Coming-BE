@@ -120,6 +120,8 @@ public class ProductCommandController {
       
       productService.updateProduct(product); // #1. 상품 정보 변경
 
+      if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.updateProductOption(productRequest.getOptions());
+
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       e.printStackTrace();

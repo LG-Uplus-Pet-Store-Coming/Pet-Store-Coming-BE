@@ -69,8 +69,27 @@
     where id = #{id}
   </update>
 
+  <update id="updateProductOption" parameterType="ProductOptionDTO">
+    update product_option
+    <set>
+      <if test="description != null">
+        description = #{description},
+      </if>
+
+      <if test="addPrice != null">
+        add_price = #{addPrice}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
   <delete id="deleteProduct" parameterType="String">
     delete from product
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteProductOption" parameterType="String">
+    delete from product_option
     where id = #{id}
   </delete>
 

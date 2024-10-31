@@ -10,11 +10,14 @@ import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 public interface ProductDAO {
   // 상품 추가 관련 DAO
   public void insertProduct(ProductDTO product); // 상품 등록
-  public void insertProductOption(ProductOptionDTO product); // 상품 옵션 등록
-  public void insertProductImage(ProductImageDTO product); // 상품 이미지 등록
+  public void insertProductOption(ProductOptionDTO option); // 상품 옵션 등록
+  public void insertProductImage(ProductImageDTO image); // 상품 이미지 등록
   
   // 상품 정보 변경 관련 DAO
   public void updateProduct(ProductDTO product); // 상품 정보 변경
+  public void updateProductOption(ProductOptionDTO option); // 상품 옵션 변경
+
 
   public void deleteProduct(String id); // 상품 삭제
+  public void deleteProductOption(String id); // 상품 옵션 삭제
 }
