@@ -60,7 +60,7 @@ public class MainCategoryController {
       response.put("message", "Failed to create main category.");
       response.put("errorCode", "INTERNAL_SERVER_ERROR");
 
-      return new ResponseEntity<>(response, HttpStatus.OK);
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
   }

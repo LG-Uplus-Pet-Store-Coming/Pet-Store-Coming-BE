@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public interface SubCategoryService {
 
+  public void createSubCategory(SubCategoryDTO category) throws SQLException;
   public List<SubCategoryDTO> getSubCategoryList() throws SQLException; // 서브 카테고리 리스트 가져오는 비즈니스 로직 인스턴스 메서드
 
 }

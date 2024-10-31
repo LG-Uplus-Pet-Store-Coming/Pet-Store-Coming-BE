@@ -31,6 +31,9 @@ public class SubCategoryController {
 
     try {
 
+      // 서브 카테고리 생성 비즈니스 로직 처리
+      subCategoryService.createSubCategory(category);
+
       // 서브 카테고리 생성 성공
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
@@ -46,8 +49,7 @@ public class SubCategoryController {
        response.put("message", "Failed to create sub category.");
        response.put("errorCode", "INTERNAL_SERVER_ERROR");
  
-       return new ResponseEntity<>(response, HttpStatus.OK);
-
+       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
