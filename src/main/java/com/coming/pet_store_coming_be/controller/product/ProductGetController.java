@@ -51,6 +51,30 @@ public class ProductGetController {
   // 2. 특정 카테고리 베스트 상품 조회
 
   // 3. 특정 카테고리 새 상품 조회
+  @GetMapping("/{id}/find-new-product") // 1. 특정 카테고리 상품 전체 조회
+  public ResponseEntity<Map<String, Object>> getCategoryFindNewController(@PathVariable("id") String categorId) {
+    Map<String, Object> response = new HashMap<>();
+   
+    try {
+      List<ProductDTO> data = productService.getCategoryFindNewService(categorId);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("data", data);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      // 실패 응답 보내기
+      e.printStackTrace();
+
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to Find all Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   // 4. 상품 검색 조회
 
