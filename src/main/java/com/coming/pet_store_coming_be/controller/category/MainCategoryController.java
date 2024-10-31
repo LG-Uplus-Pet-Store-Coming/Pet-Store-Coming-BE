@@ -1,6 +1,7 @@
 package com.coming.pet_store_coming_be.controller.category;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,10 +42,15 @@ public class MainCategoryController {
     try {
 
       // 1. 클라이언트에서 받아온 썸네일 이미지 /uploda/main-category/thumbnail 디렉토리에 업로드
-      String filePath = fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
-      System.out.println(filePath);
+      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
+
+      // 메인 카테고리 정보 업데이트
+      category.setId(UUID.randomUUID().toString());
+      category.setThumbnailUrl(fileInfo.get("filePath"));
+      category.setThumbnailAlt(fileInfo.get("fileName"));
 
       // 2. 디렉토리에 이미지 성공할 경우 상품 정보 등록 비즈니스 로직 처리
+      System.out.println(category);
 
       // 메인 카테고리 생성 성공
       response.put("status", HttpStatus.OK.value());
