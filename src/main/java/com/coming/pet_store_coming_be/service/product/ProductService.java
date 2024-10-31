@@ -16,6 +16,7 @@ public interface ProductService {
   public void insertProductOption(List<ProductOptionDTO> options, String productId) throws SQLException; // 상품 옵션 등록 비즈니스 로직 인스턴스 메서드
   public void insertProductImage(List<MultipartFile> images, String productId) throws SQLException; // 상품 이미지 등록 비즈니스 로직 인스턴스 메서드
 
+  public void updateProduct(ProductDTO product) throws SQLException; // 상품 수정 비즈니스 로직 인스턴스 메서드
   
   public void deleteProduct(String id) throws SQLException; // 상품 삭제 비즈니스 로직 인스턴스 메서드
 

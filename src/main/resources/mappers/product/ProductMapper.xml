@@ -39,6 +39,36 @@
     )
   </insert>
 
+  <update id="updateProduct" parameterType="ProductDTO">
+    update product
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="price != null">
+        price = #{price},
+      </if>
+
+      <if test="description != null">
+        description = #{description},
+      </if>
+
+      <if test="discountRate != null">
+        discount_rate = #{discountRate},
+      </if>
+
+      <if test="discountPrice != null">
+        discount_price = #{discountPrice},
+      </if>
+
+      <if test="thumbnailImageAlt != null">
+        thumbnail_image_alt = #{thumbnailImageAlt}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
   <delete id="deleteProduct" parameterType="String">
     delete from product
     where id = #{id}

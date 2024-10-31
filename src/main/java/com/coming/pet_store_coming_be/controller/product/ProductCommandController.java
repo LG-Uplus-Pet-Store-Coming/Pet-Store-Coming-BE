@@ -100,7 +100,7 @@ public class ProductCommandController {
 
       ProductDTO product = productRequest.getProduct();
       
-      // 1. 상품 대표 이미지를 변경할 경우
+      // 상품 대표 이미지를 변경할 경우
       if(newThumbnailImage != null && !newThumbnailImage.isEmpty()) {
         Map<String, String> fileInfo = 
         fileStorageService.updateFile(
@@ -118,6 +118,7 @@ public class ProductCommandController {
       // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
       product.setThumbnailImageUrl(null);
       
+      productService.updateProduct(product); // #1. 상품 정보 변경
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {

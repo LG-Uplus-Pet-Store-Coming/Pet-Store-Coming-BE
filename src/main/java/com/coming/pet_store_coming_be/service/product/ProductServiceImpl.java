@@ -73,6 +73,22 @@ public class ProductServiceImpl implements ProductService{
     }
   }
 
+  @Override // 상품 수정 비즈니스 로직 인스턴스 메서드
+  public void updateProduct(ProductDTO product) throws SQLException {
+    // 상품 설명도 변경될 경우 JSON으로 수정
+    if(!product.getDescription().isEmpty()) {
+      ObjectMapper objectMapper = new ObjectMapper();
+      
+      try {
+        String jsoString = objectMapper.writeValueAsString(product.getDescription());
+        product.setDescription(jsoString);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    dao.updateProduct(product); // 상품 정보 수정
+  }
   
   @Override // 상품 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteProduct(String id) throws SQLException {
