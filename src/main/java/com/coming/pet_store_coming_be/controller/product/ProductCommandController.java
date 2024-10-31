@@ -128,13 +128,26 @@ public class ProductCommandController {
       if(productRequest.getDeleteImageId() != null & !productRequest.getDeleteImageId().isEmpty()) {
         for(String imageId: productRequest.getDeleteImageId()) {
           ProductImageDTO deleteImageFileInfo = productService.getProductImage(imageId); // 이미지 정보 가져오기
-          // productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
+          productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
 
+          // upload 폴더에 이미지 정보 삭제
           fileStorageService.deleteImageFile(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
         }
       }
 
       // #3-2. 상품 이미지 추가
+      if (newImages != null && !newImages.isEmpty()) {
+        List<MultipartFile> validImages = newImages.stream()
+            .filter(image -> image != null && !image.isEmpty())
+            .collect(Collectors.toList());
+
+        if (!validImages.isEmpty()) {
+            productService.insertProductImage(validImages, product.getId());
+        }
+    }
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
