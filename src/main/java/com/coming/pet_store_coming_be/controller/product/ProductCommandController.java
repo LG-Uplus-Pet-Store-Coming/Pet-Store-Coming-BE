@@ -3,6 +3,7 @@ package com.coming.pet_store_coming_be.controller.product;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,8 @@ public class ProductCommandController {
   ProductService productService;
   
   @PostMapping("/insert") // 상품 등록 POST Method
-  public ResponseEntity<Map<String, Object>> insertProduct(@RequestPart("storeId") String storeId,
+  public ResponseEntity<Map<String, Object>> insertProduct(
+    @RequestPart("storeId") String storeId,
     @RequestPart("productRequest") ProductRequestDTO productRequest,
     @RequestPart("thumbnailImage") MultipartFile thumbnailImage,
     @RequestPart("images") List<MultipartFile> images
@@ -51,8 +53,18 @@ public class ProductCommandController {
         Map<String, String> fileInto = fileStorageService.saveFile(thumbnailImage, "product/" + product.getId() + "/thumbnail");
 
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
-        productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
-        productService.insertProductImage(images, product.getId()); // #3. 상품 이미지 추가
+        if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
+        
+        // #3. 상품 이미지 추가 (이미지가 있고 파일이 유효한 경우에만 추가)
+        if (images != null && !images.isEmpty()) {
+            List<MultipartFile> validImages = images.stream()
+                .filter(image -> image != null && !image.isEmpty())
+                .collect(Collectors.toList());
+
+            if (!validImages.isEmpty()) {
+                productService.insertProductImage(validImages, product.getId());
+            }
+        }
 
         // 성공 응답 보내기
         response.put("status", HttpStatus.OK.value());
@@ -77,9 +89,32 @@ public class ProductCommandController {
 
   // 상품 수정 PUT Method
   @PutMapping("/update")
-  public String putMethodName() {
+  public ResponseEntity<Map<String, Object>> putMethodName(
+    @RequestPart("productRequest") ProductRequestDTO productRequest,
+    @RequestPart("newThumbnailImage") MultipartFile newThumbnailImage,
+    @RequestPart("newImages") List<MultipartFile> newImages
+  ) {
+    Map<String, Object> response = new HashMap<>();
+
+    try {
       
-      return "entity";
+      System.out.println(productRequest);
+
+      // 상품 대표 이미지 변경
+      // Map<String, Stirng> fileInfo = fileStorageService.updateFile(newThumbnailImage, null, null)
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to create Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   // 상품 삭제 DELETE Method
