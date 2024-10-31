@@ -28,5 +28,6 @@ public interface ProductService {
   // 상품 정보 가져오는 Service 인스턴스 메서드
   public List<ProductDTO> getCategoryFindAllService(String id) throws SQLException;
   public List<ProductDTO> getCategoryFindNewService(String id) throws SQLException;
+  public List<ProductDTO> getSearchFindProductService(String search) throws SQLException;
 
 }

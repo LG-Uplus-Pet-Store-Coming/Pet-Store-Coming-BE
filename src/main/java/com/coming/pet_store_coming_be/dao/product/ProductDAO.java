@@ -27,5 +27,6 @@ public interface ProductDAO {
   // 상품 정보 가져오기 관련 DAO
   public List<ProductDTO> getCategoryFindAll(String id); // 특정 메인 카테고리 상품 전체 가져오기
   public List<ProductDTO> getCategoryFindNew(String id); // 특정 메인 카테고리 상품 중 새상품 가져오기
+  public List<ProductDTO> searchFindProdcut(String search); // 상품 검색에 의한 상품 정보 가져오기
   public ProductImageDTO getProductImage(String id); // 상품 이미지 가져오기
 }

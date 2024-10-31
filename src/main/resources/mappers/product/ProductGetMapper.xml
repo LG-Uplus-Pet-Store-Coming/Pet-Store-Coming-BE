@@ -19,6 +19,12 @@
     limit 10
   </select>
 
+  <select id="searchFindProdcut" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where lower(p.name) like concat(lower(#{search}), '%')
+  </select>
+
   <select id="getProductImage" parameterType="String" resultType="ProductImageDTO">
     select product_image_url as productImageUrl, product_image_alt as productImageAlit
     from product_image

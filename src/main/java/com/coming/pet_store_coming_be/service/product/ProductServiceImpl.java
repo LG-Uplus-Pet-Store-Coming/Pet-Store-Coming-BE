@@ -120,6 +120,11 @@ public class ProductServiceImpl implements ProductService{
     return dao.getCategoryFindNew(id);
   }
 
+  @Override // 상품 검색에 의한 상품 정보 가져오기
+  public List<ProductDTO> getSearchFindProductService(String search) throws SQLException {
+    return dao.searchFindProdcut(search);
+  }
+
   @Override // 상품 이미지 정보 가져오는 비즈니스 로직 인스턴스 메서드
   public ProductImageDTO getProductImage(String id) throws SQLException {
     return dao.getProductImage(id);
