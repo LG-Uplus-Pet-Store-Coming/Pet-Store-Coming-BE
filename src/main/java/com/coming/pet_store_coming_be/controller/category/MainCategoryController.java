@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.MainCategoryDTO;
 import com.coming.pet_store_coming_be.service.category.main_category.MainCategoryService;
+import com.coming.pet_store_coming_be.service.file.FileStorageService;
 
 
 @RestController
@@ -27,8 +28,10 @@ import com.coming.pet_store_coming_be.service.category.main_category.MainCategor
 public class MainCategoryController {
 
   @Autowired
+  FileStorageService fileStorageService;
+
+  @Autowired
   MainCategoryService mainCategoryService;
-  
 
   // POST -> 메인 카테고리 생성
   @PostMapping("/create")
@@ -37,19 +40,30 @@ public class MainCategoryController {
 
     try {
 
-      // 메인 카테고리 생성 성공
+      // 1. 클라이언트에서 받아온 썸네일 이미지 /uploda/main-category/thumbnail 디렉토리에 업로드
+      fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
 
-      System.out.println(category);
-      System.out.println(thumbnailImage.getOriginalFilename());
+      // 2. 디렉토리에 이미지 성공할 경우 상품 정보 등록 비즈니스 로직 처리
+
+      // 메인 카테고리 생성 성공
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK); // 성공 응답 반환
+
     } catch (Exception e) {
       
       // 메인 카테고리 생성 실패
+      e.printStackTrace(); // 에러 메세지 출력
 
-      e.printStackTrace();
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to create main category.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   // GET -> 메인 카테고리 정보 가져오기
