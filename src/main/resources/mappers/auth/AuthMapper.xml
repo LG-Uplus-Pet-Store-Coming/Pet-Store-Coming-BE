@@ -4,7 +4,7 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.auth.AuthDAO">
 
   <select id="getUserByEmail" resultType="UserDTO" parameterType="String"> 
-    select id, email, password, name, address, refresh_token as refreshToken, is_active as isActive, role
+    select id, email, password, name, address, role
     from user 
     where email = #{email}
   </select>

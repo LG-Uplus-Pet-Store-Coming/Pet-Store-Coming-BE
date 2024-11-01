@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
+
+  <insert id="insertProduct" parameterType="ProductDTO">
+    insert into product (id, sub_category_id, store_id, name, price, description, discount_rate, discount_price, thumbnail_image_url, thumbnail_image_alt)
+    values (
+      #{id},
+      #{subCategoryId},
+      #{storeId},
+      #{name},
+      #{price},
+      #{description},
+      #{discountRate},
+      #{discountPrice},
+      #{thumbnailImageUrl},
+      #{thumbnailImageAlt}
+    )
+  </insert>
+
+  <insert id="insertProductOption" parameterType="ProductOptionDTO">
+    insert into product_option (id, product_id, description, add_price)
+    values (
+      #{id},
+      #{productId}, 
+      #{description},
+      #{addPrice}
+    )
+  </insert>
+
+  <insert id="insertProductImage" parameterType="ProductImageDTO">
+    insert into product_image (id, product_id, product_image_url, product_image_alt)
+    values (
+      #{id},
+      #{productId}, 
+      #{productImageUrl},
+      #{productImageAlit}
+    )
+  </insert>
+
+  <update id="updateProduct" parameterType="ProductDTO">
+    update product
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="price != null">
+        price = #{price},
+      </if>
+
+      <if test="description != null">
+        description = #{description},
+      </if>
+
+      <if test="discountRate != null">
+        discount_rate = #{discountRate},
+      </if>
+
+      <if test="discountPrice != null">
+        discount_price = #{discountPrice},
+      </if>
+
+      <if test="thumbnailImageAlt != null">
+        thumbnail_image_alt = #{thumbnailImageAlt}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <update id="updateProductOption" parameterType="ProductOptionDTO">
+    update product_option
+    <set>
+      <if test="description != null">
+        description = #{description},
+      </if>
+
+      <if test="addPrice != null">
+        add_price = #{addPrice}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <delete id="deleteProduct" parameterType="String">
+    delete from product
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteProductOption" parameterType="String">
+    delete from product_option
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteProductImage" parameterType="String">
+    delete from product_image
+    where id = #{id}
+  </delete>
+
+</mapper>
