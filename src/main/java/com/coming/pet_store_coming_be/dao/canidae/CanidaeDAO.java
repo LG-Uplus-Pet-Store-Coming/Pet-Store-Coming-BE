@@ -16,6 +16,7 @@ public interface CanidaeDAO {
 
   // 반려견 정보 수정 관련 DAO
   public void updateCanidae(CanidaeDTO canidae) throws SQLException;
+  public void deleteCanidaeInterestProduct(String id) throws SQLException;
   
   // 반려견 정보 삭제 DAO
   public void deleteCanidaeInfo(String canidaeId) throws SQLException;

@@ -68,4 +68,9 @@
     where id = #{canidaeId}
   </delete>
 
+  <delete id="deleteCanidaeInterestProduct" parameterType="String">
+    delete from canidae_interest_product
+    where id = #{id}
+  </delete>
+
 </mapper>

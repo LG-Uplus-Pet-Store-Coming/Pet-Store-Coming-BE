@@ -1,5 +1,6 @@
 package com.coming.pet_store_coming_be.service.canidae;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeInterestProductDTO;
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeIntersetUpdateProductDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
 
 @Service
@@ -50,7 +52,24 @@ public class CanidaeServiceImpl implements CanidaeService {
   }
 
   @Override // 반려견 정보 수정 비즈니스 로직 인스턴스 메서드
-  public void updateCanidaeService(CanidaeDTO canidae) throws SQLException {
+  public void updateCanidaeService(CanidaeDTO canidae, List<CanidaeIntersetUpdateProductDTO> list) throws SQLException {
+    
+    if(list != null && !list.isEmpty()) {
+      for(CanidaeIntersetUpdateProductDTO item: list) {
+        switch (item.getUpdateStatus()) {
+          case "ADD":
+            CanidaeInterestProductDTO newInterestProductOption = new CanidaeInterestProductDTO(UUID.randomUUID().toString(), canidae.getId(), item.getSubCategoryId());
+            // System.out.println(newInterestProductOption);
+            dao.insertInterestProduct(newInterestProductOption);
+            break;
+        
+          case "DELETE":
+            dao.deleteCanidaeInterestProduct(item.getId());
+            break;
+        }
+      }
+    }
+    
     dao.updateCanidae(canidae);
   }
 

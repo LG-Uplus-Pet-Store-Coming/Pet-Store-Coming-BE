@@ -108,9 +108,10 @@ public class CanidaeContoller {
         canidae.setProfileImageUrl(null);
 
         // #1. 반려견 정보 변경
-        canidaeService.updateCanidaeService(canidae);
+        canidaeService.updateCanidaeService(canidae, canidaeRequest.getIntersetUpdateProduct());
 
-        // #2. 반려견 관심 상품 변경
+        response.put("status", HttpStatus.OK.value());
+        response.put("success", true);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
       } catch (Exception e) {
