@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class CanidaeDTO {
   private String id;
-  private String userIdentifierId;
+  private String userId;
   private String name;
   private LocalDate birth;
   private String breed;
@@ -20,9 +20,9 @@ public class CanidaeDTO {
   public CanidaeDTO() {
   }
 
-  public CanidaeDTO(String id, String userIdentifierId, String name, LocalDate birth, String breed, String profileImageUrl, String profileImageAlt, boolean gender, float weight, boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImageUrl, String profileImageAlt, boolean gender, float weight, boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
-    this.userIdentifierId = userIdentifierId;
+    this.userId = userId;
     this.name = name;
     this.birth = birth;
     this.breed = breed;
@@ -43,12 +43,12 @@ public class CanidaeDTO {
     this.id = id;
   }
 
-  public String getUserIdentifierId() {
-    return this.userIdentifierId;
+  public String getUserId() {
+    return this.userId;
   }
 
-  public void setUserIdentifierId(String userIdentifierId) {
-    this.userIdentifierId = userIdentifierId;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getName() {
@@ -143,7 +143,7 @@ public class CanidaeDTO {
   public String toString() {
     return "{" +
       " id='" + getId() + "'" +
-      ", userIdentifierId='" + getUserIdentifierId() + "'" +
+      ", userId='" + getUserId() + "'" +
       ", name='" + getName() + "'" +
       ", birth='" + getBirth() + "'" +
       ", breed='" + getBreed() + "'" +

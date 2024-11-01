@@ -1,14 +1,14 @@
 package com.coming.pet_store_coming_be.dto.canidae;
 
-public class CanidaeInterestProduct {
+public class CanidaeInterestProductDTO {
   private String id;
   private String canidaeId;
   private String subCategoryId;
 
-  public CanidaeInterestProduct() {
+  public CanidaeInterestProductDTO() {
   }
 
-  public CanidaeInterestProduct(String id, String canidaeId, String subCategoryId) {
+  public CanidaeInterestProductDTO(String id, String canidaeId, String subCategoryId) {
     this.id = id;
     this.canidaeId = canidaeId;
     this.subCategoryId = subCategoryId;
