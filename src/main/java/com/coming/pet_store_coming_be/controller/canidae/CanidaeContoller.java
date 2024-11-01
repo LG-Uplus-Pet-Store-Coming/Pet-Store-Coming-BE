@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
 import com.coming.pet_store_coming_be.service.canidae.CanidaeService;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -30,7 +32,7 @@ public class CanidaeContoller {
   @Autowired
   FileStorageService fileStorageService;
 
-  @PostMapping("/insert") // 반려견 정보 등록 Contoller
+  @PostMapping("/insert") // 반려견 정보 등록
   public ResponseEntity<Map<String, Object>> insertCanidaeContoller(@RequestPart("canidaeRequest") CanidaeRequestDTO canidaeRequest, @RequestPart("profilImage") MultipartFile profileImage) {
     Map<String, Object> response = new HashMap<>();
 
@@ -68,6 +70,35 @@ public class CanidaeContoller {
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
       response.put("message", "Failed to create Canidae.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+  }
+
+
+  // 반려견 정보 수정
+
+  // 반려견 정보 삭제
+  @DeleteMapping("/delete")
+  public ResponseEntity<Map<String, Object>> deleteCanidaeInfoController(@RequestParam("id") String canidaeId) {
+    Map<String, Object> response = new HashMap<>();
+    
+    try {
+      canidaeService.deleteCanidaeInfoService(canidaeId);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to delete Product.");
       response.put("errorCode", "INTERNAL_SERVER_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

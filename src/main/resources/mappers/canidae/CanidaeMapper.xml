@@ -33,5 +33,9 @@
     where user_id = #{userId}
   </select>
 
+  <delete id="deleteCanidaeInfo" parameterType="String">
+    delete from canidae
+    where id = #{canidaeId}
+  </delete>
 
 </mapper>

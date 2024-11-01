@@ -38,7 +38,12 @@ public class CanidaeServiceImpl implements CanidaeService {
 
   }
 
-  @Override
+  @Override // 반려견 정보 삭제 비즈니스 로직 인스턴스 메서드
+  public void deleteCanidaeInfoService(String canidaeId) throws SQLException {
+    dao.deleteCanidaeInfo(canidaeId);
+  }
+  
+  @Override // 사용자가 등록한 반려견의 개수 가지고 오기
   public int getCandiaeLengthService(String userId) throws SQLException {
     return dao.getCandiaeLength(userId);
   }
