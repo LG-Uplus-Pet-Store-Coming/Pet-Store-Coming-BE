@@ -104,8 +104,13 @@ public class CanidaeContoller {
           canidae.setProfileImageAlt(null);
         }
 
-        // rofileImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+        // profileImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
         canidae.setProfileImageUrl(null);
+
+        // #1. 반려견 정보 변경
+        canidaeService.updateCanidaeService(canidae);
+
+        // #2. 반려견 관심 상품 변경
 
         return new ResponseEntity<>(response, HttpStatus.OK);
       } catch (Exception e) {

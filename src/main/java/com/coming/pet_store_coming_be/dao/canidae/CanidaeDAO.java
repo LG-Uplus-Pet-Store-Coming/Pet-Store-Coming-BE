@@ -9,10 +9,14 @@ import java.sql.SQLException;
 
 @Mapper
 public interface CanidaeDAO {
+  // 반려견 정보 등록 관련 DAO
   public void insertCanidaeInfo(CanidaeDTO canidae) throws SQLException;
   public void insertInterestProduct(CanidaeInterestProductDTO interest) throws SQLException;  
-
-  public void deleteCanidaeInfo(String canidaeId) throws SQLException;
-
   public int getCandiaeLength(String userId) throws SQLException;
+
+  // 반려견 정보 수정 관련 DAO
+  public void updateCanidae(CanidaeDTO canidae) throws SQLException;
+  
+  // 반려견 정보 삭제 DAO
+  public void deleteCanidaeInfo(String canidaeId) throws SQLException;
 }

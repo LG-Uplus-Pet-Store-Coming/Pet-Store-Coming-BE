@@ -33,6 +33,36 @@
     where user_id = #{userId}
   </select>
 
+  <update id="updateCanidae" parameterType="CanidaeDTO" >
+    update canidae
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="birth != null">
+        birth = #{birth},
+      </if>
+
+      <if test="breed != null">
+        breed = #{breed},
+      </if>
+
+      <if test="profileImageAlt != null">
+        profile_image_alt = #{profileImageAlt},
+      </if>
+
+      <if test="weight != null">
+        weight = #{weight},
+      </if>
+
+      <if test="isPrimary != null">
+        is_primary = #{isPrimary}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
   <delete id="deleteCanidaeInfo" parameterType="String">
     delete from canidae
     where id = #{canidaeId}

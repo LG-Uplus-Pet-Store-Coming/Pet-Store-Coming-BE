@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO;
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeInterestProductDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
 
@@ -46,6 +47,11 @@ public class CanidaeServiceImpl implements CanidaeService {
   @Override // 사용자가 등록한 반려견의 개수 가지고 오기
   public int getCandiaeLengthService(String userId) throws SQLException {
     return dao.getCandiaeLength(userId);
+  }
+
+  @Override // 반려견 정보 수정 비즈니스 로직 인스턴스 메서드
+  public void updateCanidaeService(CanidaeDTO canidae) throws SQLException {
+    dao.updateCanidae(canidae);
   }
 
 }
