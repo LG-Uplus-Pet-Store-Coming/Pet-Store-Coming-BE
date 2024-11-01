@@ -11,4 +11,5 @@ import java.sql.SQLException;
 public interface CanidaeDAO {
   public void insertCanidaeInfo(CanidaeDTO canidae) throws SQLException;
   public void insertInterestProduct(CanidaeInterestProductDTO interest) throws SQLException;  
+  public int getCandiaeLength(String userId) throws SQLException;
 }

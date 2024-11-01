@@ -44,6 +44,10 @@ public class CanidaeContoller {
 
     try {
 
+      if(canidaeService.getCandiaeLengthService(canidaeRequest.getCanidae().getUserId()) == 0) {
+        canidaeRequest.getCanidae().setIsPrimary(true);
+      }
+
       // 해당 반려견 특정 고유 번호 부여
       CanidaeDTO canidae = canidaeRequest.getCanidae();
       canidae.setId(UUID.randomUUID().toString());

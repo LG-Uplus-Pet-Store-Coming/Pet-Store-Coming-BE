@@ -28,5 +28,10 @@
     )
   </insert>
 
+  <select id="getCandiaeLength" resultType="Integer" parameterType="String" >
+    select count(*) from canidae
+    where user_id = #{userId}
+  </select>
+
 
 </mapper>

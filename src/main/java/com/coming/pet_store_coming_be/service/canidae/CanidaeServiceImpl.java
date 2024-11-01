@@ -1,7 +1,6 @@
 package com.coming.pet_store_coming_be.service.canidae;
 
 import java.util.Map;
-import java.util.List;
 import java.util.UUID;
 
 import java.sql.SQLException;
@@ -40,8 +39,8 @@ public class CanidaeServiceImpl implements CanidaeService {
   }
 
   @Override
-  public void insertCanidaeInterestProductList(List<String> interestProductList) throws SQLException {
-
+  public int getCandiaeLengthService(String userId) throws SQLException {
+    return dao.getCandiaeLength(userId);
   }
 
 }
