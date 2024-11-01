@@ -106,8 +106,8 @@ public class ProductCommandController {
         Map<String, String> fileInfo = 
         fileStorageService.updateFile(
           newThumbnailImage, 
-          productRequest.getProduct().getThumbnailImageUrl(), 
-          productRequest.getProduct().getThumbnailImageAlt()
+          product.getThumbnailImageUrl(), 
+          product.getThumbnailImageAlt()
         );
 
         product.setThumbnailImageAlt(fileInfo.get("fileName"));
