@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.auth.AuthService;
 
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 /*
@@ -28,6 +30,9 @@ public class AuthPostContoller {
   
   @Autowired
   AuthService authService;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @PostMapping("/sign-up") // 회원가입 API 설계
   public ResponseEntity<Map<String, Object>> postCreateAccount(@RequestBody UserDTO user) throws SQLException {
@@ -61,7 +66,40 @@ public class AuthPostContoller {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
+  @PostMapping("/logout") // 로그아웃 API
+  public ResponseEntity<Map<String, Object>> postUserLogout(@RequestHeader("Authorization") String token) throws SQLException {
+    Map<String, Object> response = new HashMap<>();
+    
+    // 1. 토큰이 이미 블랙리스트에 있을 경우 -> 로그아웃 요청이 여러번 올 경우
+    if(tokenProvider.isTokenInvalid(token)) {
+      response.put("status", HttpStatus.CONFLICT.value());
+      response.put("success", false);
+      response.put("message", "Token is already invalidated. User is already logged out.");
+      response.put("errorCode", "TOKEN_ALREADY_INVALIDATED");
 
+      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    try {
+      authService.logoutUser(token, tokenProvider.getUserIdFromToken(token));
+    } catch (Exception e) {
+      // 2. 유효하지 않은 토큰일 경우
+      response.put("status", HttpStatus.UNAUTHORIZED.value());
+      response.put("success", false);
+      response.put("message", "Invalid token. User is not authorized.");
+      response.put("errorCode", "INVALID_TOKEN");
+
+      return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    // 3. 로그아웃 성공 응답
+    response.put("status", HttpStatus.OK.value());
+    response.put("success", true);
+    response.put("message", "Logged out successfully.");
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
 
 
 }

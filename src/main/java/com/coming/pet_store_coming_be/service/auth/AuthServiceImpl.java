@@ -3,7 +3,6 @@ package com.coming.pet_store_coming_be.service.auth;
 import java.sql.SQLException;
 
 import java.util.UUID;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,12 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.auth.AuthDAO;
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
   @Autowired
   private AuthDAO authDAO;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @Override // 회원가입 비즈니스 로직 설계
   public boolean signUpUser(UserDTO user) throws SQLException {
@@ -50,6 +53,17 @@ public class AuthServiceImpl implements AuthService {
   public boolean isPasswordMath(String rawPassword, String encryptedPassword) {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     return passwordEncoder.matches(rawPassword, encryptedPassword);
+  }
+
+  @Override // 기존 디바이스 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
+  public void invalidateAndSaveNewRefreshToken(String id, String refreshToken, String deviceId) throws SQLException{
+    tokenProvider.invalidatePreviousTokens(id, deviceId); // 기존 디바이스 토큰 무효화
+    tokenProvider.saveRefreshToken(id, refreshToken, deviceId); // 새로운 디바이스 리프레시 토큰 저장
+  }
+
+  @Override // 로그아웃 비즈니스 로직 설계
+  public void logoutUser(String token, String userId) throws SQLException {
+    tokenProvider.invalidateToken(token); // 토큰을 블랙리스트에 추가하여 무효화
   }
 
 }

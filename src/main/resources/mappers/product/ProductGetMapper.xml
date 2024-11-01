@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
+
+  <select id="getCategoryFindAll" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    join sub_category sc on p.sub_category_id = sc.id
+    where sc.main_catrgory_id = #{id}
+  </select>
+
+  <select id="getCategoryFindNew" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    join sub_category sc on p.sub_category_id = sc.id
+    where sc.main_catrgory_id = #{id}
+    order by p.created_at desc
+    limit 10
+  </select>
+
+  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where p.sub_category_id = #{id}
+  </select>
+
+  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where p.sub_category_id = #{id}
+    order by p.created_at desc
+    limit 10
+  </select>
+
+  <select id="searchFindProdcut" parameterType="String" resultType="ProductDTO">
+    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+    from product p
+    where lower(p.name) like concat(lower(#{search}), '%')
+  </select>
+
+  <select id="getProductImage" parameterType="String" resultType="ProductImageDTO">
+    select product_image_url as productImageUrl, product_image_alt as productImageAlit
+    from product_image
+    where id = #{id}
+  </select>
+
+</mapper>
