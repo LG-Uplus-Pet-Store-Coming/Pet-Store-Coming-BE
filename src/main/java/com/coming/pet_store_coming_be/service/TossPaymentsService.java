@@ -29,7 +29,8 @@ public class TossPaymentsService {
     }
 
     // 결제 승인 메서드
-    public ResponseEntity<String> approvePayment(String paymentKey, String orderId, int amount, String userId) {
+    public ResponseEntity<String> approvePayment(String paymentKey, String orderId, int amount, String userId,
+                                             String receiverName, String deliveryAddress, String phoneNumber) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((secretKey + ":").getBytes()));
@@ -51,6 +52,9 @@ public class TossPaymentsService {
             order.setUserId(userId);
             order.setPaymentKey(paymentKey);
             order.setTotalAmount(BigDecimal.valueOf(amount));
+            order.setReceiverName(receiverName);
+            order.setDeliveryAddress(deliveryAddress);
+            order.setPhoneNumber(phoneNumber);
             orderDAO.insertOrder(order);  // DB에 저장
 
             return ResponseEntity.ok("결제가 성공적으로 승인되었습니다.");

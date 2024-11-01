@@ -3,7 +3,7 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.OrderDAO">
     <insert id="insertOrder" parameterType="com.coming.pet_store_coming_be.dto.OrderDTO">
-        INSERT INTO order_table (user_id, payment_key, total_amount, order_date)
-        VALUES (#{userId}, #{paymentKey}, #{totalAmount}, NOW())
-    </insert>
+        INSERT INTO order_table (user_id, payment_key, total_amount, order_date,receiver_name,delivery_address, phone_number)
+        VALUES (#{userId}, #{paymentKey}, #{totalAmount}, NOW(), #{receiverName}, #{deliveryAddress}, #{phoneNumber})
+    </insert>   
 </mapper>

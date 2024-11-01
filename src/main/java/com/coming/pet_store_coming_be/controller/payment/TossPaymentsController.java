@@ -26,8 +26,11 @@ public class TossPaymentsController {
         String paymentKey = (String) paymentData.get("paymentKey");
         String orderId = (String) paymentData.get("orderId");
         int amount = (Integer) paymentData.get("amount");
+        String receiverName = (String) paymentData.get("receiverName");
+        String deliveryAddress = (String) paymentData.get("deliveryAddress");
+        String phoneNumber = (String) paymentData.get("phoneNumber");
 
-        ResponseEntity<String> response = tossPaymentsService.approvePayment(paymentKey, orderId, amount, userId);
+        ResponseEntity<String> response = tossPaymentsService.approvePayment(paymentKey, orderId, amount, userId, receiverName, deliveryAddress, phoneNumber);
         if (response.getStatusCode() == HttpStatus.OK) {
             // 결제 승인 성공 처리 - 데이터베이스에 결제 상태 기록 가능
             return ResponseEntity.ok("결제가 성공적으로 승인되었습니다.");
