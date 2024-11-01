@@ -20,7 +20,7 @@ import com.coming.pet_store_coming_be.service.file.FileStorageService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/canidae")
@@ -45,7 +45,7 @@ public class CanidaeContoller {
     //    - form-data를 통해서 이미지 정보를 불러와야 함
 
     try {
-
+      // 사용자가 처음 반려견 정보를 등록할 경우 해당 반려견의 대표 반료견으로 선택한다.
       if(canidaeService.getCandiaeLengthService(canidaeRequest.getCanidae().getUserId()) == 0) {
         canidaeRequest.getCanidae().setIsPrimary(true);
       }
@@ -77,8 +77,49 @@ public class CanidaeContoller {
 
   }
 
-
   // 반려견 정보 수정
+  @PutMapping("/update")
+  public ResponseEntity<Map<String, Object>> putMethodName(
+    @RequestPart("canidaeRequest") CanidaeRequestDTO canidaeRequest,
+    @RequestPart("newProfileImage") MultipartFile newProfileImage
+    ) {
+      Map<String, Object> response = new HashMap<>();
+
+      try {
+        
+        CanidaeDTO canidae = canidaeRequest.getCanidae();
+
+        // 상품 대표 이미지를 변경할 경우
+        if(newProfileImage != null && !newProfileImage.isEmpty()) {
+          Map<String, String> fileInfo = 
+          fileStorageService.updateFile(
+            newProfileImage, 
+            canidae.getProfileImageUrl(), 
+            canidae.getProfileImageAlt()
+          );
+
+          canidae.setProfileImageAlt(fileInfo.get("fileName"));
+        } else {
+          // 반려견 이미지를 변경하지 않는다면 profileImageAlt 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+          canidae.setProfileImageAlt(null);
+        }
+
+        // rofileImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+        canidae.setProfileImageUrl(null);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+      } catch (Exception e) {
+        e.printStackTrace();
+
+        // 실패 응답 보내기
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("success", false);
+        response.put("message", "Failed to create Product.");
+        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  }
 
   // 반려견 정보 삭제
   @DeleteMapping("/delete")
