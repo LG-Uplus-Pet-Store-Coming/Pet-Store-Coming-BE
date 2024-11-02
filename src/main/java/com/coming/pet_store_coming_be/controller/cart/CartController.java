@@ -25,9 +25,7 @@ public class CartController {
   public ResponseEntity<Map<String, Object>> insertCartItemController(@RequestBody CartDTO cart) {
     Map<String, Object> response = new HashMap<>();
 
-
     try {
-
       // 이미 추가된 상품일 경우
       if(cartService.isDuplicateProductInCartService(cart.getId(), cart.getProductId())) {
         response.put("status", HttpStatus.CONFLICT.value());
@@ -48,9 +46,14 @@ public class CartController {
       
     } catch (Exception e) {
       e.printStackTrace();
-    }
 
-    return new ResponseEntity<>(response, HttpStatus.OK);
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to create Canidae.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 }
