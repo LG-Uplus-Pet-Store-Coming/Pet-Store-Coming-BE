@@ -3,6 +3,16 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.cart.CartDAO">
 
+  <insert id="insertCartItem" parameterType="CartDTO">
+    insert into cart (id, user_id, product_id, quantity)
+    values (
+      #{id},
+      #{userId},
+      #{productId},
+      #{quantity}
+    )
+  </insert>
+
   <select id="isDuplicateProductInCartService" parameterType="Map" resultType="Integer">
     select count(*) from cart
     where user_id=#{userId} and product_id=#{productId}

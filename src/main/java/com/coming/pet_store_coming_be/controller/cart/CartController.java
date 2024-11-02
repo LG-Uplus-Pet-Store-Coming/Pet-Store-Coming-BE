@@ -22,7 +22,7 @@ public class CartController {
   CartService cartService;
 
   @PostMapping("/append")
-  public ResponseEntity<Map<String, Object>> insertCartItem(@RequestBody CartDTO cart) {
+  public ResponseEntity<Map<String, Object>> insertCartItemController(@RequestBody CartDTO cart) {
     Map<String, Object> response = new HashMap<>();
 
 
@@ -39,9 +39,15 @@ public class CartController {
       }
 
       // 추가된 상품이 아닐 경우 -> 상품 등록
+      cartService.insertCartItemService(cart);
+
+      response.put("status", HttpStatus.CREATED.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
       
     } catch (Exception e) {
-      // TODO: handle exception
+      e.printStackTrace();
     }
 
     return new ResponseEntity<>(response, HttpStatus.OK);
