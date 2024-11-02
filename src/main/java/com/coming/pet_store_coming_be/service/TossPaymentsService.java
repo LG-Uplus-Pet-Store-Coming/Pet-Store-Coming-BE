@@ -49,6 +49,7 @@ public class TossPaymentsService {
         if (response.getStatusCode() == HttpStatus.OK) {
             // 결제 승인 성공 시 OrderDTO 생성 후 DB에 저장
             OrderDTO order = new OrderDTO();
+            order.setOrderId(orderId);
             order.setUserId(userId);
             order.setPaymentKey(paymentKey);
             order.setTotalAmount(BigDecimal.valueOf(amount));

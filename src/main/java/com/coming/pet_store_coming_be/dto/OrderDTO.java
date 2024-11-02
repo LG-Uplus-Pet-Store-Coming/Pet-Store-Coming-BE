@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OrderDTO {
-    private Long orderId;
+    private String orderId;
     private String userId;
     private String paymentKey;
     private BigDecimal totalAmount;
@@ -14,11 +14,11 @@ public class OrderDTO {
     private String phoneNumber;
     
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
