@@ -1,6 +1,7 @@
 package com.coming.pet_store_coming_be.controller.cart;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.cart.CartDTO;
+import com.coming.pet_store_coming_be.dto.cart.CartInfoDTO;
 import com.coming.pet_store_coming_be.service.cart.CartService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,12 +61,19 @@ public class CartController {
     }
   }
 
-  @GetMapping("/lists")
-  public ResponseEntity<Map<String, Object>> getCartItemList(@RequestParam("userId") String userId) {
+  @GetMapping("/list")
+  public ResponseEntity<Map<String, Object>> getCartItemListController(@RequestParam("userId") String userId) {
     Map<String, Object> response = new HashMap<>();
 
     try {
       
+      List<CartInfoDTO> data = cartService.getCartItemListService(userId);
+      
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", false);
+      response.put("data", data);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       e.printStackTrace();
 
@@ -75,8 +84,7 @@ public class CartController {
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    
   }
   
 
