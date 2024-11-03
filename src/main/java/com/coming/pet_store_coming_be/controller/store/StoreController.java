@@ -1,6 +1,7 @@
 package com.coming.pet_store_coming_be.controller.store;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
+import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.store.StoreService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,10 @@ public class StoreController {
   @Autowired
   StoreService storeService;
 
-  // 스토어 생성 여부 확인
+  @Autowired
+  FileStorageService fileStorageService;
+
+  // 1. 스토어 생성 여부 확인
   @GetMapping("/registered")
   public ResponseEntity<Map<String, Object>> isStoreRegisteredController(@RequestParam("user_id") String userId) {
     Map<String, Object> response = new HashMap<>();
@@ -65,8 +70,7 @@ public class StoreController {
     }
   }
   
-  
-  // 1. Store 생성 (Response Data -> StoreDTO, Thumbnail Image)
+  // 2. Store 생성 (Response Data -> StoreDTO, Thumbnail Image)
   @PostMapping("/create")
   public ResponseEntity<Map<String, Object>> createStoreController(
     @RequestPart("storeRequesst") StoreDTO store, 
@@ -76,7 +80,25 @@ public class StoreController {
 
     try {
 
-      // 중복 체크 (동일한 사용자가 또 다른 )
+      // 중복 체크 (동일한 이름을 가진 스토어를 생성하려고 하는 경우)
+      if(storeService.isStoreNameDuplicateService(store.getName())) {
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("success", false);
+        response.put("message", "A store with this name already exists.");
+        response.put("errorCode", "STORE_NAME_DUPLICATE");
+
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+      }
+
+      store.setId(UUID.randomUUID().toString()); // 스토어 고유 번호 생성
+
+      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "/store/" + store.getId() + "/thumbnail"); // 이미지 등록
+      storeService.createStoreService(store, fileInfo); // 스토어 등록
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
       
     } catch (Exception e) {
       e.printStackTrace();
@@ -89,12 +111,10 @@ public class StoreController {
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
 
-  // 2. Store 수정 (Response Data -> StoreDTO, Thumbnail Image)
+  // 3. Store 수정 (Response Data -> StoreDTO, Thumbnail Image)
   @PutMapping("/update/{storeId}")
   public ResponseEntity<Map<String, Object>> updateStoreController(@PathVariable("storeId") String id, @RequestBody String entity) {
     Map<String, Object> response = new HashMap<>();
@@ -102,28 +122,28 @@ public class StoreController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
-  // 3. Store 삭제 (Response Data -> Store Id)
+  // 4. Store 삭제 (Response Data -> Store Id)
   @DeleteMapping("/delete/{storeId}")
   public ResponseEntity<Map<String, Object>> deleteStoreController(@PathVariable("storeId") String id) {
     Map<String, Object> response = new HashMap<>();
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-  // 4. Store 정보 조회 API (판매자 회원)
+  // 5. Store 정보 조회 API (판매자 회원)
   @GetMapping
   public String getMethodName(@RequestParam("user_id") String id) {
       return new String();
   }
   
 
-  // 5. Store 정보 조회 API (일반 회원)
+  // 6. Store 정보 조회 API (일반 회원)
   @GetMapping("/{storeId}")
   public ResponseEntity<Map<String, Object>> getStoreInfoController(@RequestParam("storeId") String id) {
     Map<String, Object> response = new HashMap<>();
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-  // 6. Store에 등록된 상품 조회 API
+  // 7. Store에 등록된 상품 조회 API
   @GetMapping("/{storeId}/products")
   public ResponseEntity<Map<String, Object>> getStoreProductListController(@RequestParam("storeId") String id) {
     Map<String, Object> response = new HashMap<>();  

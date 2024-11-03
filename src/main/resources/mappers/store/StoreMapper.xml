@@ -3,6 +3,24 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dto.store.StoreDAO">
 
+  <insert id="createStore" parameterType="StoreDTO">
+    insert into store (id, user_id, name, description, thumbnail_image_url, thumbnail_image_alt)
+    values (
+      #{id},
+      #{userId},
+      #{name},
+      #{description},
+      #{thumbnailImageUrl},
+      #{thumbnailImageAlt}
+    )
+  </insert>
+
+  <select id="isStoreNameDuplicate" parameterType="String" resultType="boolean">
+    select case when count(*) > 0 then true else false end
+    from store
+    where name = #{name}
+  </select>
+
   <select id="isStoreRegistered" parameterType="String" resultType="boolean">
     select case when count(*) > 0 then true else false end
     from store

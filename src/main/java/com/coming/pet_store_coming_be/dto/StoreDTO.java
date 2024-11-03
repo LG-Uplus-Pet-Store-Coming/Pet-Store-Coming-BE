@@ -1,5 +1,7 @@
 package com.coming.pet_store_coming_be.dto;
 
+import java.time.LocalDateTime;
+
 public class StoreDTO {
   
   private String id;
@@ -8,13 +10,13 @@ public class StoreDTO {
   private String description;
   private String thumbnailImageUrl;
   private String thumbnailImageAlt;
-  private String createdAt;
-  private String updatedAt;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
   public StoreDTO() {
   }
 
-  public StoreDTO(String id, String userId, String name, String description, String thumbnailImageUrl, String thumbnailImageAlt, String createdAt, String updatedAt) {
+  public StoreDTO(String id, String userId, String name, String description, String thumbnailImageUrl, String thumbnailImageAlt, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.userId = userId;
     this.name = name;
@@ -73,19 +75,19 @@ public class StoreDTO {
     this.thumbnailImageAlt = thumbnailImageAlt;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return this.createdAt;
   }
 
-  public void setCreatedAt(String createdAt) {
+  public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
 
-  public String getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return this.updatedAt;
   }
 
-  public void setUpdatedAt(String updatedAt) {
+  public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
 
