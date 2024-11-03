@@ -94,7 +94,7 @@ public class StoreController {
 
       store.setId(UUID.randomUUID().toString()); // 스토어 고유 번호 생성
 
-      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "/store/" + store.getId() + "/thumbnail"); // 이미지 등록
+      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "store/" + store.getId() + "/thumbnail"); // 이미지 등록
       storeService.createStoreService(store, fileInfo); // 스토어 등록
 
       response.put("status", HttpStatus.OK.value());

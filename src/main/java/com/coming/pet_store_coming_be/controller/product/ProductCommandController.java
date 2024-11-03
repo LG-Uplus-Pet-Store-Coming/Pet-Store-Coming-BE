@@ -82,8 +82,8 @@ public class ProductCommandController {
         // 실패 응답 보내기
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("success", false);
-        response.put("message", "Failed to create Product.");
-        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+        response.put("message", "Failed to register product.");
+        response.put("errorCode", "PRODUCT_REGISTRATION_ERROR");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -158,8 +158,8 @@ public class ProductCommandController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to update product.");
+      response.put("errorCode", "PRODUCT_UPDATE_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -183,8 +183,8 @@ public class ProductCommandController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to delete product.");
+      response.put("errorCode", "PRODUCT_DELETION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
