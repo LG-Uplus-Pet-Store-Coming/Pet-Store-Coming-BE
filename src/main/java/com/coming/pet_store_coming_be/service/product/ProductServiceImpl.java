@@ -59,12 +59,12 @@ public class ProductServiceImpl implements ProductService{
   }
 
   @Override // 상품 이미지 등록 비즈니스 로직
-  public void insertProductImage(List<MultipartFile> images, String productId) throws SQLException {
+  public void insertProductImage(List<MultipartFile> images, String storeId, String productId) throws SQLException {
     if(images != null && !images.isEmpty()) {
       for(MultipartFile image: images) {
 
         // 상품 이미지 등록
-        Map<String, String> fileInfo = fileStorageService.saveFile(image, "product/" + productId + "/images");
+        Map<String, String> fileInfo = fileStorageService.saveFile(image, "store/" + storeId + "/product/" + productId + "/images");
 
         // ProdcutImageDTO 생성
         ProductImageDTO productImage = new ProductImageDTO(UUID.randomUUID().toString(), productId, fileInfo.get("filePath"), fileInfo.get("fileName"));
