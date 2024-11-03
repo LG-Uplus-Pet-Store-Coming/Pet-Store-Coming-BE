@@ -6,6 +6,7 @@ import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeInterestProductDTO;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Mapper
 public interface CanidaeDAO {
@@ -18,6 +19,9 @@ public interface CanidaeDAO {
   public void updateCanidae(CanidaeDTO canidae) throws SQLException;
   public void deleteCanidaeInterestProduct(String id) throws SQLException;
   
+  // 사용자가 등록한 반려견 정보 조회 DAO
+  public List<CanidaeDTO> getCanidaeList(String userId) throws SQLException;
+
   // 반려견 정보 삭제 DAO
   public void deleteCanidaeInfo(String canidaeId) throws SQLException;
 }

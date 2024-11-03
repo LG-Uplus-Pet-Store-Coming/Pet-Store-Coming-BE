@@ -15,6 +15,9 @@ public interface CanidaeService {
   public void deleteCanidaeInfoService(String canidaeId) throws SQLException; // 반려견 정보 삭제 비즈니스 로직 인스턴스 메서드
   public int getCandiaeLengthService(String userId) throws SQLException; // 사용자가 등록한 반려견의 정보 개수를 가지고 옴
 
+  // 사용자가 등록한 모든 반려견 정보 조회 Service
+  public List<CanidaeDTO> getCanidaeListService(String userId) throws SQLException;
+
   // 반려견 정보 변경 관련 Service
   public void updateCanidaeService(CanidaeDTO canidae, List<CanidaeIntersetUpdateProductDTO> list) throws SQLException; // 반려견 정보 수정 비즈니스 로직 인스턴스 메서드
 }

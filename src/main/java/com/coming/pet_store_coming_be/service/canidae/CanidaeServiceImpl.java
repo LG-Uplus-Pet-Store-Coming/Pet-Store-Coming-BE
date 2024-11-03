@@ -73,4 +73,9 @@ public class CanidaeServiceImpl implements CanidaeService {
     dao.updateCanidae(canidae);
   }
 
+  @Override // 사용자가 등록한 모든 반려견 정보 조회 Service
+  public List<CanidaeDTO> getCanidaeListService(String userId) throws SQLException {
+    return dao.getCanidaeList(userId);
+  }
+
 }
