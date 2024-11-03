@@ -12,7 +12,6 @@ import com.coming.pet_store_coming_be.dto.cart.CartInfoDTO;
 @Mapper
 public interface CartDAO {
   public void insertCartItem(CartDTO cart) throws SQLException;
-  public List<CartInfoDTO> Test_getCartItemList(String userId) throws SQLException;
   public List<CartInfoDTO> getCartItemList(String userId) throws SQLException;
   public void deleteCartItemList(Map<String, String> params) throws SQLException;
   public int isDuplicateProductInCartService(Map<String, Object> params) throws SQLException;

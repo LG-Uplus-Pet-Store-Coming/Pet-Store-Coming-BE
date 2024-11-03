@@ -57,15 +57,15 @@ public class CartController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Canidae.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to add item to the cart.");
+      response.put("errorCode", "CART_ITEM_INSERTION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @GetMapping("/list")
-  public ResponseEntity<Map<String, Object>> getCartItemListController(@RequestParam("userId") String userId) {
+  public ResponseEntity<Map<String, Object>> getCartItemListController(@RequestParam("user_id") String userId) {
     Map<String, Object> response = new HashMap<>();
 
     try {
@@ -81,8 +81,8 @@ public class CartController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Canidae.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve cart items.");
+      response.put("errorCode", "CART_ITEM_RETRIEVAL_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -108,8 +108,8 @@ public class CartController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Canidae.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to delete items from the cart.");
+      response.put("errorCode", "CART_ITEM_DELETION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -34,23 +34,6 @@
       c.user_id = #{userId};
   </select>
 
-  <select id="Test_getCartItemList" parameterType="String" resultType="CartInfoDTO">
-    select
-        p.id as productId,
-        p.name as productName,
-        c.quantity as productQuantity,
-        p.price as productPrice,
-        p.discount_price as productDiscountPrice,
-        p.thumbnail_image_url as productImageUrl,
-        p.thumbnail_image_alt as productImageAlt
-    from
-      cart c
-    join
-      product p on c.product_id = p.id
-    where
-      c.user_id = #{userId};
-  </select>
-
   <select id="isDuplicateProductInCartService" parameterType="Map" resultType="Integer">
     select count(*) from cart
     where user_id=#{userId} and product_id=#{productId}
