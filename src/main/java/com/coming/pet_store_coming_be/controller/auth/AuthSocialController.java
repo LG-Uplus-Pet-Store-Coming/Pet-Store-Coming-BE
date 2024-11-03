@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("/auth/social")
@@ -29,8 +31,10 @@ public class AuthSocialController {
   @Value("${kakao.token-url}")
   private String kakaoTokenUrl;
 
-  @GetMapping("/kakao") // 카카오 소셜 로그인을 위한 AccessToken 발급 여부 API
-  public ResponseEntity<Map<String, Object>> getKakaoAccessToken(@RequestParam("code") String code) {
+  // http://localhost:8080/auth/social/kakao/request/token?code=${code}
+
+  @GetMapping("/kakao/request/token") // 카카오 소셜 로그인을 위한 AccessToken 발급 여부 API
+  public ResponseEntity<Map<String, Object>> requestKakaoToken(@RequestParam("code") String code) {
     
     Map<String, Object> response = new HashMap<>();
 
@@ -74,5 +78,14 @@ public class AuthSocialController {
     }
 
   }
+
+  @GetMapping("/kakao/login") // 최종 카카오 소셜 로그인 API 설계
+  public ResponseEntity<Map<String, Object>> getKakaoLogin(@RequestHeader("Authorization") String authorizationHeader) {
+    Map<String, Object> response = new HashMap<>();
+
+    System.out.println(authorizationHeader);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
 
 }
