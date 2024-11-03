@@ -15,7 +15,13 @@
   </insert>
 
   <select id="findAllMainCategoryInfo" resultType="MainCategoryDTO">
-    select * from main_category;
+    select 
+      id,
+      name,
+      slug,
+      thumbnail_url as thumbnailUrl,
+      thumbnail_alt as thumbnailAlt
+    from main_category;
   </select>
 
 </mapper>

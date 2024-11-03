@@ -14,7 +14,12 @@
   </insert>
 
   <select id="findAllSubCategoryInfo" resultType="SubCategoryDTO">
-    select * from sub_category;
+    select 
+      id,
+      main_catrgory_id as mainCategoryId,
+      name,
+      slug
+    from sub_category;
   </select>
 
 
