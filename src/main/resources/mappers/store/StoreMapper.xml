@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dto.store.StoreDAO">
+
+  <insert id="createStore" parameterType="StoreDTO">
+    insert into store (id, user_id, name, description, thumbnail_image_url, thumbnail_image_alt)
+    values (
+      #{id},
+      #{userId},
+      #{name},
+      #{description},
+      #{thumbnailImageUrl},
+      #{thumbnailImageAlt}
+    )
+  </insert>
+
+  <delete id="deleteStore" parameterType="String">
+    delete from store
+    where id = #{id}
+  </delete>
+
+  <select id="getStoreInfo" parameterType="Map" resultType="StoreDTO">
+    select id, user_id as userId, name, description, thumbnail_image_url as thumbnailImageUrl, thumbnail_image_alt as thumbnailImageAlt, created_at as createdAt, updated_at as updatedAt
+    from store
+    <choose>
+      <when test="userId != null">
+        where user_id = #{userId}
+      </when>
+
+      <when test="storeId != null">
+        where id = #{storeId}
+      </when>
+    </choose>
+  </select>
+
+  <select id="getStoreProductList" parameterType="String" resultType="ProductDTO">
+    select 
+      id,
+      sub_category_id as subCategoryId,
+      name,
+      price,
+      description,
+      discount_rate as discountRate,
+      discount_price as discountPrice,
+      thumbnail_image_url as thumbnailImageUrl,
+      thumbnail_image_alt as thumbnailImageAlt,
+      created_at as createdAt,
+      updated_at as updatedAt
+    from product
+    where store_id=#{id}
+  </select>
+
+  <select id="isStoreNameDuplicate" parameterType="String" resultType="boolean">
+    select case when count(*) > 0 then true else false end
+    from store
+    where name = #{name}
+  </select>
+
+  <select id="isStoreRegistered" parameterType="String" resultType="boolean">
+    select case when count(*) > 0 then true else false end
+    from store
+    where user_id = #{userId}
+  </select>
+
+  <update id="updateStoreInfo" parameterType="StoreDTO">
+    update store
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="description != null">
+        description = #{description},
+      </if>
+
+      <if test="thumbnailImageUrl != null">
+        thumbnail_image_url = #{thumbnailImageUrl},
+      </if>
+
+      <if test="thumbnailImageAlt != null">
+        thumbnail_image_alt = #{thumbnailImageAlt},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>
