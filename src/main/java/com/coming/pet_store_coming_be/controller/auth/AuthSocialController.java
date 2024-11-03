@@ -3,6 +3,9 @@ package com.coming.pet_store_coming_be.controller.auth;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,16 +15,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("/auth/social")
 public class AuthSocialController {
   
+  RestTemplate restTemplate = new RestTemplate();
+
   @Value("${kakao.client-id}")
   private String clientId;
 
@@ -40,8 +45,6 @@ public class AuthSocialController {
 
     try {
       
-      RestTemplate restTemplate = new RestTemplate();
-
       String tokenUrl = kakaoTokenUrl + "?grant_type=authorization_code&client_id=" + clientId + "&redirect_uri=" + redirectUri + "&code=" + code;
       
       // 카카오 API로부터 액세스 토큰을 요청하고 응답을 받음
@@ -72,7 +75,8 @@ public class AuthSocialController {
 
       response.put("success", false);
       response.put("status", HttpStatus.BAD_REQUEST.value());
-      response.put("message", "Failed to parse access token response");
+      response.put("message", "Failed to request access token from Kakao");
+      response.put("errorCode", "KAKAO_TOKEN_REQUEST_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -83,8 +87,39 @@ public class AuthSocialController {
   public ResponseEntity<Map<String, Object>> getKakaoLogin(@RequestHeader("Authorization") String authorizationHeader) {
     Map<String, Object> response = new HashMap<>();
 
-    System.out.println(authorizationHeader);
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    try {
+
+      // 카카오 사용자 정보 가져오기
+      String requestKakaoUserInfoUrl = "https://kapi.kakao.com/v2/user/me";
+
+      // 카카오 사용자 정보 가져오기 요청 헤더 설정
+      HttpHeaders headers = new HttpHeaders();
+      headers.set("Authorization", authorizationHeader);
+
+      // 카카오 사용자 정보 가져오기
+      Map<String, Object> kakaoUserInfo = 
+        restTemplate
+          .exchange(requestKakaoUserInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<Map<String, Object>>() {})
+          .getBody();
+
+      System.out.println(kakaoUserInfo);
+
+      // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
+
+      // 카카오 사용자 정보가 DB에 있는 경우 -> 로그인 진행
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      response.put("success", false);
+      response.put("status", HttpStatus.BAD_REQUEST.value());
+      response.put("message", "Failed to process Kakao login");
+      response.put("errorCode", "KAKAO_LOGIN_PROCESS_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    
   }
   
 
