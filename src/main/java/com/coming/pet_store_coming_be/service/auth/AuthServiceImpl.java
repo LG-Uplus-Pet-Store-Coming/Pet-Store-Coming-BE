@@ -56,9 +56,14 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
-  public boolean isKakaoUserInfoService(Long id) throws SQLException {
-    return authDAO.isKakaoUserInfo(id);
+  public UserDTO getSocialUserInfoService(Long id) throws SQLException {
+    return authDAO.getSocialUserInfo(id);
   }
+
+  // @Override // 소셜 로그인 사용자 정보 조회 비즈니스 로직 인스턴스 메서드
+  // public UserDTO getSocialUserInfoService(Long id) throws SQLException {
+  //   return authDAO.getSocialUserInfo(id);
+  // }
 
   @Override // 기존 디바이스 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
   public void invalidateAndSaveNewRefreshToken(String id, String refreshToken, String deviceId) throws SQLException{

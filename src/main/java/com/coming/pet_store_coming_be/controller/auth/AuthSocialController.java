@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.auth.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +31,9 @@ public class AuthSocialController {
   
   @Autowired
   AuthService authService;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   RestTemplate restTemplate = new RestTemplate();
 
@@ -89,7 +94,7 @@ public class AuthSocialController {
   }
 
   @GetMapping("/kakao/login") // 최종 카카오 소셜 로그인 API 설계
-  public ResponseEntity<Map<String, Object>> getKakaoLogin(@RequestHeader("Authorization") String authorizationHeader) {
+  public ResponseEntity<Map<String, Object>> getKakaoLogin(@RequestParam("device_id") String deviceId, @RequestHeader("Authorization") String authorizationHeader) {
     Map<String, Object> response = new HashMap<>();
 
     try {
@@ -107,8 +112,10 @@ public class AuthSocialController {
           .exchange(requestKakaoUserInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<Map<String, Object>>() {})
           .getBody();
 
+      UserDTO socialUserInfo = authService.getSocialUserInfoService((Long) kakaoUserInfo.get("id"));
+
       // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
-      if(!authService.isKakaoUserInfoService((Long) kakaoUserInfo.get("id"))) {
+      if(socialUserInfo == null) {
         response.put("success", false);
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "User not found. Registration is required to proceed.");
@@ -117,8 +124,19 @@ public class AuthSocialController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
       }
 
-
       // 카카오 사용자 정보가 DB에 있는 경우 -> 로그인 진행
+      String token = tokenProvider.createToken(socialUserInfo);
+      String refreshToken = tokenProvider.createRefreshToken(socialUserInfo.getId(), deviceId);
+    
+      authService.invalidateAndSaveNewRefreshToken(socialUserInfo.getId(), refreshToken, deviceId); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
+
+      // 토큰 생성 및 UserInfo refresh_token 및 is_active 갱신을 완료한 이후 응답 생성
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("message", "Login successful.");
+      response.put("token", token);
+      response.put("refreshToken", refreshToken);
+      response.put("expirationTime", tokenProvider.setTokenExpiry().getTime()); // 토큰 만료 시간 추가
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {

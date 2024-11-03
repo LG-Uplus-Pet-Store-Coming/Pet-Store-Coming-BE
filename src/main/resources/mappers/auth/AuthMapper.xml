@@ -9,8 +9,8 @@
     where email = #{email}
   </select>
 
-  <select id="isKakaoUserInfo" parameterType="Long" resultType="boolean"> 
-    select case when count(*) > 0 then true else false end
+  <select id="getSocialUserInfo" parameterType="Long" resultType="UserDTO"> 
+    select id, name, address, role, platform
     from user
     where id = #{id}
   </select>
