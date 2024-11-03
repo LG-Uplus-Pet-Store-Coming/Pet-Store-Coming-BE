@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.cart.CartDTO;
+import com.coming.pet_store_coming_be.dto.cart.CartDeleteListItemDTO;
 import com.coming.pet_store_coming_be.dto.cart.CartInfoDTO;
 import com.coming.pet_store_coming_be.service.cart.CartService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -66,11 +69,10 @@ public class CartController {
     Map<String, Object> response = new HashMap<>();
 
     try {
-      
       List<CartInfoDTO> data = cartService.getCartItemListService(userId);
       
       response.put("status", HttpStatus.OK.value());
-      response.put("success", false);
+      response.put("success", true);
       response.put("data", data);
 
       return new ResponseEntity<>(response, HttpStatus.OK);
@@ -86,6 +88,32 @@ public class CartController {
     }
     
   }
-  
+
+  @DeleteMapping("/delete") // 장바구니 상품 제거 API
+  public ResponseEntity<Map<String, Object>> deleteCartItemListController(@RequestBody List<CartDeleteListItemDTO> list) {
+    Map<String, Object> response = new HashMap<>();
+
+    try {
+
+      for(CartDeleteListItemDTO item: list) {
+        cartService.deleteCartItemListService(item.getCartItemId(), item.getUserId());
+      }
+      
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to create Canidae.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+  }
 
 }

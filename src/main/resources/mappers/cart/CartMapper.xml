@@ -56,4 +56,9 @@
     where user_id=#{userId} and product_id=#{productId}
   </select>
 
+  <delete id="deleteCartItemList" parameterType="Map">
+    delete from cart
+    where id=#{cartItemId} and user_id=#{userId}
+  </delete>
+
 </mapper>
