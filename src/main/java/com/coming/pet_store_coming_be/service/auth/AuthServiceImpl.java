@@ -55,6 +55,11 @@ public class AuthServiceImpl implements AuthService {
     return passwordEncoder.matches(rawPassword, encryptedPassword);
   }
 
+  @Override // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
+  public boolean isKakaoUserInfoService(Long id) throws SQLException {
+    return authDAO.isKakaoUserInfo(id);
+  }
+
   @Override // 기존 디바이스 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
   public void invalidateAndSaveNewRefreshToken(String id, String refreshToken, String deviceId) throws SQLException{
     tokenProvider.invalidatePreviousTokens(id, deviceId); // 기존 디바이스 토큰 무효화

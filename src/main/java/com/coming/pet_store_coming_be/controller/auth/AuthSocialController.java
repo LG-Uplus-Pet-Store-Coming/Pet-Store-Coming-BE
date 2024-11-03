@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.coming.pet_store_coming_be.service.auth.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RequestMapping("/auth/social")
 public class AuthSocialController {
   
+  @Autowired
+  AuthService authService;
+
   RestTemplate restTemplate = new RestTemplate();
 
   @Value("${kakao.client-id}")
@@ -102,9 +107,16 @@ public class AuthSocialController {
           .exchange(requestKakaoUserInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<Map<String, Object>>() {})
           .getBody();
 
-      System.out.println(kakaoUserInfo);
-
       // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
+      if(!authService.isKakaoUserInfoService((Long) kakaoUserInfo.get("id"))) {
+        response.put("success", false);
+        response.put("status", HttpStatus.NOT_FOUND.value());
+        response.put("message", "User not found. Registration is required to proceed.");
+        response.put("errorCode", "KAKAO_USER_NOT_FOUND");
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+      }
+
 
       // 카카오 사용자 정보가 DB에 있는 경우 -> 로그인 진행
 
