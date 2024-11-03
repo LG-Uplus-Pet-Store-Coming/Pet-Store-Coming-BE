@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.store.StoreService;
 
@@ -185,26 +186,32 @@ public class StoreController {
 
   }
   
+  @GetMapping("/{storeId}/products") // 7. Store에 등록된 상품 조회 API
+  public ResponseEntity<Map<String, Object>> getStoreProductListController(@PathVariable("storeId") String id) {
+    Map<String, Object> response = new HashMap<>();
 
-  // 5. Store 정보 조회 API (판매자 회원)
-  // @GetMapping
-  // public String getStoreInfoOwnerController(@RequestParam("user_id") String id) {
-  //     return new String();
-  // }
-  
+    try {
+      
+      List<ProductDTO> data = storeService.getStoreProductListService(id);
 
-  // // 6. Store 정보 조회 API (일반 회원)
-  // @GetMapping("/{storeId}")
-  // public ResponseEntity<Map<String, Object>> getStoreInfoController(@RequestParam("storeId") String id) {
-  //   Map<String, Object> response = new HashMap<>();
-  //   return new ResponseEntity<>(response, HttpStatus.OK);
-  // }
-  
-  // 7. Store에 등록된 상품 조회 API
-  @GetMapping("/{storeId}/products")
-  public ResponseEntity<Map<String, Object>> getStoreProductListController(@RequestParam("storeId") String id) {
-    Map<String, Object> response = new HashMap<>();  
-    return new ResponseEntity<>(response, HttpStatus.OK);
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("data", data);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to delete Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
   }
   
 

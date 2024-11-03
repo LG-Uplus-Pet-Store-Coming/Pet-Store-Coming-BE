@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.store.StoreDAO;
 
 @Service
@@ -39,6 +40,11 @@ public class StoreServiceImpl implements StoreService {
     System.out.println("Hello");
 
     return dao.getStoreInfo(params);
+  }
+
+  @Override // 스토어에 등록된 모든 상품 조회 비즈니스 로직
+  public List<ProductDTO>getStoreProductListService(String id) throws SQLException {
+    return dao.getStoreProductList(id);
   }
 
   @Override // 스토어 정보를 삭제하는 비즈니스 로직 인스턴스 메서드

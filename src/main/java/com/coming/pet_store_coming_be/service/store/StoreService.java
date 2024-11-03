@@ -5,6 +5,7 @@ import java.util.Map;
 import java.sql.SQLException;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 
 public interface StoreService {
 
@@ -14,6 +15,9 @@ public interface StoreService {
 
   // 스토어 정보 가져오기
   public List<StoreDTO> getStoreByUserId(String type, String id) throws SQLException;
+
+  // 스토어에 등록된 모든 상품 조회 비즈니스 로직 인스턴스 메서드
+  public List<ProductDTO>getStoreProductListService(String id) throws SQLException;
 
   // 스토어 삭제
   public void deleteStoreService(String id) throws SQLException; // 스토어 정보를 삭제하는 비즈니스 로직 인스턴스 메서드

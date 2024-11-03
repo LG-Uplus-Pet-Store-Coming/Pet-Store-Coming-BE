@@ -34,6 +34,23 @@
     </choose>
   </select>
 
+  <select id="getStoreProductList" parameterType="String" resultType="ProductDTO">
+    select 
+      id,
+      sub_category_id as subCategoryId,
+      name,
+      price,
+      description,
+      discount_rate as discountRate,
+      discount_price as discountPrice,
+      thumbnail_image_url as thumbnailImageUrl,
+      thumbnail_image_alt as thumbnailImageAlt,
+      created_at as createdAt,
+      updated_at as updatedAt
+    from product
+    where store_id=#{id}
+  </select>
+
   <select id="isStoreNameDuplicate" parameterType="String" resultType="boolean">
     select case when count(*) > 0 then true else false end
     from store
