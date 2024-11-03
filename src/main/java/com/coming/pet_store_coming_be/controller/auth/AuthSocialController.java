@@ -46,8 +46,6 @@ public class AuthSocialController {
   @Value("${kakao.token-url}")
   private String kakaoTokenUrl;
 
-  // http://localhost:8080/auth/social/kakao/request/token?code=${code}
-
   @GetMapping("/kakao/request/token") // 카카오 소셜 로그인을 위한 AccessToken 발급 여부 API
   public ResponseEntity<Map<String, Object>> requestKakaoToken(@RequestParam("code") String code) {
     
@@ -120,6 +118,7 @@ public class AuthSocialController {
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "User not found. Registration is required to proceed.");
         response.put("errorCode", "KAKAO_USER_NOT_FOUND");
+        response.put("userId", (Long) kakaoUserInfo.get("id"));
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
       }

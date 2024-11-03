@@ -24,11 +24,10 @@ public class AuthServiceImpl implements AuthService {
   @Override // 회원가입 비즈니스 로직 설계
   public boolean signUpUser(UserDTO user) throws SQLException {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // BCryptPasswordEncoder 인스턴스 생성
-    String uuid = UUID.randomUUID().toString(); // 사용자의 고유 번호 생성
 
     // 사용자 고유 번호, 비밀번호 암호화 한 값으로 Set
     if(user.getId().isEmpty()) {
-      user.setId(uuid);
+      user.setId(UUID.randomUUID().toString());
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
