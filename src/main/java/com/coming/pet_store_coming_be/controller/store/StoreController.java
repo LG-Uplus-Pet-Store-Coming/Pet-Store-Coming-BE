@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
+import com.coming.pet_store_coming_be.service.store.StoreService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,14 +26,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/store")
 public class StoreController {
 
+  @Autowired
+  StoreService storeService;
+
   // 스토어 생성 여부 확인
   @GetMapping("/registered")
-  public ResponseEntity<Map<String, Object>> isStoreRegisteredController(@RequestParam("user_id") String user_id) {
+  public ResponseEntity<Map<String, Object>> isStoreRegisteredController(@RequestParam("user_id") String userId) {
     Map<String, Object> response = new HashMap<>();
     
     try {
       
-      
+      // 사용자가 이미 스토어를 생성한 경우
+      if(storeService.isStoreRegisteredService(userId)) {
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("success", false);
+        response.put("message", "Store already registered for this user.");
+        response.put("errorCode", "STORE_ALREADY_REGISTERED");
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+      }
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("message", "Store can be registered for this user.");
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -44,8 +63,6 @@ public class StoreController {
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
   
