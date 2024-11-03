@@ -27,8 +27,17 @@ public class CartServiceImpl implements CartService {
 
   @Override // 사용자의 장바구니 등록된 상품 조회 비즈니스 로직 인스턴스 메서드
   public List<CartInfoDTO> getCartItemListService(String userId) throws SQLException {
-    return dao.Test_getCartItemList(userId);
-    // return dao.getCartItemList(userId);
+    return dao.getCartItemList(userId);
+  }
+
+  @Override // 사용자의 장바구니에 등록된 상품 삭제 비즈니스 로직 인스턴스 메서드
+  public void deleteCartItemListService(String cartItemId, String userId) throws SQLException {
+    Map<String, String> params = new HashMap<>();
+
+    params.put("cartItemId", cartItemId);
+    params.put("userId", userId);
+
+    dao.deleteCartItemList(params);
   }
 
   @Override // 사용자의 장바구니에 추가된 상품인지 확인하는 비즈니스 로직 설계
@@ -38,7 +47,7 @@ public class CartServiceImpl implements CartService {
     params.put("userId", userId);
     params.put("productId", productId);
     
-    return dao.isDuplicateProductInCartService(params) > 0;
+    return dao.isDuplicateProductInCart(params) > 0;
   }
 
 }

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -56,7 +55,6 @@ public class StoreController {
 
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
-      response.put("message", "Store can be registered for this user.");
 
       return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -66,8 +64,8 @@ public class StoreController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to check store registration status.");
+      response.put("errorCode", "STORE_REGISTRATION_CHECK_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -95,7 +93,7 @@ public class StoreController {
 
       store.setId(UUID.randomUUID().toString()); // 스토어 고유 번호 생성
 
-      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "/store/" + store.getId() + "/thumbnail"); // 이미지 등록
+      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "store/" + store.getId() + "/thumbnail"); // 이미지 등록
       storeService.createStoreService(store, fileInfo); // 스토어 등록
 
       response.put("status", HttpStatus.OK.value());
@@ -109,8 +107,8 @@ public class StoreController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to create store.");
+      response.put("errorCode", "STORE_CREATION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -158,8 +156,8 @@ public class StoreController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to update store.");
+      response.put("errorCode", "STORE_UPDATE_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -186,8 +184,8 @@ public class StoreController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to delete store.");
+      response.put("errorCode", "STORE_DELETION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -220,8 +218,8 @@ public class StoreController {
         // 실패 응답 보내기
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("success", false);
-        response.put("message", "Failed to delete Product.");
-        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+        response.put("message", "Failed to retrieve store information.");
+        response.put("errorCode", "STORE_INFO_RETRIEVAL_ERROR");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -249,8 +247,8 @@ public class StoreController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve products for store.");
+      response.put("errorCode", "STORE_PRODUCTS_RETRIEVAL_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

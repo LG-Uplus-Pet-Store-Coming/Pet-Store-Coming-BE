@@ -50,8 +50,10 @@ public class ProductCommandController {
         ProductDTO product = productRequest.getProduct();
         product.setId(UUID.randomUUID().toString());
 
+        // System.out.println("store/" + storeId + "/product/" + product.getId() + "/thumbnail");
+
         // 상품 대표 이미지 등록 후 주소, 이름 가져오기
-        Map<String, String> fileInto = fileStorageService.saveFile(thumbnailImage, "product/" + product.getId() + "/thumbnail");
+        Map<String, String> fileInto = fileStorageService.saveFile(thumbnailImage, "store/" + storeId + "/product/" + product.getId() + "/thumbnail");
 
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
         if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
@@ -63,7 +65,7 @@ public class ProductCommandController {
                 .collect(Collectors.toList());
 
             if (!validImages.isEmpty()) {
-                productService.insertProductImage(validImages, product.getId());
+                productService.insertProductImage(validImages, storeId, product.getId());
             }
         }
 
@@ -80,8 +82,8 @@ public class ProductCommandController {
         // 실패 응답 보내기
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("success", false);
-        response.put("message", "Failed to create Product.");
-        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+        response.put("message", "Failed to register product.");
+        response.put("errorCode", "PRODUCT_REGISTRATION_ERROR");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -92,8 +94,8 @@ public class ProductCommandController {
   @PutMapping("/update")
   public ResponseEntity<Map<String, Object>> putMethodName(
     @RequestPart("productRequest") ProductRequestDTO productRequest,
-    @RequestPart("newThumbnailImage") MultipartFile newThumbnailImage,
-    @RequestPart("newImages") List<MultipartFile> newImages
+    @RequestPart(value = "newThumbnailImage", required = false) MultipartFile newThumbnailImage,
+    @RequestPart(value = "newImages", required = false) List<MultipartFile> newImages
   ) {
     Map<String, Object> response = new HashMap<>();
 
@@ -142,7 +144,7 @@ public class ProductCommandController {
             .collect(Collectors.toList());
 
         if (!validImages.isEmpty()) {
-            productService.insertProductImage(validImages, product.getId());
+            productService.insertProductImage(validImages, product.getStoreId(), product.getId());
         }
     }
 
@@ -156,8 +158,8 @@ public class ProductCommandController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to update product.");
+      response.put("errorCode", "PRODUCT_UPDATE_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -181,8 +183,8 @@ public class ProductCommandController {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to delete product.");
+      response.put("errorCode", "PRODUCT_DELETION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

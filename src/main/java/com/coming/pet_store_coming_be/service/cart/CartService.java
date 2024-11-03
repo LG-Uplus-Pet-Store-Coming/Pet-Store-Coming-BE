@@ -10,6 +10,7 @@ public interface CartService {
 
   public void insertCartItemService(CartDTO cart) throws SQLException; // 사용자의 장바구니에 상품 정보 추가 비즈니스 로직 인스턴스 메서드
   public List<CartInfoDTO> getCartItemListService(String userId) throws SQLException; // 사용자의 장바구니 등록된 상품 조회 비즈니스 로직 인스턴스 메서드
+  public void deleteCartItemListService(String cartItemId, String userId) throws SQLException; // 사용자의 장바구니에 등록된 상품 삭제 비즈니스 로직 인스턴스 메서드
   public boolean isDuplicateProductInCartService(String userId, String productId) throws SQLException; // 사용자의 장바구니에 추가된 상품인지 확인하는 비즈니스 로직 인스턴스 메서드
   
 }

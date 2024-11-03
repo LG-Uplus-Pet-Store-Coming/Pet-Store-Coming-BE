@@ -1,5 +1,6 @@
 package com.coming.pet_store_coming_be.controller.canidae;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.UUID;
@@ -21,6 +22,8 @@ import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/canidae")
@@ -69,8 +72,8 @@ public class CanidaeContoller {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to create Canidae.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to register Canidae information.");
+      response.put("errorCode", "CANIDAE_REGISTRATION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -120,8 +123,8 @@ public class CanidaeContoller {
         // 실패 응답 보내기
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("success", false);
-        response.put("message", "Failed to create Product.");
-        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+        response.put("message", "Failed to update Canidae information.");
+        response.put("errorCode", "CANIDAE_UPDATE_ERROR");
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
       }
@@ -145,12 +148,37 @@ public class CanidaeContoller {
       // 실패 응답 보내기
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to delete Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to delete Canidae information.");
+      response.put("errorCode", "CANIDAE_DELETION_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
   }
+
+  @GetMapping("/list") // 반려견 정보 조회 API
+  public ResponseEntity<Map<String, Object>> getCanidaeListController(@RequestParam("user-id") String userId) {
+    Map<String, Object> response = new HashMap<>();
+
+    try {
+      List<CanidaeDTO> data = canidaeService.getCanidaeListService(userId);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("data", data);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to retrieve canidae list.");
+      response.put("errorCode", "CANIDAE_LIST_RETRIEVAL_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
 
 }
