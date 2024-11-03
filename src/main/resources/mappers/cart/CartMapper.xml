@@ -34,7 +34,7 @@
       c.user_id = #{userId};
   </select>
 
-  <select id="isDuplicateProductInCartService" parameterType="Map" resultType="Integer">
+  <select id="isDuplicateProductInCart" parameterType="Map" resultType="Integer">
     select count(*) from cart
     where user_id=#{userId} and product_id=#{productId}
   </select>

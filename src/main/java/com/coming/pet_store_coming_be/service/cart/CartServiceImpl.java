@@ -47,7 +47,7 @@ public class CartServiceImpl implements CartService {
     params.put("userId", userId);
     params.put("productId", productId);
     
-    return dao.isDuplicateProductInCartService(params) > 0;
+    return dao.isDuplicateProductInCart(params) > 0;
   }
 
 }

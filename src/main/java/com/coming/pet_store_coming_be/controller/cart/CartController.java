@@ -29,13 +29,13 @@ public class CartController {
   @Autowired
   CartService cartService;
 
-  @PostMapping("/append")
+  @PostMapping("/append") // 장바구니에 상품 등록
   public ResponseEntity<Map<String, Object>> insertCartItemController(@RequestBody CartDTO cart) {
     Map<String, Object> response = new HashMap<>();
 
     try {
       // 이미 추가된 상품일 경우
-      if(cartService.isDuplicateProductInCartService(cart.getId(), cart.getProductId())) {
+      if(cartService.isDuplicateProductInCartService(cart.getUserId(), cart.getProductId())) {
         response.put("status", HttpStatus.CONFLICT.value());
         response.put("success", false);
         response.put("message", "This item is already in your cart.");
@@ -64,7 +64,7 @@ public class CartController {
     }
   }
 
-  @GetMapping("/list")
+  @GetMapping("/list") // 장바구니에 등록된 상품 조회
   public ResponseEntity<Map<String, Object>> getCartItemListController(@RequestParam("user_id") String userId) {
     Map<String, Object> response = new HashMap<>();
 
