@@ -27,7 +27,9 @@ public class AuthServiceImpl implements AuthService {
     String uuid = UUID.randomUUID().toString(); // 사용자의 고유 번호 생성
 
     // 사용자 고유 번호, 비밀번호 암호화 한 값으로 Set
-    user.setId(uuid);
+    if(user.getId().isEmpty()) {
+      user.setId(uuid);
+    }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // 사용자의 정보 등록을 성공한 경우
