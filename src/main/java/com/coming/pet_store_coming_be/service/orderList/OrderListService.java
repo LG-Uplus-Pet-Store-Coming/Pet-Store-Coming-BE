@@ -5,7 +5,7 @@ import com.coming.pet_store_coming_be.dao.orderList.OrderListDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+// import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -56,7 +56,7 @@ public class OrderListService {
         }
         return false;
     }
-
+    
     // Toss Payments API 부분 취소 요청
    private boolean requestPartialCancelFromToss(String paymentKey, int cancelAmount) {
     try {
