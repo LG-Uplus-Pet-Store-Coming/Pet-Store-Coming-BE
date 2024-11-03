@@ -3,6 +3,8 @@ package com.coming.pet_store_coming_be.controller.store;
 import java.util.Map;
 import java.util.UUID;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -126,22 +128,77 @@ public class StoreController {
   @DeleteMapping("/delete/{storeId}")
   public ResponseEntity<Map<String, Object>> deleteStoreController(@PathVariable("storeId") String id) {
     Map<String, Object> response = new HashMap<>();
-    return new ResponseEntity<>(response, HttpStatus.OK);
+
+    try {
+
+      // 이미지 삭제 로직 추가
+      storeService.deleteStoreService(id);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to delete Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
   
-  // 5. Store 정보 조회 API (판매자 회원)
-  @GetMapping
-  public String getMethodName(@RequestParam("user_id") String id) {
-      return new String();
+  @GetMapping("/info") // 5. Store 정보 조회 API
+  public ResponseEntity<Map<String, Object>> getMethodName(
+    @RequestParam(value="user_id", required=false) String userId,
+    @RequestParam(value="store_id", required=false) String storeId
+    ) {
+
+      Map<String, Object> response = new HashMap<>();
+
+      try {
+        
+        List<StoreDTO> data = new ArrayList<>();
+
+        /* 판매자 회원일 경우 */ if(userId != null && storeId == null) data = storeService.getStoreByUserId("userId", userId);
+        /* 일반 회원일 경우 */ else if(storeId != null && userId == null) data = storeService.getStoreByUserId("storeId", storeId);
+
+        response.put("status", HttpStatus.OK.value());
+        response.put("success", true);
+        response.put("data", data);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+      } catch (Exception e) {
+        e.printStackTrace();
+
+        // 실패 응답 보내기
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("success", false);
+        response.put("message", "Failed to delete Product.");
+        response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
   }
   
 
-  // 6. Store 정보 조회 API (일반 회원)
-  @GetMapping("/{storeId}")
-  public ResponseEntity<Map<String, Object>> getStoreInfoController(@RequestParam("storeId") String id) {
-    Map<String, Object> response = new HashMap<>();
-    return new ResponseEntity<>(response, HttpStatus.OK);
-  }
+  // 5. Store 정보 조회 API (판매자 회원)
+  // @GetMapping
+  // public String getStoreInfoOwnerController(@RequestParam("user_id") String id) {
+  //     return new String();
+  // }
+  
+
+  // // 6. Store 정보 조회 API (일반 회원)
+  // @GetMapping("/{storeId}")
+  // public ResponseEntity<Map<String, Object>> getStoreInfoController(@RequestParam("storeId") String id) {
+  //   Map<String, Object> response = new HashMap<>();
+  //   return new ResponseEntity<>(response, HttpStatus.OK);
+  // }
   
   // 7. Store에 등록된 상품 조회 API
   @GetMapping("/{storeId}/products")
