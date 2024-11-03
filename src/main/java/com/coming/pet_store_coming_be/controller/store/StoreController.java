@@ -118,11 +118,52 @@ public class StoreController {
   
 
   // 3. Store 수정 (Response Data -> StoreDTO, Thumbnail Image)
-  @PutMapping("/update/{storeId}")
-  public ResponseEntity<Map<String, Object>> updateStoreController(@PathVariable("storeId") String id, @RequestBody String entity) {
+  @PutMapping("/update")
+  public ResponseEntity<Map<String, Object>> updateStoreInfoController(
+    @RequestPart("storeRequest") StoreDTO updateStoreInfo,
+    @RequestPart(value = "newThumbnailImage", required = false) MultipartFile newThumbnailImage
+    ) {
     Map<String, Object> response = new HashMap<>();
-      
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    
+    try {
+
+      // 스토어 대표 이미지를 변경할 경우
+      if(newThumbnailImage != null && !newThumbnailImage.isEmpty()) {
+
+        Map<String, String> fileInfo =
+          fileStorageService.updateFile(
+            newThumbnailImage, 
+            updateStoreInfo.getThumbnailImageUrl(), 
+            updateStoreInfo.getThumbnailImageAlt()
+          );
+
+        updateStoreInfo.setThumbnailImageAlt(fileInfo.get("fileName"));
+      } else {
+        // 스토어 대표 이미지를 변경하지 않는 경우
+        updateStoreInfo.setThumbnailImageAlt(null);
+      }
+
+      // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
+      updateStoreInfo.setThumbnailImageUrl(null);
+
+      storeService.updateStoreInfo(updateStoreInfo);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      // 실패 응답 보내기
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to create Product.");
+      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
   }
 
   // 4. Store 삭제 (Response Data -> Store Id)
@@ -152,7 +193,8 @@ public class StoreController {
     }
   }
   
-  @GetMapping("/info") // 5. Store 정보 조회 API
+  // 5. Store 정보 조회 API
+  @GetMapping("/info")
   public ResponseEntity<Map<String, Object>> getMethodName(
     @RequestParam(value="user_id", required=false) String userId,
     @RequestParam(value="store_id", required=false) String storeId
@@ -186,7 +228,8 @@ public class StoreController {
 
   }
   
-  @GetMapping("/{storeId}/products") // 7. Store에 등록된 상품 조회 API
+  // 6. Store에 등록된 상품 조회 API
+  @GetMapping("/{storeId}/products")
   public ResponseEntity<Map<String, Object>> getStoreProductListController(@PathVariable("storeId") String id) {
     Map<String, Object> response = new HashMap<>();
 

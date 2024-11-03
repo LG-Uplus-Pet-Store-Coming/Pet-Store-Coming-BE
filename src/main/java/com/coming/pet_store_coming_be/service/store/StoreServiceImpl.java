@@ -37,9 +37,12 @@ public class StoreServiceImpl implements StoreService {
     Map<String, Object> params = new HashMap<>();
     params.put(type, id);
     
-    System.out.println("Hello");
-
     return dao.getStoreInfo(params);
+  }
+
+  @Override // 스토어 정보 수정 비즈니스 로직 인스턴스 메서드
+  public void updateStoreInfo(StoreDTO updateStoreInfo) throws SQLException {
+    dao.updateStoreInfo(updateStoreInfo);
   }
 
   @Override // 스토어에 등록된 모든 상품 조회 비즈니스 로직

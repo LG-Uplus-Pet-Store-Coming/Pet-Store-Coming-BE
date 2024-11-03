@@ -19,6 +19,9 @@ public interface StoreService {
   // 스토어에 등록된 모든 상품 조회 비즈니스 로직 인스턴스 메서드
   public List<ProductDTO>getStoreProductListService(String id) throws SQLException;
 
+  // 스토어 정보 수정 비즈니스 로직 인스턴스 메서드
+  public void updateStoreInfo(StoreDTO updateStoreInfo) throws SQLException;
+
   // 스토어 삭제
   public void deleteStoreService(String id) throws SQLException; // 스토어 정보를 삭제하는 비즈니스 로직 인스턴스 메서드
 

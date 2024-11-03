@@ -16,6 +16,8 @@ public interface StoreDAO {
   public boolean isStoreNameDuplicate(String name) throws SQLException;
   public boolean isStoreRegistered(String userId) throws SQLException;
   
+  public void updateStoreInfo(StoreDTO updateStoreInfo) throws SQLException;
+
   public List<StoreDTO> getStoreInfo(Map<String, Object> params) throws SQLException;
   public List<ProductDTO> getStoreProductList(String id) throws SQLException;
 }
