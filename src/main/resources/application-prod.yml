@@ -16,9 +16,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${rdsHostname}:${rdsPort}/${rdsDbName}?serverTimezone=UTC
-    username: ${rdsUsername}
-    password: ${rdsPassword}
+    url: jdbc:mysql://${RDS_HOST_NAME}:${RDS_PORT}/${RDS_DB_NAME}?serverTimezone=UTC
+    username: ${RDS_USER_NAME}
+    password: ${RDS_PASSWORD}
 
   devtools:
     restart:
@@ -26,30 +26,31 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
 
 aes:
-  secret-key: ${aesSecretKey}
+  secret-key: ${AES_SECRET_KEY}
 
 toss:
   payments:
     base-url: https://api.tosspayments.com/v1/
-    secret-key: ${tossSecretKey}
+    secret-key: ${TOSS_SECRET_KEY}
 
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
   type-aliases-package: com.coming.pet_store_coming_be
 
 jwt:
-  secret-key: ${tokenSecretKey}
+  secret-key: ${TOKEN_SECRET_KEY}
   expiration-time: 3600000
   refresh-expiration-time: 10800000
 
 kakao:
-  client-id: ${socialClientId}
-  redirect-url: ${socialRedirectUrl}
-  token-url: ${socialTokenUrl}
+  client-id: ${SOCIAL_CLIENTID}
+  redirect-url: ${SOCIAL_REDIRECT_URL}
+  token-url: ${SOCIAL_TOKEN_URL}
 
 cors:
-  allowed-origin: ${corsAllowedOrigin}
+  allowed-origin: ${CORS_ALLOWED_ORIGIN}
