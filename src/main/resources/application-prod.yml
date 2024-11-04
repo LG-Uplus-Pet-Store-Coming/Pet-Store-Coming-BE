@@ -30,16 +30,6 @@ spring:
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
 
-cloud:
-  aws:
-    s3:
-      bucket-name: ${AWS_S3_BUCKET_NAME}
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
-    region:
-      static: ${AWS_REGION}
-
 aes:
   secret-key: ${AES_SECRET_KEY}
 
