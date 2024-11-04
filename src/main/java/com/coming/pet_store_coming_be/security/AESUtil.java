@@ -13,7 +13,7 @@ public class AESUtil {
   private static final String ALGORITHM = "AES";
   private static final String TRANSFORMATION = "AES/GCM/NoPaaing";
   private static final int GCM_IV_LENGTH = 12;
-  private static final int GCM_TAG_LENGHT = 128;
+  private static final int GCM_TAG_LENGTH = 128;
 
   private final SecretKey secretKey;
 
@@ -28,7 +28,7 @@ public class AESUtil {
     byte[] iv = new byte[GCM_IV_LENGTH];
     SecureRandom random = new SecureRandom();
     random.nextBytes(iv);
-    GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_LENGHT, iv);
+    GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
 
     cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmSpec);
     byte[] encryptedData = cipher.doFinal(data.getBytes());
@@ -42,5 +42,18 @@ public class AESUtil {
   }
 
   // 복호화 메서드
+  public String decrypth(String encryptedData) throws Exception {
+    Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    byte[] decodedData = Base64.getDecoder().decode(encryptedData);
+
+    byte[] iv = new byte[GCM_IV_LENGTH];
+    System.arraycopy(decodedData, 0, iv, 0, GCM_IV_LENGTH);
+    GCMParameterSpec gcmSpec = new  GCMParameterSpec(GCM_TAG_LENGTH, iv);
+
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmSpec);
+    byte[] originalData = cipher.doFinal(decodedData, GCM_IV_LENGTH, decodedData.length - GCM_IV_LENGTH);
+
+    return new String(originalData);
+  }
 
 }
