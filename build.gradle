@@ -44,6 +44,11 @@ dependencies {
 
 	// Radis 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// AWS SDK 라이브러리 추가
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:auth'
 }
 
 tasks.named('test') {
