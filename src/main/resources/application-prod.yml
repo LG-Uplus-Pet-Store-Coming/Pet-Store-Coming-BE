@@ -1,19 +1,66 @@
 server:
   port: 5000
   servlet:
+    context-path: /
     encoding:
       charset: utf-8
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 40MB
+
   application:
     name: pet_store_coming_be
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
-    username: ${rds.username}
-    password: ${rds.password}
+    url: jdbc:mysql://${RDS_HOST_NAME}:${RDS_PORT}/${RDS_DB_NAME}?serverTimezone=UTC
+    username: ${RDS_USER_NAME}
+    password: ${RDS_PASSWORD}
 
   devtools:
     restart:
       enabled: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+cloud:
+  aws:
+    s3:
+      bucket-name: ${AWS_S3_BUCKET_NAME}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ${AWS_REGION}
+
+aes:
+  secret-key: ${AES_SECRET_KEY}
+
+toss:
+  payments:
+    base-url: https://api.tosspayments.com/v1/
+    secret-key: ${TOSS_SECRET_KEY}
+
+mybatis:
+  mapper-locations: classpath:mappers/**/*.xml
+  type-aliases-package: com.coming.pet_store_coming_be
+
+jwt:
+  secret-key: ${TOKEN_SECRET_KEY}
+  expiration-time: 3600000
+  refresh-expiration-time: 10800000
+
+kakao:
+  client-id: ${SOCIAL_CLIENTID}
+  redirect-url: ${SOCIAL_REDIRECT_URL}
+  token-url: ${SOCIAL_TOKEN_URL}
+
+cors:
+  allowed-origin: ${CORS_ALLOWED_ORIGIN}
