@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.UserDAO">
+
+  <select id="getUserByEmail" resultType="UserDTO" parameterType="String"> 
+    select user_identifier_id as userIdentifierId, email, password, name, address, phone_number as phoneNumber, profile_image_url as profileImageUrl, profile_image_alt as profileImageAlt, refresh_token as refreshToken, token_expiry as tokenExpiry, is_active as isActive, role
+    from user 
+    where email = #{email}
+  </select>
+
+  <select id="getUserByIdentifier" resultType="UserDTO" parameterType="String"> 
+    select user_identifier_id as userIdentifierId, email, password, name, address, phone_number as phoneNumber, profile_image_url as profileImageUrl, profile_image_alt as profileImageAlt, refresh_token as refreshToken, token_expiry as tokenExpiry, is_active as isActive, role
+    from user 
+    where email = #{email}
+  </select>
+
+  <insert id="insertSignUpUser" parameterType="UserDTO">
+    insert into user (user_identifier_id, email, password, name, address, phone_number)
+    values (
+      #{userIdentifierId},
+      #{email},
+      #{password},
+      #{name},
+      #{address},
+      #{phoneNumber}
+    )
+  </insert>
+
+  <update id="updateRefreshTokenAndExpiry" parameterType="map">
+    update user
+    set refresh_token = #{refreshToken}, token_expiry = #{tokenExpiry}, is_active = #{isActive}
+    where user_identifier_id = #{id}
+  </update>
+
+</mapper>

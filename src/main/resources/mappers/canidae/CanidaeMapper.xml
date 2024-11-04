@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO">
+
+  <insert id="insertCanidaeInfo" parameterType="CanidaeDTO">
+    insert into canidae (id, user_id, name, birth, breed, profile_image_url, profile_image_alt, gender, weight, is_primary)
+    values (
+      #{id},
+      #{userId},
+      #{name},
+      #{birth},
+      #{breed},
+      #{profileImageUrl},
+      #{profileImageAlt},
+      #{gender},
+      #{weight},
+      #{isPrimary}
+    )
+  </insert>
+
+  <insert id="insertInterestProduct" parameterType="CanidaeInterestProductDTO">
+    insert into canidae_interest_product (id, canidae_id, sub_category_id)
+    values (
+      #{id},
+      #{canidaeId},
+      #{subCategoryId}
+    )
+  </insert>
+
+  <select id="getCandiaeLength" resultType="Integer" parameterType="String" >
+    select count(*) from canidae
+    where user_id = #{userId}
+  </select>
+
+  <select id="getCanidaeList" resultType="CanidaeDTO" parameterType="String" >
+    select
+      id,
+      name,
+      birth,
+      breed,
+      profile_image_url as profileImageUrl,
+      profile_image_alt as profileImageAlt,
+      gender,
+      weight,
+      is_primary as isPrimary,
+      created_at as createdAt,
+      updated_at as updatedAt
+    from canidae
+    where 
+      user_id = #{userId}
+  </select>
+
+  <update id="updateCanidae" parameterType="CanidaeDTO" >
+    update canidae
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="birth != null">
+        birth = #{birth},
+      </if>
+
+      <if test="breed != null">
+        breed = #{breed},
+      </if>
+
+      <if test="profileImageAlt != null">
+        profile_image_alt = #{profileImageAlt},
+      </if>
+
+      <if test="weight != null">
+        weight = #{weight},
+      </if>
+
+      <if test="isPrimary != null">
+        is_primary = #{isPrimary}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <delete id="deleteCanidaeInfo" parameterType="String">
+    delete from canidae
+    where id = #{canidaeId}
+  </delete>
+
+  <delete id="deleteCanidaeInterestProduct" parameterType="String">
+    delete from canidae_interest_product
+    where id = #{id}
+  </delete>
+
+</mapper>
