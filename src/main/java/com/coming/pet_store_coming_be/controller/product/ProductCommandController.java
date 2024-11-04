@@ -16,6 +16,7 @@ import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
+import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.coming.pet_store_coming_be.service.product.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ProductCommandController {
   
   @Autowired
   FileStorageService fileStorageService;
+
+  @Autowired
+  S3Service s3Service;
 
   @Autowired
   ProductService productService;
@@ -53,7 +57,7 @@ public class ProductCommandController {
         // System.out.println("store/" + storeId + "/product/" + product.getId() + "/thumbnail");
 
         // 상품 대표 이미지 등록 후 주소, 이름 가져오기
-        Map<String, String> fileInto = fileStorageService.saveFile(thumbnailImage, "store/" + storeId + "/product/" + product.getId() + "/thumbnail");
+        Map<String, String> fileInto = s3Service.uploadImage(thumbnailImage, "store/" + storeId + "/product/" + product.getId() + "/thumbnail");
 
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
         if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
@@ -106,7 +110,7 @@ public class ProductCommandController {
       // 상품 대표 이미지를 변경할 경우
       if(newThumbnailImage != null && !newThumbnailImage.isEmpty()) {
         Map<String, String> fileInfo = 
-        fileStorageService.updateFile(
+        s3Service.updateImage(
           newThumbnailImage, 
           product.getThumbnailImageUrl(), 
           product.getThumbnailImageAlt()
