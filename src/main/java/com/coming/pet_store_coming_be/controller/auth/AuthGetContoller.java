@@ -70,7 +70,7 @@ public class AuthGetContoller {
 
     // 3. 모든 조건이 일치하지 않을 경우
     String token = tokenProvider.createToken(userInfo); // 토큰 생성
-    String refreshToken = tokenProvider.createRefreshToken(userInfo.getEmail(), deviceId);
+    String refreshToken = tokenProvider.createRefreshToken(userInfo.getId(), deviceId);
     
     authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, deviceId); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
 

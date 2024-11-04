@@ -9,6 +9,12 @@
     where email = #{email}
   </select>
 
+  <select id="getSocialUserInfo" parameterType="String" resultType="UserDTO"> 
+    select id, name, address, role, platform
+    from user
+    where id = #{id}
+  </select>
+
   <insert id="insertSignUpUser" parameterType="UserDTO">
     insert into user (id, email, password, name, address
       <if test="platform != null">

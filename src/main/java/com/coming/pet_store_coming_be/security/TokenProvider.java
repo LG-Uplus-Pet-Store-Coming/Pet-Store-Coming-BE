@@ -43,6 +43,7 @@ public class TokenProvider {
     claims.put("email", user.getEmail());
     claims.put("name", user.getName());
     claims.put("address", user.getAddress());
+    claims.put("platform", user.getPlatform());
     claims.put("role", user.getRole());
 
     byte[] keyBytes = jwtProperties.getSecretKey().getBytes(); // 비밀키를 바이트 배열로 반환

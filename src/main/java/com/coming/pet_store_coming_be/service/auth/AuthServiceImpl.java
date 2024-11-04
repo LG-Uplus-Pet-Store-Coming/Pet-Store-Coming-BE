@@ -24,10 +24,11 @@ public class AuthServiceImpl implements AuthService {
   @Override // 회원가입 비즈니스 로직 설계
   public boolean signUpUser(UserDTO user) throws SQLException {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // BCryptPasswordEncoder 인스턴스 생성
-    String uuid = UUID.randomUUID().toString(); // 사용자의 고유 번호 생성
 
     // 사용자 고유 번호, 비밀번호 암호화 한 값으로 Set
-    user.setId(uuid);
+    if(user.getId().isEmpty()) {
+      user.setId(UUID.randomUUID().toString());
+    }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // 사용자의 정보 등록을 성공한 경우
@@ -54,6 +55,16 @@ public class AuthServiceImpl implements AuthService {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     return passwordEncoder.matches(rawPassword, encryptedPassword);
   }
+
+  @Override // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
+  public UserDTO getSocialUserInfoService(String id) throws SQLException {
+    return authDAO.getSocialUserInfo(id);
+  }
+
+  // @Override // 소셜 로그인 사용자 정보 조회 비즈니스 로직 인스턴스 메서드
+  // public UserDTO getSocialUserInfoService(Long id) throws SQLException {
+  //   return authDAO.getSocialUserInfo(id);
+  // }
 
   @Override // 기존 디바이스 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
   public void invalidateAndSaveNewRefreshToken(String id, String refreshToken, String deviceId) throws SQLException{
