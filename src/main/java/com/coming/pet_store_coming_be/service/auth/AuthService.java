@@ -13,7 +13,7 @@ public interface AuthService {
   public boolean signUpUser(UserDTO user) throws SQLException; // 회원가입 비즈니스 로직 인터페이스 메서드
   
   // 소셜 로그인 Service
-  public UserDTO getSocialUserInfoService(Long id) throws SQLException; // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
+  public UserDTO getSocialUserInfoService(String id) throws SQLException; // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
   // public UserDTO getSocialUserInfoService(Long id) throws SQLException; // 소셜 로그인 사용자 정보 조회 비즈니스 로직 인스턴스 메서드
 
   // 로그아웃 비즈니스 로직 인터페이스 메서드

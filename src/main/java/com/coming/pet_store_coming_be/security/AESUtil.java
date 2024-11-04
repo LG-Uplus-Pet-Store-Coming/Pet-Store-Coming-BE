@@ -11,14 +11,21 @@ import javax.crypto.spec.SecretKeySpec;
 public class AESUtil {
   
   private static final String ALGORITHM = "AES";
-  private static final String TRANSFORMATION = "AES/GCM/NoPaaing";
+  private static final String TRANSFORMATION = "AES/GCM/NoPadding";
   private static final int GCM_IV_LENGTH = 12;
   private static final int GCM_TAG_LENGTH = 128;
 
   private final SecretKey secretKey;
 
   public AESUtil(String secret) {
-    byte[] keyBytes = secret.getBytes();
+    byte[] keyBytes = Base64.getDecoder().decode(secret);
+
+    if(keyBytes.length > 32) {
+      byte[] trimmedKey = new byte[32];
+      System.arraycopy(keyBytes, 0, trimmedKey, 0, 32);
+      keyBytes = trimmedKey;
+    }
+
     this.secretKey = new SecretKeySpec(keyBytes, ALGORITHM);
   }
 

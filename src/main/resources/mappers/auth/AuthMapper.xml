@@ -9,7 +9,7 @@
     where email = #{email}
   </select>
 
-  <select id="getSocialUserInfo" parameterType="Long" resultType="UserDTO"> 
+  <select id="getSocialUserInfo" parameterType="String" resultType="UserDTO"> 
     select id, name, address, role, platform
     from user
     where id = #{id}

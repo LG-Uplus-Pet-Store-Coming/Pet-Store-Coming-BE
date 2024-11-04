@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.coming.pet_store_coming_be.config.AESConfig;
 import com.coming.pet_store_coming_be.dto.UserDTO;
+import com.coming.pet_store_coming_be.security.AESUtil;
 import com.coming.pet_store_coming_be.security.TokenProvider;
 import com.coming.pet_store_coming_be.service.auth.AuthService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,6 +33,12 @@ public class AuthSocialController {
   
   @Autowired
   AuthService authService;
+
+  @Autowired
+  AESUtil aesUtil;
+  
+  @Autowired
+  AESConfig aesConfig;
 
   @Autowired
   TokenProvider tokenProvider;
@@ -110,7 +118,14 @@ public class AuthSocialController {
           .exchange(requestKakaoUserInfoUrl, HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<Map<String, Object>>() {})
           .getBody();
 
-      UserDTO socialUserInfo = authService.getSocialUserInfoService((Long) kakaoUserInfo.get("id"));
+
+      Long kakaoId = (Long) kakaoUserInfo.get("id"); // 카카오 고유키 가져오기
+
+      // 고유키 암호화
+      String kakaoIdAsString = String.valueOf(kakaoId);
+      String encryptKakaoId = aesUtil.encrypt(kakaoIdAsString);
+
+      UserDTO socialUserInfo = authService.getSocialUserInfoService(encryptKakaoId);
 
       // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
       if(socialUserInfo == null) {
@@ -118,7 +133,7 @@ public class AuthSocialController {
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "User not found. Registration is required to proceed.");
         response.put("errorCode", "KAKAO_USER_NOT_FOUND");
-        response.put("userId", (Long) kakaoUserInfo.get("id"));
+        response.put("id", encryptKakaoId);
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
       }

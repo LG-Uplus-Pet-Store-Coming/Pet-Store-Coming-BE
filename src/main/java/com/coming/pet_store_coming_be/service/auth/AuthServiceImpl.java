@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override // 소셜 정보 고유키를 통해 회원가입 한 사용자 정보가 있는지 확인
-  public UserDTO getSocialUserInfoService(Long id) throws SQLException {
+  public UserDTO getSocialUserInfoService(String id) throws SQLException {
     return authDAO.getSocialUserInfo(id);
   }
 
