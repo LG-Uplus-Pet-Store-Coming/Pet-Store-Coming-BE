@@ -3,15 +3,13 @@ package com.coming.pet_store_coming_be.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import com.coming.pet_store_coming_be.security.AESUtil;
 
-@Component
 @Configuration
 public class AESConfig {
 
-  @Value("${aes.secret-key}")
+  @Value("${AES_SECRET_KEY}")
   private String AESSecretKey;
 
   public String getAESSecretKey() {
