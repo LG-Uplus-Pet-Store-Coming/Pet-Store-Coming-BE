@@ -8,31 +8,32 @@ public class UserDTO {
   private String email;
   private String password;
   private String name;
+  private String phoneNumber;
   private String address;
   private String role;
   private String platform;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
-
   public UserDTO() {
-  
   }
 
-  public UserDTO(String id, String email, String password, String name, String address, String role, String platform, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public UserDTO(String id, String email, String password, String name, String phoneNumber, String address, String role, String platform, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.email = email;
     this.password = password;
     this.name = name;
+    this.phoneNumber = phoneNumber;
     this.address = address;
     this.role = role;
     this.platform = platform;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
+  
 
   public String getId() {
-    return id;
+    return this.id;
   }
 
   public void setId(String id) {
@@ -40,7 +41,7 @@ public class UserDTO {
   }
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   public void setEmail(String email) {
@@ -48,7 +49,7 @@ public class UserDTO {
   }
 
   public String getPassword() {
-    return password;
+    return this.password;
   }
 
   public void setPassword(String password) {
@@ -56,15 +57,23 @@ public class UserDTO {
   }
 
   public String getName() {
-    return name;
+    return this.name;
   }
 
   public void setName(String name) {
     this.name = name;
   }
 
+  public String getPhoneNumber() {
+    return this.phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
   public String getAddress() {
-    return address;
+    return this.address;
   }
 
   public void setAddress(String address) {
@@ -72,7 +81,7 @@ public class UserDTO {
   }
 
   public String getRole() {
-    return role;
+    return this.role;
   }
 
   public void setRole(String role) {
@@ -80,7 +89,7 @@ public class UserDTO {
   }
 
   public String getPlatform() {
-    return platform;
+    return this.platform;
   }
 
   public void setPlatform(String platform) {
@@ -88,7 +97,7 @@ public class UserDTO {
   }
 
   public LocalDateTime getCreatedAt() {
-    return createdAt;
+    return this.createdAt;
   }
 
   public void setCreatedAt(LocalDateTime createdAt) {
@@ -96,7 +105,7 @@ public class UserDTO {
   }
 
   public LocalDateTime getUpdatedAt() {
-    return updatedAt;
+    return this.updatedAt;
   }
 
   public void setUpdatedAt(LocalDateTime updatedAt) {
@@ -105,9 +114,18 @@ public class UserDTO {
 
   @Override
   public String toString() {
-    return "UserDTO [id=" + id + ", email=" + email + ", password=" + password + ", name=" + name + ", address="
-        + address + ", role=" + role + ", platform=" + platform + ", createdAt=" + createdAt + ", updatedAt="
-        + updatedAt + "]";
+    return "{" +
+      " id='" + getId() + "'" +
+      ", email='" + getEmail() + "'" +
+      ", password='" + getPassword() + "'" +
+      ", name='" + getName() + "'" +
+      ", phoneNumber='" + getPhoneNumber() + "'" +
+      ", address='" + getAddress() + "'" +
+      ", role='" + getRole() + "'" +
+      ", platform='" + getPlatform() + "'" +
+      ", createdAt='" + getCreatedAt() + "'" +
+      ", updatedAt='" + getUpdatedAt() + "'" +
+      "}";
   }
 
 }
