@@ -1,10 +1,16 @@
 server:
   port: 5000
   servlet:
+    context-path: /
     encoding:
       charset: utf-8
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 40MB
+
   application:
     name: pet_store_coming_be
 
