@@ -19,7 +19,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
   @Override
   public void createSubCategory(SubCategoryDTO category) throws SQLException {
     category.setId(UUID.randomUUID().toString());
-    System.out.println(category);
     dao.insertSubCategory(category);
   }
 
