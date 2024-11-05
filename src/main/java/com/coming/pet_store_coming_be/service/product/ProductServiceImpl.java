@@ -80,6 +80,8 @@ public class ProductServiceImpl implements ProductService{
             fileInfo.get("fileName"),
             fileInfo.get("fileURL")
           );
+
+        System.out.println(productImage);
         
         // 상품 설명 이미지 DB에 등록
         dao.insertProductImage(productImage);
