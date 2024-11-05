@@ -6,17 +6,17 @@ public class ProductImageDTO {
   private String productId;
   private String productImagePath;
   private String productImageName;
-  private String productImageURL;
+  private String productImageUrl;
 
   public ProductImageDTO() {
   }
 
-  public ProductImageDTO(String id, String productId, String productImagePath, String productImageName, String productImageURL) {
+  public ProductImageDTO(String id, String productId, String productImagePath, String productImageName, String productImageUrl) {
     this.id = id;
     this.productId = productId;
     this.productImagePath = productImagePath;
     this.productImageName = productImageName;
-    this.productImageURL = productImageURL;
+    this.productImageUrl = productImageUrl;
   }
 
   public String getId() {
@@ -51,12 +51,12 @@ public class ProductImageDTO {
     this.productImageName = productImageName;
   }
 
-  public String getProductImageURL() {
-    return this.productImageURL;
+  public String getProductImageUrl() {
+    return this.productImageUrl;
   }
 
-  public void setProductImageURL(String productImageURL) {
-    this.productImageURL = productImageURL;
+  public void setProductImageUrl(String productImageUrl) {
+    this.productImageUrl = productImageUrl;
   }
 
   @Override
@@ -66,7 +66,7 @@ public class ProductImageDTO {
       ", productId='" + getProductId() + "'" +
       ", productImagePath='" + getProductImagePath() + "'" +
       ", productImageName='" + getProductImageName() + "'" +
-      ", productImageURL='" + getProductImageURL() + "'" +
+      ", productImageUrl='" + getProductImageUrl() + "'" +
       "}";
   }
 
