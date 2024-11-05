@@ -33,8 +33,9 @@ public class ProductServiceImpl implements ProductService{
   public void insertProduct(String storeId, ProductDTO product, Map<String, String> fileInfo) throws SQLException {
     // 상품 정보 업데이트
     product.setStoreId(storeId);
-    product.setThumbnailImageUrl(fileInfo.get("filePath"));
-    product.setThumbnailImageAlt(fileInfo.get("fileName"));
+    product.setThumbnailImagePath(fileInfo.get("filePath"));
+    product.setThumbnailImageName(fileInfo.get("fileName"));
+    product.setThumbnailImageUrl(fileInfo.get("fileURL"));
 
     // 상품 설명 JSON 객체로 수정
     ObjectMapper objectMapper = new ObjectMapper();
@@ -71,8 +72,18 @@ public class ProductServiceImpl implements ProductService{
         Map<String, String> fileInfo = s3Service.uploadImage(image, "store/" + storeId + "/product/" + productId + "/images");
 
         // ProdcutImageDTO 생성
-        ProductImageDTO productImage = new ProductImageDTO(UUID.randomUUID().toString(), productId, fileInfo.get("filePath"), fileInfo.get("fileName"));
+        ProductImageDTO productImage = 
+          new ProductImageDTO(
+            UUID.randomUUID().toString(), 
+            productId, 
+            fileInfo.get("filePath"), 
+            fileInfo.get("fileName"),
+            fileInfo.get("fileURL")
+          );
+        
+        // 상품 설명 이미지 DB에 등록
         dao.insertProductImage(productImage);
+
       }
     }
   }

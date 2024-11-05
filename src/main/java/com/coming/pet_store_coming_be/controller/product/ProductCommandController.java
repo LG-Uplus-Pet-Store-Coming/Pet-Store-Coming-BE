@@ -62,7 +62,7 @@ public class ProductCommandController {
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
         if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
         
-        // #3. 상품 이미지 추가 (이미지가 있고 파일이 유효한 경우에만 추가)
+        // #3. 상품 이미지 추가 (상품 이미지가 있고 파일이 유효한 경우에만 추가)
         if (images != null && !images.isEmpty()) {
             List<MultipartFile> validImages = images.stream()
                 .filter(image -> image != null && !image.isEmpty())
@@ -112,18 +112,19 @@ public class ProductCommandController {
         Map<String, String> fileInfo = 
         s3Service.updateImage(
           newThumbnailImage, 
-          product.getThumbnailImageUrl(), 
-          product.getThumbnailImageAlt()
+          product.getThumbnailImagePath(), 
+          product.getThumbnailImageName()
         );
 
-        product.setThumbnailImageAlt(fileInfo.get("fileName"));
+        product.setThumbnailImageName(fileInfo.get("fileName"));
+        product.setThumbnailImageUrl(fileInfo.get("fileUrl"));
       } else {
         // 상품 대표 이미지를 변경하지 않는다면 thumbnailImageAlt 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-        product.setThumbnailImageAlt(null);
+        product.setThumbnailImageName(null);
       }
 
       // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-      product.setThumbnailImageUrl(null);
+      product.setThumbnailImageName(null);
       
       productService.updateProduct(product); // #1. 상품 정보 변경
 
@@ -137,7 +138,7 @@ public class ProductCommandController {
           productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
 
           // upload 폴더에 이미지 정보 삭제
-          s3Service.deleteImage(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
+          s3Service.deleteImage(deleteImageFileInfo.getProductImagePath(), deleteImageFileInfo.getProductImageName());
         }
       }
 

@@ -12,15 +12,16 @@ public class ProductDTO {
   private String description;
   private int discountRate;
   private int discountPrice;
+  private String thumbnailImagePath;
+  private String thumbnailImageName;
   private String thumbnailImageUrl;
-  private String thumbnailImageAlt;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
   public ProductDTO() {
   }
 
-  public ProductDTO(String id, String subCategoryId, String storeId, String name, int price, String description, int discountRate, int discountPrice, String thumbnailImageUrl, String thumbnailImageAlt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public ProductDTO(String id, String subCategoryId, String storeId, String name, int price, String description, int discountRate, int discountPrice, String thumbnailImagePath, String thumbnailImageName, String thumbnailImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.subCategoryId = subCategoryId;
     this.storeId = storeId;
@@ -29,8 +30,9 @@ public class ProductDTO {
     this.description = description;
     this.discountRate = discountRate;
     this.discountPrice = discountPrice;
+    this.thumbnailImagePath = thumbnailImagePath;
+    this.thumbnailImageName = thumbnailImageName;
     this.thumbnailImageUrl = thumbnailImageUrl;
-    this.thumbnailImageAlt = thumbnailImageAlt;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -99,20 +101,28 @@ public class ProductDTO {
     this.discountPrice = discountPrice;
   }
 
+  public String getThumbnailImagePath() {
+    return this.thumbnailImagePath;
+  }
+
+  public void setThumbnailImagePath(String thumbnailImagePath) {
+    this.thumbnailImagePath = thumbnailImagePath;
+  }
+
+  public String getThumbnailImageName() {
+    return this.thumbnailImageName;
+  }
+
+  public void setThumbnailImageName(String thumbnailImageName) {
+    this.thumbnailImageName = thumbnailImageName;
+  }
+
   public String getThumbnailImageUrl() {
     return this.thumbnailImageUrl;
   }
 
   public void setThumbnailImageUrl(String thumbnailImageUrl) {
     this.thumbnailImageUrl = thumbnailImageUrl;
-  }
-
-  public String getThumbnailImageAlt() {
-    return this.thumbnailImageAlt;
-  }
-
-  public void setThumbnailImageAlt(String thumbnailImageAlt) {
-    this.thumbnailImageAlt = thumbnailImageAlt;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -142,8 +152,9 @@ public class ProductDTO {
       ", description='" + getDescription() + "'" +
       ", discountRate='" + getDiscountRate() + "'" +
       ", discountPrice='" + getDiscountPrice() + "'" +
+      ", thumbnailImagePath='" + getThumbnailImagePath() + "'" +
+      ", thumbnailImageName='" + getThumbnailImageName() + "'" +
       ", thumbnailImageUrl='" + getThumbnailImageUrl() + "'" +
-      ", thumbnailImageAlt='" + getThumbnailImageAlt() + "'" +
       ", createdAt='" + getCreatedAt() + "'" +
       ", updatedAt='" + getUpdatedAt() + "'" +
       "}";
