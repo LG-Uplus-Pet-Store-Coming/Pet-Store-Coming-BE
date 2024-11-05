@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.orderList.OrderItemDAO">
+    <insert id="insertOrderItem" parameterType="com.coming.pet_store_coming_be.dto.orderList.OrderItemDTO">
+        INSERT INTO order_item (order_id, product_id, quantity, status, created_at, updated_at)
+        VALUES (#{orderId}, #{productId}, #{quantity}, #{status}, NOW(), NOW())
+    </insert>
+</mapper>
