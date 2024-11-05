@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coming.pet_store_coming_be.dto.StoreDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
+import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.coming.pet_store_coming_be.service.store.StoreService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class StoreController {
 
   @Autowired
   FileStorageService fileStorageService;
+  
+  @Autowired
+  S3Service s3Service;
 
   // 1. 스토어 생성 여부 확인
   @GetMapping("/registered")
@@ -93,7 +97,7 @@ public class StoreController {
 
       store.setId(UUID.randomUUID().toString()); // 스토어 고유 번호 생성
 
-      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "store/" + store.getId() + "/thumbnail"); // 이미지 등록
+      Map<String, String> fileInfo = s3Service.uploadImage(thumbnailImage, "store/" + store.getId() + "/thumbnail"); // 이미지 등록
       storeService.createStoreService(store, fileInfo); // 스토어 등록
 
       response.put("status", HttpStatus.OK.value());
@@ -129,7 +133,7 @@ public class StoreController {
       if(newThumbnailImage != null && !newThumbnailImage.isEmpty()) {
 
         Map<String, String> fileInfo =
-          fileStorageService.updateFile(
+          s3Service.updateImage(
             newThumbnailImage, 
             updateStoreInfo.getThumbnailImageUrl(), 
             updateStoreInfo.getThumbnailImageAlt()
@@ -165,13 +169,13 @@ public class StoreController {
   }
 
   // 4. Store 삭제 (Response Data -> Store Id)
+  // Work List -> 스토어에 등록된 모든 이미지 제거(스토어 대표 이미지, 상품 썸네일, 상품 소개 이미지 등)
   @DeleteMapping("/delete/{storeId}")
   public ResponseEntity<Map<String, Object>> deleteStoreController(@PathVariable("storeId") String id) {
     Map<String, Object> response = new HashMap<>();
 
     try {
 
-      // 이미지 삭제 로직 추가
       storeService.deleteStoreService(id);
 
       response.put("status", HttpStatus.OK.value());

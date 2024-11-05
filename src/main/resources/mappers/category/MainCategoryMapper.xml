@@ -4,13 +4,14 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.category.MainCategoryDAO">
 
   <insert id="insertMainCategory" parameterType="MainCategoryDTO">
-    insert into main_category (id, name, slug, thumbnail_url, thumbnail_alt)
+    insert into main_category (id, name, slug, thumbnail_path, thumbnail_name, thumbnail_url)
     values (
       #{id},
       #{name},
       #{slug},
-      #{thumbnailUrl},
-      #{thumbnailAlt}
+      #{thumbnailPath},
+      #{thumbnailName},
+      #{thumbnailUrl}
     )
   </insert>
 
@@ -19,8 +20,9 @@
       id,
       name,
       slug,
-      thumbnail_url as thumbnailUrl,
-      thumbnail_alt as thumbnailAlt
+      thumbnail_path as thumbnailPath,
+      thumbnail_name as thumbnailName,
+      thumbnail_url as thumbnailUrl
     from main_category;
   </select>
 

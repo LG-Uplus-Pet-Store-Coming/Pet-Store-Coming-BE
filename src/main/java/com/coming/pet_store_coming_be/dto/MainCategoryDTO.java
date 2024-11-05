@@ -5,19 +5,20 @@ public class MainCategoryDTO {
   private String id;
   private String name;
   private String slug;
+  private String thumbnailPath;
+  private String thumbnailName;
   private String thumbnailUrl;
-  private String thumbnailAlt;
-
 
   public MainCategoryDTO() {
   }
 
-  public MainCategoryDTO(String id, String name, String slug, String thumbnailUrl, String thumbnailAlt) {
+  public MainCategoryDTO(String id, String name, String slug, String thumbnailPath, String thumbnailName, String thumbnailUrl) {
     this.id = id;
     this.name = name;
     this.slug = slug;
+    this.thumbnailPath = thumbnailPath;
+    this.thumbnailName = thumbnailName;
     this.thumbnailUrl = thumbnailUrl;
-    this.thumbnailAlt = thumbnailAlt;
   }
 
   public String getId() {
@@ -44,6 +45,22 @@ public class MainCategoryDTO {
     this.slug = slug;
   }
 
+  public String getThumbnailPath() {
+    return this.thumbnailPath;
+  }
+
+  public void setThumbnailPath(String thumbnailPath) {
+    this.thumbnailPath = thumbnailPath;
+  }
+
+  public String getThumbnailName() {
+    return this.thumbnailName;
+  }
+
+  public void setThumbnailName(String thumbnailName) {
+    this.thumbnailName = thumbnailName;
+  }
+
   public String getThumbnailUrl() {
     return this.thumbnailUrl;
   }
@@ -52,22 +69,15 @@ public class MainCategoryDTO {
     this.thumbnailUrl = thumbnailUrl;
   }
 
-  public String getThumbnailAlt() {
-    return this.thumbnailAlt;
-  }
-
-  public void setThumbnailAlt(String thumbnailAlt) {
-    this.thumbnailAlt = thumbnailAlt;
-  }
-
   @Override
   public String toString() {
     return "{" +
       " id='" + getId() + "'" +
       ", name='" + getName() + "'" +
       ", slug='" + getSlug() + "'" +
+      ", thumbnailPath='" + getThumbnailPath() + "'" +
+      ", thumbnailName='" + getThumbnailName() + "'" +
       ", thumbnailUrl='" + getThumbnailUrl() + "'" +
-      ", thumbnailAlt='" + getThumbnailAlt() + "'" +
       "}";
   }
 

@@ -25,7 +25,7 @@ public class S3ServiceImpl implements S3Service {
   private String BUCKET_NAME;
 
   @Override // 이미지 업로드 비즈니스 로직
-  public Map<String, String> uploadImage(MultipartFile file, String fileDirectory) {
+  public Map<String, String> uploadImage(MultipartFile file, String filePath) {
     
     Map<String, String> response = new HashMap<>();
 
@@ -42,7 +42,7 @@ public class S3ServiceImpl implements S3Service {
       String newImageName = timestamp + "_" + originalImageName;
 
       // 2. AWS S3 업로드 경로 설정
-      String s3FilePath = fileDirectory + "/" + newImageName; // 파일 경로
+      String s3FilePath = filePath + "/" + newImageName; // 파일 경로
 
       // 3. AWS S3 이미지 업로드
       InputStream inputStream = file.getInputStream();
@@ -55,8 +55,9 @@ public class S3ServiceImpl implements S3Service {
       // 4. 파일 업로드 후 AWS S3 URL 생성
       String fileURL = amazonS3.getUrl(BUCKET_NAME, s3FilePath).toString();
 
-      response.put("filePath", fileURL.substring(0, fileURL.lastIndexOf("/") + 1));
+      response.put("filePath", filePath + "/");
       response.put("fileName", newImageName);
+      response.put("fileURL", fileURL);
 
     } catch (IllegalArgumentException e) {
       response.put("error", "Invalid request: " + e.getMessage());
@@ -70,13 +71,13 @@ public class S3ServiceImpl implements S3Service {
   }
 
   @Override // 이미지 수정 비즈니스 로직
-  public Map<String, String> updateImage(MultipartFile file, String directory, String deleteFileName) {
+  public Map<String, String> updateImage(MultipartFile file, String filePath, String deleteFileName) {
     Map<String, String> response = new HashMap<>();
 
     try {
-      
+
       // 1. 기존 파일 제거 (S3에서 제거)
-      String existingImagePath = directory + "/" + deleteFileName;
+      String existingImagePath = filePath + "/" + deleteFileName;
       if(amazonS3.doesObjectExist(BUCKET_NAME, existingImagePath)) {
         amazonS3.deleteObject(BUCKET_NAME, existingImagePath);
       }
@@ -87,7 +88,7 @@ public class S3ServiceImpl implements S3Service {
       String newImageName = timestamp + "_" + originalImageName;
 
       // 3. AWS S3에 업로드할 경로 설정
-      String newImageFilePath = directory + "/" + newImageName;
+      String newImageFilePath = filePath + "/" + newImageName;
 
       // 4. AWS S3 이미지 업로드
       InputStream inputStream = file.getInputStream();
@@ -98,6 +99,7 @@ public class S3ServiceImpl implements S3Service {
       amazonS3.putObject(BUCKET_NAME, newImageFilePath, inputStream, metadata);
 
       response.put("fileName", newImageName);
+      response.put("fileUrl", amazonS3.getUrl(BUCKET_NAME, newImageFilePath).toString());
 
     } catch (IOException e) {
       e.printStackTrace();

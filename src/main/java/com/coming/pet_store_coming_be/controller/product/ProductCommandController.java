@@ -56,7 +56,7 @@ public class ProductCommandController {
 
         // System.out.println("store/" + storeId + "/product/" + product.getId() + "/thumbnail");
 
-        // 상품 대표 이미지 등록 후 주소, 이름 가져오기
+        // 상품 대표 이미지 등록 후 경로, 이미지 이름 가져오기
         Map<String, String> fileInto = s3Service.uploadImage(thumbnailImage, "store/" + storeId + "/product/" + product.getId() + "/thumbnail");
 
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
@@ -137,7 +137,7 @@ public class ProductCommandController {
           productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
 
           // upload 폴더에 이미지 정보 삭제
-          fileStorageService.deleteImageFile(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
+          s3Service.deleteImage(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
         }
       }
 
@@ -170,6 +170,7 @@ public class ProductCommandController {
   }
 
   // 상품 삭제 DELETE Method
+  // Work List -> 상품 삭제할 경우 AWS S3에 등록된 해당 상품 관련 모든 이미지(썸네일, 상품 이미지) 삭제시켜야 됨
   @DeleteMapping("/delete")
   public ResponseEntity<Map<String, Object>> deleteProduct(@RequestParam("id") String productId) {
     Map<String, Object> response = new HashMap<>();

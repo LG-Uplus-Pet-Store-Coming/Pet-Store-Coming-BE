@@ -21,8 +21,9 @@ public class MainCategoryServiceImpl implements MainCategoryService {
   public void createMainCategory(MainCategoryDTO category, Map<String, String> fileInfo) throws SQLException {
     // 메인 카테고리 정보 업데이트
       category.setId(UUID.randomUUID().toString());
-      category.setThumbnailUrl(fileInfo.get("filePath"));
-      category.setThumbnailAlt(fileInfo.get("fileName"));
+      category.setThumbnailPath(fileInfo.get("filePath"));
+      category.setThumbnailName(fileInfo.get("fileName"));
+      category.setThumbnailUrl(fileInfo.get("fileURL"));
 
       dao.insertMainCategory(category);
   }
