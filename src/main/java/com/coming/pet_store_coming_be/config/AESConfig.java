@@ -9,7 +9,7 @@ import com.coming.pet_store_coming_be.security.AESUtil;
 @Configuration
 public class AESConfig {
 
-  @Value("${aes.secret-key}")
+  @Value("${AES_SECRET_KEY}")
   private String AESSecretKey;
 
   public String getAESSecretKey() {
