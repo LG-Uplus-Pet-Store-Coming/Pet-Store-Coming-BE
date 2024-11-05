@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.MainCategoryDTO;
 import com.coming.pet_store_coming_be.service.category.main_category.MainCategoryService;
-import com.coming.pet_store_coming_be.service.file.FileStorageService;
+import com.coming.pet_store_coming_be.service.file.S3Service;
 
 
 @RestController
@@ -26,7 +26,7 @@ import com.coming.pet_store_coming_be.service.file.FileStorageService;
 public class MainCategoryController {
 
   @Autowired
-  FileStorageService fileStorageService;
+  S3Service s3Service;
 
   @Autowired
   MainCategoryService mainCategoryService;
@@ -39,7 +39,7 @@ public class MainCategoryController {
     try {
 
       // 1. 클라이언트에서 받아온 썸네일 이미지 /uploda/main-category/thumbnail 디렉토리에 업로드
-      Map<String, String> fileInfo = fileStorageService.saveFile(thumbnailImage, "main-category/thumbnail");
+      Map<String, String> fileInfo = s3Service.uploadImage(thumbnailImage, "main-category/thumbnail");
 
       // 2. 디렉토리에 이미지 성공할 경우 상품 정보 등록 비즈니스 로직 처리
       mainCategoryService.createMainCategory(category, fileInfo);

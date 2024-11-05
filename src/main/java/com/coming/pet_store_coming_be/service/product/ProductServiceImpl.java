@@ -14,6 +14,7 @@ import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
+import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -21,6 +22,9 @@ public class ProductServiceImpl implements ProductService{
 
   @Autowired
   FileStorageService fileStorageService;
+
+  @Autowired
+  S3Service s3Service;
 
   @Autowired
   ProductDAO dao;
@@ -64,7 +68,7 @@ public class ProductServiceImpl implements ProductService{
       for(MultipartFile image: images) {
 
         // 상품 이미지 등록
-        Map<String, String> fileInfo = fileStorageService.saveFile(image, "store/" + storeId + "/product/" + productId + "/images");
+        Map<String, String> fileInfo = s3Service.uploadImage(image, "store/" + storeId + "/product/" + productId + "/images");
 
         // ProdcutImageDTO 생성
         ProductImageDTO productImage = new ProductImageDTO(UUID.randomUUID().toString(), productId, fileInfo.get("filePath"), fileInfo.get("fileName"));

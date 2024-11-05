@@ -58,7 +58,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
   }
 
-  @Override // 대표 이미지 변경
+  @Override // 이미지 변경
   public Map<String, String> updateFile(MultipartFile file, String directory, String fileName) {
     Map<String, String> response = new HashMap<>();
 
