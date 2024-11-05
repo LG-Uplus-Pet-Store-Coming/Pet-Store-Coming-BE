@@ -4,7 +4,7 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
   <insert id="insertProduct" parameterType="ProductDTO">
-    insert into product (id, sub_category_id, store_id, name, price, description, discount_rate, discount_price, thumbnail_image_url, thumbnail_image_alt)
+    insert into product (id, sub_category_id, store_id, name, price, description, discount_rate, discount_price, thumbnail_image_path, thumbnail_image_name, thumbnail_image_url)
     values (
       #{id},
       #{subCategoryId},
@@ -14,8 +14,9 @@
       #{description},
       #{discountRate},
       #{discountPrice},
-      #{thumbnailImageUrl},
-      #{thumbnailImageAlt}
+      #{thumbnailImagePath},
+      #{thumbnailImageName}
+      #{thumbnailImageUrl}
     )
   </insert>
 
@@ -30,12 +31,13 @@
   </insert>
 
   <insert id="insertProductImage" parameterType="ProductImageDTO">
-    insert into product_image (id, product_id, product_image_url, product_image_alt)
+    insert into product_image (id, product_id, product_image_path, product_image_name, product_image_url)
     values (
       #{id},
       #{productId}, 
-      #{productImageUrl},
-      #{productImageAlit}
+      #{productImagePath},
+      #{productImageName},
+      #{productImageUrl}
     )
   </insert>
 
@@ -62,8 +64,12 @@
         discount_price = #{discountPrice},
       </if>
 
-      <if test="thumbnailImageAlt != null">
-        thumbnail_image_alt = #{thumbnailImageAlt}
+      <if test="thumbnailImageName != null">
+        thumbnail_image_name = #{thumbnailImageName}
+      </if>
+
+      <if test="thumbnailImageUrl != null">
+        thumbnail_image_url = #{thumbnailImageUrl}
       </if>
     </set>
     where id = #{id}
