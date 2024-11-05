@@ -22,7 +22,7 @@ public class StoreServiceImpl implements StoreService {
   public void createStoreService(StoreDTO store, Map<String, String> fileInfo) throws SQLException {
     store.setThumbnailImagePath(fileInfo.get("filePath"));
     store.setThumbnailImageName(fileInfo.get("fileName"));
-    store.setThumbnailImageName(fileInfo.get("fileURL"));
+    store.setThumbnailImageUrl(fileInfo.get("fileURL"));
 
     dao.createStore(store);
   }
