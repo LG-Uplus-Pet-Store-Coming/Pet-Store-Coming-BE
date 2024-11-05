@@ -15,7 +15,7 @@
       #{discountRate},
       #{discountPrice},
       #{thumbnailImagePath},
-      #{thumbnailImageName}
+      #{thumbnailImageName},
       #{thumbnailImageUrl}
     )
   </insert>
