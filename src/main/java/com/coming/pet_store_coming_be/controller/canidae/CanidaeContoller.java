@@ -84,7 +84,7 @@ public class CanidaeContoller {
   @PutMapping("/update")
   public ResponseEntity<Map<String, Object>> putMethodName(
     @RequestPart("canidaeRequest") CanidaeRequestDTO canidaeRequest,
-    @RequestPart("newProfileImage") MultipartFile newProfileImage
+    @RequestPart(value = "newProfileImage", required = false) MultipartFile newProfileImage
     ) {
       Map<String, Object> response = new HashMap<>();
 
