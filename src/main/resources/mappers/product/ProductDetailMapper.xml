@@ -3,7 +3,7 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
-  <select id="getProductDetail" parameterType="String" resultType="ProductDetailResultMap">
+  <select id="getProductDetail" parameterType="String" resultMap="ProductDetailResultMap">
     select
       s.id as storeId,
       s.name as storeBrandName,
