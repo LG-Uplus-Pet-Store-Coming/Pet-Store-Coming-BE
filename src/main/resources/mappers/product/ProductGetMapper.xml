@@ -7,14 +7,14 @@
     select 
       p.store_id as storeId,
       s.name as storeBrandName,
-      p.id,
-      p.name,
-      p.price,
-      p.discount_rate as discountRate,
-      p.discount_price as discountPrice,
-      p.thumbnail_image_path as thumbnailImagePath,
-      p.thumbnail_image_name as thumbnailImageName,
-      p.thumbnail_image_url as thumbnailImageUrl
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
     join 
       store s on p.store_id = s.id
@@ -145,7 +145,7 @@
   <select id="getProductImage" parameterType="String" resultType="ProductImageDTO">
     select 
       product_image_path as productImagePath, 
-      product_image_name as productImageName
+      product_image_name as productImageName,
       product_image_url as productImageUrl
     from 
       product_image
