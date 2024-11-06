@@ -20,6 +20,25 @@
     where p.id = #{productId}
   </select>
 
+  <select id="getProductOptionByProductId" parameterType="String" resultType="ProductOptionDTO">
+    select
+      id,
+      description,
+      add_price as addPrice
+    from product_option
+    where product_id = #{productId}
+  </select>
+
+  <select id="getProductImageByProductId" parameterType="String" resultType="ProductImageDTO">
+    select
+      id,
+      product_image_path as productImagePath,
+      product_image_name as productImageName,
+      product_image_url as productImageUrl
+    from product_image
+    where product_id = #{productId}
+  </select>
+
   <resultMap id="ProductDetailResultMap" type="com.coming.pet_store_coming_be.dto.product.ProductDetailDTO">
 
     <result property="storeId" column="storeId"/>
@@ -33,6 +52,10 @@
     <result property="productPrice" column="productPrice"/>
     <result property="productDiscountRate" column="productDiscountRate"/>
     <result property="productDiscountPrice" column="productDiscountPrice"/>
+
+    <collection property="productOptions" ofType="ProductOptionDTO" select="getProductOptionByProductId" column="productId"/>
+    <collection property="productImage" ofType="ProductImageDTO" select="getProductImageByProductId" column="productId"/>
+
 
   </resultMap>
 
