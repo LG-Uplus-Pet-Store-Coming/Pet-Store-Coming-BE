@@ -49,6 +49,7 @@ public class CanidaeServiceImpl implements CanidaeService {
     
     dao.deleteCanidaeInfo(canidaeId);
 
+    System.out.println(canidaeToDelete);
     System.out.println("not yet...");
     if(Boolean.TRUE.equals(canidaeToDelete.getIsPrimary())) {
       System.out.println("Primary Canidae");
