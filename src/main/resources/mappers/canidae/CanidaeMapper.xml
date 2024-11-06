@@ -78,7 +78,15 @@
 
   <!-- 반려견 정보 삭제 관련 Mapper -->
   <select id="getCanidaeById" parameterType="String" resultType="CanidaeDTO">
-    select *
+    select
+      id,
+      user_id as userId,
+      name,
+      birth,
+      breed,
+      gender,
+      weight,
+      is_primary as isPrimary
     from canidae
     where id = #{canidaeId}
   </select>
