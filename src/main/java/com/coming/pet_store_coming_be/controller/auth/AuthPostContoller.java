@@ -114,7 +114,7 @@ public class AuthPostContoller {
     Map<String, Object> response = new HashMap<>();
     
     // 1. 이메일 중복 확인
-    if(authService.isUserEmailMath(user.getEmail())) {
+    if(!user.getEmail().isBlank() && authService.isUserEmailMath(user.getEmail())) {
       response.put("status", HttpStatus.CONFLICT.value());
       response.put("success", false);
       response.put("errorCode", "DUPLICATE_EMAIL");
