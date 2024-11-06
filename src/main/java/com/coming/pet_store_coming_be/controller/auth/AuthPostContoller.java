@@ -77,7 +77,7 @@ public class AuthPostContoller {
     String token = tokenProvider.createToken(userInfo); // 토큰 생성
     String refreshToken = tokenProvider.createRefreshToken(userInfo.getId(), request.get("deviceId"));
     
-    authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, request.get("deviceId")); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
+    // authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, request.get("deviceId")); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
 
     // // 로그인 성공 시 refresh_token 및 is_active 갱신
     // userInfo.setRefreshToken(tokenProvider.createRefreshToken(userInfo.getId()));

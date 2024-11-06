@@ -39,6 +39,7 @@ public class TokenProvider {
     claims.put("email", user.getEmail());
     claims.put("name", user.getName());
     claims.put("address", user.getAddress());
+    claims.put("phoneNumber", user.getPhoneNumber());
     claims.put("platform", user.getPlatform());
     claims.put("role", user.getRole());
 

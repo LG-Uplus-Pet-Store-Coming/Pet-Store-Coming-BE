@@ -10,6 +10,7 @@
       s.thumbnail_image_path as storeThumbnailImagePath,
       s.thumbnail_image_name as storeThumbnailImageName,
       s.thumbnail_image_url as storeThumbnailImageUrl,
+      p.id as productId
       p.name as productName,
       p.description as productDescription,
       p.price as productPrice,
@@ -54,8 +55,7 @@
     <result property="productDiscountPrice" column="productDiscountPrice"/>
 
     <collection property="productOptions" ofType="ProductOptionDTO" select="getProductOptionByProductId" column="productId"/>
-    <collection property="productImage" ofType="ProductImageDTO" select="getProductImageByProductId" column="productId"/>
-
+    <collection property="productImages" ofType="ProductImageDTO" select="getProductImageByProductId" column="productId"/>
 
   </resultMap>
 
