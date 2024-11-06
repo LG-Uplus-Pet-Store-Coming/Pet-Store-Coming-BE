@@ -229,8 +229,8 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to search products.");
-      response.put("errorCode", "PRODUCT_SEARCH_ERROR");
+      response.put("message", "An error occurred while retrieving product details.");
+      response.put("errorCode", "PRODUCT_DETAIL_RETRIEVAL_FAILED");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

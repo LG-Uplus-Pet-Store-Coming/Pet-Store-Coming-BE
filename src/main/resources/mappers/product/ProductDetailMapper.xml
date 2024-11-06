@@ -15,7 +15,10 @@
       p.description as productDescription,
       p.price as productPrice,
       p.discount_rate as productDiscountRate,
-      p.discount_price as productDiscountPrice
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as prodcutThumbnailImagePath,
+      p.thumbnail_image_name as prodcutThumbnailImageName,
+      p.thumbnail_image_url as prodcutThumbnailImageUrl
     from product p
     join store s on p.store_id = s.id
     where p.id = #{productId}
@@ -53,6 +56,9 @@
     <result property="productPrice" column="productPrice"/>
     <result property="productDiscountRate" column="productDiscountRate"/>
     <result property="productDiscountPrice" column="productDiscountPrice"/>
+    <result property="prodcutThumbnailImagePath" column="prodcutThumbnailImagePath"/>
+    <result property="prodcutThumbnailImageName" column="prodcutThumbnailImageName"/>
+    <result property="prodcutThumbnailImageUrl" column="prodcutThumbnailImageUrl"/>
 
     <collection property="productOptions" ofType="ProductOptionDTO" select="getProductOptionByProductId" column="productId"/>
     <collection property="productImages" ofType="ProductImageDTO" select="getProductImageByProductId" column="productId"/>

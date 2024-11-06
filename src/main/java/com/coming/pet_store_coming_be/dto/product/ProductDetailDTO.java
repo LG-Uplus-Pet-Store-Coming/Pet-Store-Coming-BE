@@ -15,15 +15,18 @@ public class ProductDetailDTO {
   private int productPrice;
   private int productDiscountRate;
   private int productDiscountPrice;
+  
+  private String prodcutThumbnailImagePath;
+  private String prodcutThumbnailImageName;
+  private String prodcutThumbnailImageUrl;
 
   private List<ProductOptionDTO> productOptions;
   private List<ProductImageDTO> productImages;
 
-
   public ProductDetailDTO() {
   }
 
-  public ProductDetailDTO(String storeId, String storeBrandName, String storeThumbnailImagePath, String storeThumbnailImageName, String storeThumbnailImageUrl, String productName, String productDescription, int productPrice, int productDiscountRate, int productDiscountPrice, List<ProductOptionDTO> productOptions, List<ProductImageDTO> productImages) {
+  public ProductDetailDTO(String storeId, String storeBrandName, String storeThumbnailImagePath, String storeThumbnailImageName, String storeThumbnailImageUrl, String productName, String productDescription, int productPrice, int productDiscountRate, int productDiscountPrice, String prodcutThumbnailImagePath, String prodcutThumbnailImageName, String prodcutThumbnailImageUrl, List<ProductOptionDTO> productOptions, List<ProductImageDTO> productImages) {
     this.storeId = storeId;
     this.storeBrandName = storeBrandName;
     this.storeThumbnailImagePath = storeThumbnailImagePath;
@@ -34,6 +37,9 @@ public class ProductDetailDTO {
     this.productPrice = productPrice;
     this.productDiscountRate = productDiscountRate;
     this.productDiscountPrice = productDiscountPrice;
+    this.prodcutThumbnailImagePath = prodcutThumbnailImagePath;
+    this.prodcutThumbnailImageName = prodcutThumbnailImageName;
+    this.prodcutThumbnailImageUrl = prodcutThumbnailImageUrl;
     this.productOptions = productOptions;
     this.productImages = productImages;
   }
@@ -118,6 +124,30 @@ public class ProductDetailDTO {
     this.productDiscountPrice = productDiscountPrice;
   }
 
+  public String getProdcutThumbnailImagePath() {
+    return this.prodcutThumbnailImagePath;
+  }
+
+  public void setProdcutThumbnailImagePath(String prodcutThumbnailImagePath) {
+    this.prodcutThumbnailImagePath = prodcutThumbnailImagePath;
+  }
+
+  public String getProdcutThumbnailImageName() {
+    return this.prodcutThumbnailImageName;
+  }
+
+  public void setProdcutThumbnailImageName(String prodcutThumbnailImageName) {
+    this.prodcutThumbnailImageName = prodcutThumbnailImageName;
+  }
+
+  public String getProdcutThumbnailImageUrl() {
+    return this.prodcutThumbnailImageUrl;
+  }
+
+  public void setProdcutThumbnailImageUrl(String prodcutThumbnailImageUrl) {
+    this.prodcutThumbnailImageUrl = prodcutThumbnailImageUrl;
+  }
+
   public List<ProductOptionDTO> getProductOptions() {
     return this.productOptions;
   }
@@ -147,6 +177,9 @@ public class ProductDetailDTO {
       ", productPrice='" + getProductPrice() + "'" +
       ", productDiscountRate='" + getProductDiscountRate() + "'" +
       ", productDiscountPrice='" + getProductDiscountPrice() + "'" +
+      ", prodcutThumbnailImagePath='" + getProdcutThumbnailImagePath() + "'" +
+      ", prodcutThumbnailImageName='" + getProdcutThumbnailImageName() + "'" +
+      ", prodcutThumbnailImageUrl='" + getProdcutThumbnailImageUrl() + "'" +
       ", productOptions='" + getProductOptions() + "'" +
       ", productImages='" + getProductImages() + "'" +
       "}";
