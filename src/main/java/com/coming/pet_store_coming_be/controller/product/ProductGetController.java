@@ -211,30 +211,30 @@ public class ProductGetController {
     }
   }
 
-  @GetMapping("/{productId}/detail") // 10. 상품 상세 조회
-  public ResponseEntity<Map<String, Object>> getProductDetailController(@PathVariable("productId") String productId) {
-    Map<String, Object> response = new HashMap<>();
+  // @GetMapping("/{productId}/detail") // 10. 상품 상세 조회
+  // public ResponseEntity<Map<String, Object>> getProductDetailController(@PathVariable("productId") String productId) {
+  //   Map<String, Object> response = new HashMap<>();
    
-    try {
-      ProductDetailDTO data = productService.getProductDetailService(productId);
+  //   try {
+  //     ProductDetailDTO data = productService.getProductDetailService(productId);
 
-      response.put("status", HttpStatus.OK.value());
-      response.put("success", true);
-      response.put("data", data);
+  //     response.put("status", HttpStatus.OK.value());
+  //     response.put("success", true);
+  //     response.put("data", data);
 
-      return new ResponseEntity<>(response, HttpStatus.OK);
-    } catch (Exception e) {
-      // 실패 응답 보내기
-      e.printStackTrace();
+  //     return new ResponseEntity<>(response, HttpStatus.OK);
+  //   } catch (Exception e) {
+  //     // 실패 응답 보내기
+  //     e.printStackTrace();
 
-      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-      response.put("success", false);
-      response.put("message", "Failed to search products.");
-      response.put("errorCode", "PRODUCT_SEARCH_ERROR");
+  //     response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+  //     response.put("success", false);
+  //     response.put("message", "Failed to search products.");
+  //     response.put("errorCode", "PRODUCT_SEARCH_ERROR");
 
-      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  //     return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
+  // }
   
 
 }

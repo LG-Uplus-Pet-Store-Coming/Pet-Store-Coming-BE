@@ -45,6 +45,6 @@ public interface ProductService {
   public List<ProductInfoDTO> getSearchFindProductService(String search) throws SQLException;
 
   // ( 특정 상품 상세 조회 )
-  public ProductDetailDTO getProductDetailService(String productId) throws SQLException;
+  // public ProductDetailDTO getProductDetailService(String productId) throws SQLException;
 
 }
