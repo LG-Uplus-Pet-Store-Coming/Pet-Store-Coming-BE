@@ -45,18 +45,34 @@ public class CanidaeServiceImpl implements CanidaeService {
 
   @Override // 반려견 정보 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteCanidaeInfoService(String canidaeId) throws SQLException {
+    CanidaeDTO canidaeToDelete = dao.getCanidaeById(canidaeId);
+    
     dao.deleteCanidaeInfo(canidaeId);
 
-    String userId = dao.getUserIdByCanidaeId(canidaeId);
+    System.out.println("not yet...");
+    if(canidaeToDelete.getIsPrimary()) {
+      System.out.println("Primary Canidae");
+      
+      String userId = dao.getUserIdByCanidaeId(canidaeId);
+      List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(userId);
 
-    List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(userId);
-
-    if(!remainingCanidaeList.isEmpty()) {
-      CanidaeDTO latestCanidae = remainingCanidaeList.get(remainingCanidaeList.size() - 1);
-
-      latestCanidae.setIsPrimary(true);
-      dao.updateCanidae(latestCanidae);
+      if(!remainingCanidaeList.isEmpty()) {
+        System.out.println("Get is User Id");
+        CanidaeDTO latestCanidae = remainingCanidaeList.get(remainingCanidaeList.size() - 1);
+  
+        latestCanidae.setIsPrimary(true);
+        dao.updateCanidae(latestCanidae);
+      }
     }
+    System.out.println("end...");
+
+    // dao.deleteCanidaeInfo(canidaeId);
+
+    // System.out.println(userId);
+
+    // 
+
+    // 
 
   }
   

@@ -25,6 +25,7 @@ public interface CanidaeDAO {
   public List<CanidaeInfoDTO> getCanidaeList(String userId) throws SQLException;
 
   // 반려견 정보 삭제 DAO
+  public CanidaeDTO getCanidaeById(String canidaeId) throws SQLException;
   public void deleteCanidaeInfo(String canidaeId) throws SQLException;
   public String getUserIdByCanidaeId(String canidaeId) throws SQLException; // 반려견 제거 후 사용자의 아이디 가져옴
   public List<CanidaeDTO> getRemainingCanidaeByUserId(String userId) throws SQLException; // 사용자의 아이디를 가져온 후 사용자가 등록한 모든 반려견 정보 가지고 옴

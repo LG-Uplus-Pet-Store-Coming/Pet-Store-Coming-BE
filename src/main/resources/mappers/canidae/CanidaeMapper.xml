@@ -77,6 +77,12 @@
   </delete>
 
   <!-- 반려견 정보 삭제 관련 Mapper -->
+  <select id="getCanidaeById" parameterType="String" resultType="CanidaeDTO">
+    select *
+    from canidae
+    where id = #{canidaeId}
+  </select>
+
   <delete id="deleteCanidaeInfo" parameterType="String">
     delete from canidae
     where id = #{canidaeId}
