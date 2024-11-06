@@ -3,7 +3,7 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO">
 
-  <select id="getCanidaeList" parameterType="String" resultMap="CanidaeInfoResultMap" >
+  <select id="getCanidaeList" parameterType="String" resultMap="CanidaeInfoResultMap">
     select
       c.id as id,
       c.name as name,
@@ -23,7 +23,7 @@
       c.user_id = #{userId}
   </select>
 
-  <select id="getInterestProductByCanidaeId" parameterType="String" resultType="CanidaeInterestProductDTO" >
+  <select id="getInterestProductByCanidaeId" parameterType="String" resultType="CanidaeInterestProductDTO">
     select
       id,
       sub_category_id as subCategoryId
@@ -35,19 +35,20 @@
 
   <resultMap id="CanidaeInfoResultMap" type="com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO">
 
-    <result property="id" column="id"/>
-    <result property="name" column="name"/>
-    <result property="birth" column="birth"/>
-    <result property="breed" column="breed"/>
-    <result property="profileImagePath" column="profileImagePath"/>
-    <result property="profileImageName" column="profileImageName"/>
-    <result property="profileImageUrl" column="profileImageUrl"/>
-    <result property="gender" column="gender"/>
-    <result property="weight" column="weight"/>
-    <result property="productDiscountPrice" column="productDiscountPrice"/>
-    <result property="isPrimary" column="isPrimary"/>
-    <result property="createdAt" column="createdAt"/>
-    <result property="updatedAt" column="updatedAt"/>
+    <association property="canidae" javaType="CanidaeDTO">
+      <result property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="birth" column="birth"/>
+      <result property="breed" column="breed"/>
+      <result property="profileImagePath" column="profileImagePath"/>
+      <result property="profileImageName" column="profileImageName"/>
+      <result property="profileImageUrl" column="profileImageUrl"/>
+      <result property="gender" column="gender"/>
+      <result property="weight" column="weight"/>
+      <result property="isPrimary" column="isPrimary"/>
+      <result property="createdAt" column="createdAt"/>
+      <result property="updatedAt" column="updatedAt"/>
+    </association>
 
     <collection property="interstProductList" ofType="CanidaeInterestProductDTO" select="getInterestProductByCanidaeId" column="id"/>
 
