@@ -5,7 +5,7 @@
 
   <select id="getCategoryFindAll" parameterType="String" resultType="ProductDTO">
     select 
-      p.id, 
+      p.id,
       p.name, 
       p.price, 
       p.description, 
@@ -18,7 +18,7 @@
     join 
       sub_category sc on p.sub_category_id = sc.id
     where 
-      sc.main_catrgory_id = #{id}
+      sc.main_category_id = #{id}
   </select>
 
   <select id="getCategoryFindNew" parameterType="String" resultType="ProductDTO">
@@ -36,7 +36,7 @@
     join 
       sub_category sc on p.sub_category_id = sc.id
     where 
-      sc.main_catrgory_id = #{id}
+      sc.main_category_id = #{id}
     order by p.created_at desc
     limit 10
   </select>
