@@ -180,8 +180,8 @@ public class ProductServiceImpl implements ProductService{
   }
 
   // @Override // 특정 상품 상세 조회 비즈니스 로직 인스턴스 메서드
-  // public ProductDetailDTO getProductDetailService(String productId) throws SQLException {
-  //   return dao.getProductDetail(productId);
-  // }
+  public ProductDetailDTO getProductDetailService(String productId) throws SQLException {
+    return null;
+  }
 
 }

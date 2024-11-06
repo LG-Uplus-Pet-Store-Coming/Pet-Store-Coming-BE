@@ -216,11 +216,11 @@ public class ProductGetController {
     Map<String, Object> response = new HashMap<>();
    
     try {
-      // ProductDetailDTO data = productService.getProductDetailService(productId);
+      ProductDetailDTO data = productService.getProductDetailService(productId);
 
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
-      // response.put("data", data);
+      response.put("data", data);
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
