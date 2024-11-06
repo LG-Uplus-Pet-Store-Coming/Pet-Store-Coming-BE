@@ -95,7 +95,16 @@
   </select>
 
   <select id="getRemainingCanidaeByUserId" parameterType="String" resultType="CanidaeDTO">
-    select * from canidae
+    select
+      id,
+      user_id as userId,
+      name,
+      birth,
+      breed,
+      gender,
+      weight,
+      is_primary as isPrimary
+    from canidae
     where user_id = #{userId}
     order by created_at asc
   </select>

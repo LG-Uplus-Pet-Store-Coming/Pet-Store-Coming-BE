@@ -54,7 +54,9 @@ public class CanidaeServiceImpl implements CanidaeService {
       System.out.println("Primary Canidae");
       
       String userId = dao.getUserIdByCanidaeId(canidaeId);
+      System.out.println(userId);
       List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(userId);
+      System.out.println(remainingCanidaeList);
 
       if(!remainingCanidaeList.isEmpty()) {
         System.out.println("Get is User Id");
