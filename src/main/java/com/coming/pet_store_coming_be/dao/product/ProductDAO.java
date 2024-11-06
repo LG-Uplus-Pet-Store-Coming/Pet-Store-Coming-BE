@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDetailDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
@@ -26,14 +27,17 @@ public interface ProductDAO {
   public void deleteProductImage(String id); // 상품 이미지 삭제
 
   // 상품 정보 가져오기 관련 DAO
-  public List<ProductDTO> getFindAllProduct(); // 필터링 없는 모든 상품 조회
+  public List<ProductInfoDTO> getFindAllProduct(); // 필터링 없는 모든 상품 조회
+  public List<ProductInfoDTO> getFindNewAllProductService(); // 필터링 없는 날짜 순 모든 상품 조회
 
   public List<ProductInfoDTO> getCategoryFindAll(String id); // 특정 메인 카테고리 상품 전체 가져오기
-  public List<ProductDTO> getCategoryFindNew(String id); // 특정 메인 카테고리 상품 중 새상품 가져오기
+  public List<ProductInfoDTO> getCategoryFindNew(String id); // 특정 메인 카테고리 상품 중 새상품 가져오기
 
-  public List<ProductDTO> getSubCategoryFindAll(String id); // 특정 서브 메인 카테고리 상품 전체 가져오기
-  public List<ProductDTO> getSubCategoryFindNew(String id); // 특정 서브 메인 카테고리 상품 중 새상품 가져오기
+  public List<ProductInfoDTO> getSubCategoryFindAll(String id); // 특정 서브 메인 카테고리 상품 전체 가져오기
+  public List<ProductInfoDTO> getSubCategoryFindNew(String id); // 특정 서브 메인 카테고리 상품 중 새상품 가져오기
 
-  public List<ProductDTO> searchFindProdcut(String search); // 상품 검색에 의한 상품 정보 가져오기
+  public List<ProductInfoDTO> searchFindProdcut(String search); // 상품 검색에 의한 상품 정보 가져오기
   public ProductImageDTO getProductImage(String id); // 상품 이미지 가져오기
+
+  public ProductDetailDTO getProductDetail(String productId); // 특정 상품 전체 조회
 }

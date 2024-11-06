@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDetailDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
@@ -29,17 +30,21 @@ public interface ProductService {
   // 상품 정보 가져오는 Service 인스턴스 메서드
   
   // ( 필터링 없이 모든 상품 )
-  public List<ProductDTO> getFindAllProductService() throws SQLException;
+  public List<ProductInfoDTO> getFindAllProductService() throws SQLException;
+  public List<ProductInfoDTO> getFindNewAllProductService() throws SQLException;
   
   // ( 메인 카테고리 )
   public List<ProductInfoDTO> getCategoryFindAllService(String id) throws SQLException;
-  public List<ProductDTO> getCategoryFindNewService(String id) throws SQLException;
+  public List<ProductInfoDTO> getCategoryFindNewService(String id) throws SQLException;
 
   // ( 서브 카테고리 )
-  public List<ProductDTO> getSubCategoryFindAllService(String id) throws SQLException;
-  public List<ProductDTO> getSubCategoryFindNewService(String id) throws SQLException;
+  public List<ProductInfoDTO> getSubCategoryFindAllService(String id) throws SQLException;
+  public List<ProductInfoDTO> getSubCategoryFindNewService(String id) throws SQLException;
 
   // ( 상품 검색 )
-  public List<ProductDTO> getSearchFindProductService(String search) throws SQLException;
+  public List<ProductInfoDTO> getSearchFindProductService(String search) throws SQLException;
+
+  // ( 특정 상품 상세 조회 )
+  public ProductDetailDTO getProductDetailService(String productId) throws SQLException;
 
 }

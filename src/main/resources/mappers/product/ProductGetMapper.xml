@@ -3,9 +3,9 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
-  <select id="getFindAllProduct" parameterType="String" resultType="ProductDTO">
+  <select id="getFindAllProduct" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id,
       p.name,
@@ -20,9 +20,28 @@
       store s on p.store_id = s.id
   </select>
 
+  <select id="getFindNewAllProductService" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id,
+      p.name,
+      p.price,
+      p.discount_rate as discountRate,
+      p.discount_price as discountPrice,
+      p.thumbnail_image_path as thumbnailImagePath,
+      p.thumbnail_image_name as thumbnailImageName,
+      p.thumbnail_image_url as thumbnailImageUrl
+    from product p
+    join 
+      store s on p.store_id = s.id
+    order by p.created_at desc
+    limit 10
+  </select>
+
   <select id="getCategoryFindAll" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id as productId,
       p.name as productName,
@@ -41,9 +60,9 @@
       sc.main_category_id = #{id}
   </select>
 
-  <select id="getCategoryFindNew" parameterType="String" resultType="ProductDTO">
+  <select id="getCategoryFindNew" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id as productId,
       p.name as productName,
@@ -64,9 +83,9 @@
     limit 10
   </select>
 
-  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductDTO">
+  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id as productId,
       p.name as productName,
@@ -83,9 +102,9 @@
       p.sub_category_id = #{id}
   </select>
 
-  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductDTO">
+  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id as productId,
       p.name as productName,
@@ -104,9 +123,9 @@
     limit 10
   </select>
 
-  <select id="searchFindProdcut" parameterType="String" resultType="ProductDTO">
+  <select id="searchFindProdcut" parameterType="String" resultType="ProductInfoDTO">
     select 
-      s.id as storeId,
+      p.store_id as storeId,
       s.name as storeBrandName,
       p.id as productId,
       p.name as productName,
