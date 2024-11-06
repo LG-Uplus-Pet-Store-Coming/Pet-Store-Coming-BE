@@ -7,3 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OrderItemDAO {
     void insertOrderItem(OrderItemDTO orderItem);
 }
+
+//등록용 OrderItem
