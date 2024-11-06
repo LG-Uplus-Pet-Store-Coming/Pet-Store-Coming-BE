@@ -9,8 +9,9 @@ public class CanidaeDTO {
   private String name;
   private LocalDate birth;
   private String breed;
+  private String profileImagePath;
+  private String profileImageName;
   private String profileImageUrl;
-  private String profileImageAlt;
   private boolean gender;
   private float weight;
   private boolean isPrimary;
@@ -20,14 +21,15 @@ public class CanidaeDTO {
   public CanidaeDTO() {
   }
 
-  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImageUrl, String profileImageAlt, boolean gender, float weight, boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImagePath, String profileImageName, String profileImageUrl, boolean gender, float weight, boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.userId = userId;
     this.name = name;
     this.birth = birth;
     this.breed = breed;
+    this.profileImagePath = profileImagePath;
+    this.profileImageName = profileImageName;
     this.profileImageUrl = profileImageUrl;
-    this.profileImageAlt = profileImageAlt;
     this.gender = gender;
     this.weight = weight;
     this.isPrimary = isPrimary;
@@ -75,20 +77,28 @@ public class CanidaeDTO {
     this.breed = breed;
   }
 
+  public String getProfileImagePath() {
+    return this.profileImagePath;
+  }
+
+  public void setProfileImagePath(String profileImagePath) {
+    this.profileImagePath = profileImagePath;
+  }
+
+  public String getProfileImageName() {
+    return this.profileImageName;
+  }
+
+  public void setProfileImageName(String profileImageName) {
+    this.profileImageName = profileImageName;
+  }
+
   public String getProfileImageUrl() {
     return this.profileImageUrl;
   }
 
   public void setProfileImageUrl(String profileImageUrl) {
     this.profileImageUrl = profileImageUrl;
-  }
-
-  public String getProfileImageAlt() {
-    return this.profileImageAlt;
-  }
-
-  public void setProfileImageAlt(String profileImageAlt) {
-    this.profileImageAlt = profileImageAlt;
   }
 
   public boolean isGender() {
@@ -147,8 +157,9 @@ public class CanidaeDTO {
       ", name='" + getName() + "'" +
       ", birth='" + getBirth() + "'" +
       ", breed='" + getBreed() + "'" +
+      ", profileImagePath='" + getProfileImagePath() + "'" +
+      ", profileImageName='" + getProfileImageName() + "'" +
       ", profileImageUrl='" + getProfileImageUrl() + "'" +
-      ", profileImageAlt='" + getProfileImageAlt() + "'" +
       ", gender='" + isGender() + "'" +
       ", weight='" + getWeight() + "'" +
       ", isPrimary='" + isIsPrimary() + "'" +

@@ -25,8 +25,9 @@ public class CanidaeServiceImpl implements CanidaeService {
   public void insertCanidaeService(CanidaeRequestDTO canidae, Map<String, String> profileImageInfo) throws SQLException {
     
     // 반려견 정보 업데이트
-    canidae.getCanidae().setProfileImageUrl(profileImageInfo.get("filePath"));
-    canidae.getCanidae().setProfileImageAlt(profileImageInfo.get("fileName"));
+    canidae.getCanidae().setProfileImagePath(profileImageInfo.get("filePath"));
+    canidae.getCanidae().setProfileImageName(profileImageInfo.get("fileName"));
+    canidae.getCanidae().setProfileImageUrl(profileImageInfo.get("fileURL"));
 
     // 반려견 정보 등록
     dao.insertCanidaeInfo(canidae.getCanidae());

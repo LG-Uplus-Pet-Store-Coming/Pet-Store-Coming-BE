@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
 import com.coming.pet_store_coming_be.service.canidae.CanidaeService;
-import com.coming.pet_store_coming_be.service.file.FileStorageService;
+import com.coming.pet_store_coming_be.service.file.S3Service;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class CanidaeContoller {
   CanidaeService canidaeService;
 
   @Autowired
-  FileStorageService fileStorageService;
+  S3Service s3Service;
 
   @PostMapping("/insert") // 반려견 정보 등록
   public ResponseEntity<Map<String, Object>> insertCanidaeContoller(@RequestPart("canidaeRequest") CanidaeRequestDTO canidaeRequest, @RequestPart("profilImage") MultipartFile profileImage) {
@@ -57,7 +57,7 @@ public class CanidaeContoller {
       CanidaeDTO canidae = canidaeRequest.getCanidae();
       canidae.setId(UUID.randomUUID().toString());
 
-      Map<String, String> fileInfo = fileStorageService.saveFile(profileImage, "user/" + canidae.getUserId() + "/" + canidae.getId() + "/profile");
+      Map<String, String> fileInfo = s3Service.uploadImage(profileImage, "user/" + canidae.getUserId() + "/" + canidae.getId() + "/profile");
       
       // 반려견 정보 등록
       canidaeService.insertCanidaeService(canidaeRequest, fileInfo);
@@ -95,20 +95,21 @@ public class CanidaeContoller {
         // 상품 대표 이미지를 변경할 경우
         if(newProfileImage != null && !newProfileImage.isEmpty()) {
           Map<String, String> fileInfo = 
-          fileStorageService.updateFile(
+          s3Service.updateImage(
             newProfileImage, 
-            canidae.getProfileImageUrl(), 
-            canidae.getProfileImageAlt()
+            canidae.getProfileImagePath(), 
+            canidae.getProfileImageName()
           );
 
-          canidae.setProfileImageAlt(fileInfo.get("fileName"));
+          canidae.setProfileImageName(fileInfo.get("fileName"));
+          canidae.setProfileImageUrl(fileInfo.get("fileUrl"));
         } else {
           // 반려견 이미지를 변경하지 않는다면 profileImageAlt 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-          canidae.setProfileImageAlt(null);
+          canidae.setProfileImageName(null);
         }
 
         // profileImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-        canidae.setProfileImageUrl(null);
+        canidae.setProfileImagePath(null);
 
         // #1. 반려견 정보 변경
         canidaeService.updateCanidaeService(canidae, canidaeRequest.getIntersetUpdateProduct());

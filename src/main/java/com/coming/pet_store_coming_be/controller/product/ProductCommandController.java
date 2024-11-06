@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
-import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.coming.pet_store_coming_be.service.product.ProductService;
 
@@ -29,9 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/product")
 public class ProductCommandController {
-  
-  @Autowired
-  FileStorageService fileStorageService;
 
   @Autowired
   S3Service s3Service;
@@ -124,7 +120,7 @@ public class ProductCommandController {
       }
 
       // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-      product.setThumbnailImageName(null);
+      product.setThumbnailImagePath(null);
       
       productService.updateProduct(product); // #1. 상품 정보 변경
 
