@@ -106,6 +106,8 @@ public class AuthSocialController {
 
     try {
 
+      System.out.println("device_id: " + deviceId);
+
       // 카카오 사용자 정보 가져오기
       String requestKakaoUserInfoUrl = "https://kapi.kakao.com/v2/user/me";
 
