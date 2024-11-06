@@ -49,7 +49,7 @@ public class ProductCommandController {
       Map<String, Object> response = new HashMap<>();
 
       try {
-
+        
         // 상품의 고유 번호 아이디 부여
         ProductDTO product = productRequest.getProduct();
         product.setId(UUID.randomUUID().toString());
