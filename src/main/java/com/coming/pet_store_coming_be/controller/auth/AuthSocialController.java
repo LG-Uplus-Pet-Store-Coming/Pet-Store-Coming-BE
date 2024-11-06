@@ -128,7 +128,7 @@ public class AuthSocialController {
 
       // 고유키 암호화
       String kakaoIdAsString = String.valueOf(kakaoId);
-      String encryptKakaoId = aesUtil.encrypt(kakaoIdAsString);
+      String encryptKakaoId = aesUtil.generateHahs(kakaoIdAsString);
 
       System.out.println(encryptKakaoId);
 
