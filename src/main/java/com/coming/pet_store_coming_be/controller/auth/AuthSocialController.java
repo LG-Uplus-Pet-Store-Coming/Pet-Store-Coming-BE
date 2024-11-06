@@ -124,9 +124,13 @@ public class AuthSocialController {
 
       Long kakaoId = (Long) kakaoUserInfo.get("id"); // 카카오 고유키 가져오기
 
+      System.out.println(kakaoId);
+
       // 고유키 암호화
       String kakaoIdAsString = String.valueOf(kakaoId);
       String encryptKakaoId = aesUtil.encrypt(kakaoIdAsString);
+
+      System.out.println(encryptKakaoId);
 
       UserDTO socialUserInfo = authService.getSocialUserInfoService(encryptKakaoId);
 
