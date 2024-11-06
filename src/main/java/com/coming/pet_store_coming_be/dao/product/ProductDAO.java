@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 
 @Mapper
@@ -25,7 +26,9 @@ public interface ProductDAO {
   public void deleteProductImage(String id); // 상품 이미지 삭제
 
   // 상품 정보 가져오기 관련 DAO
-  public List<ProductDTO> getCategoryFindAll(String id); // 특정 메인 카테고리 상품 전체 가져오기
+  public List<ProductDTO> getFindAllProduct(); // 필터링 없는 모든 상품 조회
+
+  public List<ProductInfoDTO> getCategoryFindAll(String id); // 특정 메인 카테고리 상품 전체 가져오기
   public List<ProductDTO> getCategoryFindNew(String id); // 특정 메인 카테고리 상품 중 새상품 가져오기
 
   public List<ProductDTO> getSubCategoryFindAll(String id); // 특정 서브 메인 카테고리 상품 전체 가져오기

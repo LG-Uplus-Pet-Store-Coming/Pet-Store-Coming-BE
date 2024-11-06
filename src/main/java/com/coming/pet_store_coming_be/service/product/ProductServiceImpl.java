@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coming.pet_store_coming_be.dao.product.ProductDAO;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
@@ -127,8 +128,13 @@ public class ProductServiceImpl implements ProductService{
     }
   }
 
+  @Override // 필터링 없이 등록된 모든 상품 조회 비즈니스 로직
+  public List<ProductDTO> getFindAllProductService() throws SQLException {
+    return dao.getFindAllProduct();
+  }
+
   @Override // 특정 메인 카테고리에 속한 모든 상품 정보 가져오기
-  public List<ProductDTO> getCategoryFindAllService(String id) throws SQLException {
+  public List<ProductInfoDTO> getCategoryFindAllService(String id) throws SQLException {
     return dao.getCategoryFindAll(id);
   }
 

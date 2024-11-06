@@ -22,8 +22,9 @@
         c.quantity as productQuantity,
         p.price as productPrice,
         p.discount_price as productDiscountPrice,
+        p.thumbnail_image_path as productImagePath,
+        p.thumbnail_image_Name as productImageName
         p.thumbnail_image_url as productImageUrl,
-        p.thumbnail_image_alt as productImageAlt
     from
       cart c
     join

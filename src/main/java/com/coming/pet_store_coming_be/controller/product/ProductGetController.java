@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.service.product.ProductService;
 
 import java.util.List;
@@ -24,12 +25,14 @@ public class ProductGetController {
   @Autowired
   ProductService productService;
 
-  @GetMapping("/{id}/find-all") // 1. 특정 카테고리 상품 전체 조회
-  public ResponseEntity<Map<String, Object>> getCategoryFindAllController(@PathVariable("id") String categorId) {
+
+
+  @GetMapping("/find-all") // 필터링 없는 모든 상품 조회
+  public ResponseEntity<Map<String, Object>> getFindAllProductController() {
     Map<String, Object> response = new HashMap<>();
-   
+
     try {
-      List<ProductDTO> data = productService.getCategoryFindAllService(categorId);
+      List<ProductDTO> data = productService.getFindAllProductService();
 
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
@@ -42,15 +45,40 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to Find all Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve all products.");
+      response.put("errorCode", "PRODUCT_FETCH_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
-  // 2. 특정 카테고리 새 상품 조회
-  @GetMapping("/{id}/find-new-product") // 1. 특정 카테고리 상품 전체 조회
+
+  @GetMapping("/{id}/find-all") // 1. 특정 카테고리 상품 전체 조회
+  public ResponseEntity<Map<String, Object>> getCategoryFindAllController(@PathVariable("id") String categorId) {
+    Map<String, Object> response = new HashMap<>();
+
+    try {
+      List<ProductInfoDTO> data = productService.getCategoryFindAllService(categorId);
+
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("data", data);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      // 실패 응답 보내기
+      e.printStackTrace();
+
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "Failed to retrieve all products.");
+      response.put("errorCode", "PRODUCT_FETCH_ERROR");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  @GetMapping("/{id}/find-new-product") // 2. 특정 카테고리 새 상품 조회
   public ResponseEntity<Map<String, Object>> getCategoryFindNewController(@PathVariable("id") String categorId) {
     Map<String, Object> response = new HashMap<>();
    
@@ -68,8 +96,8 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to Find all Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve new products.");
+      response.put("errorCode", "NEW_PRODUCT_FETCH_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -97,8 +125,8 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to Find all Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to search products.");
+      response.put("errorCode", "PRODUCT_SEARCH_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -123,8 +151,8 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to Find all Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve all products in subcategory.");
+      response.put("errorCode", "SUBCATEGORY_PRODUCT_FETCH_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -149,8 +177,8 @@ public class ProductGetController {
 
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
       response.put("success", false);
-      response.put("message", "Failed to Find all Product.");
-      response.put("errorCode", "INTERNAL_SERVER_ERROR");
+      response.put("message", "Failed to retrieve new products in subcategory.");
+      response.put("errorCode", "SUBCATEGORY_NEW_PRODUCT_FETCH_ERROR");
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

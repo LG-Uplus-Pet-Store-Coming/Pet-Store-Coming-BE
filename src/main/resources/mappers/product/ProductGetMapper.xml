@@ -3,18 +3,42 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
-  <select id="getCategoryFindAll" parameterType="String" resultType="ProductDTO">
+  <select id="getFindAllProduct" parameterType="String" resultType="ProductDTO">
     select 
+      s.id as stroeId,
+      s.name as storeBrandName,
       p.id,
-      p.name, 
-      p.price, 
-      p.description, 
-      p.discount_rate as discountRate, 
-      p.discount_price as discountPrice, 
-      p.thumbnail_image_path as thumbnailImagePath, 
+      p.name,
+      p.price,
+      p.discount_rate as discountRate,
+      p.discount_price as discountPrice,
+      p.thumbnail_image_path as thumbnailImagePath,
       p.thumbnail_image_name as thumbnailImageName,
       p.thumbnail_image_url as thumbnailImageUrl
     from product p
+    join 
+      store s on p.store_id = s.id
+    join 
+      sub_category sc on p.sub_category_id = sc.id
+    where 
+      sc.main_category_id = #{id}
+  </select>
+
+  <select id="getCategoryFindAll" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      s.id as stroeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
+    from product p
+    join 
+      store s on p.store_id = s.id
     join 
       sub_category sc on p.sub_category_id = sc.id
     where 
@@ -23,6 +47,8 @@
 
   <select id="getCategoryFindNew" parameterType="String" resultType="ProductDTO">
     select 
+      s.id as stroeId,
+      s.name as storeBrandName,
       p.id, 
       p.name, 
       p.price, 

@@ -9,13 +9,14 @@ public class CartInfoDTO {
   private String productQuantity;
   private int productPrice;
   private int productDiscountPrice;
+  private String productImagePath;
+  private String productImageName;
   private String productImageUrl;
-  private String productImageAlt;
 
   public CartInfoDTO() {
   }
 
-  public CartInfoDTO(String storeId, String storeBrandName, String productId, String productName, String productQuantity, int productPrice, int productDiscountPrice, String productImageUrl, String productImageAlt) {
+  public CartInfoDTO(String storeId, String storeBrandName, String productId, String productName, String productQuantity, int productPrice, int productDiscountPrice, String productImagePath, String productImageName, String productImageUrl) {
     this.storeId = storeId;
     this.storeBrandName = storeBrandName;
     this.productId = productId;
@@ -23,8 +24,9 @@ public class CartInfoDTO {
     this.productQuantity = productQuantity;
     this.productPrice = productPrice;
     this.productDiscountPrice = productDiscountPrice;
+    this.productImagePath = productImagePath;
+    this.productImageName = productImageName;
     this.productImageUrl = productImageUrl;
-    this.productImageAlt = productImageAlt;
   }
 
   public String getStoreId() {
@@ -83,20 +85,28 @@ public class CartInfoDTO {
     this.productDiscountPrice = productDiscountPrice;
   }
 
+  public String getProductImagePath() {
+    return this.productImagePath;
+  }
+
+  public void setProductImagePath(String productImagePath) {
+    this.productImagePath = productImagePath;
+  }
+
+  public String getProductImageName() {
+    return this.productImageName;
+  }
+
+  public void setProductImageName(String productImageName) {
+    this.productImageName = productImageName;
+  }
+
   public String getProductImageUrl() {
     return this.productImageUrl;
   }
 
   public void setProductImageUrl(String productImageUrl) {
     this.productImageUrl = productImageUrl;
-  }
-
-  public String getProductImageAlt() {
-    return this.productImageAlt;
-  }
-
-  public void setProductImageAlt(String productImageAlt) {
-    this.productImageAlt = productImageAlt;
   }
 
   @Override
@@ -109,8 +119,9 @@ public class CartInfoDTO {
       ", productQuantity='" + getProductQuantity() + "'" +
       ", productPrice='" + getProductPrice() + "'" +
       ", productDiscountPrice='" + getProductDiscountPrice() + "'" +
+      ", productImagePath='" + getProductImagePath() + "'" +
+      ", productImageName='" + getProductImageName() + "'" +
       ", productImageUrl='" + getProductImageUrl() + "'" +
-      ", productImageAlt='" + getProductImageAlt() + "'" +
       "}";
   }
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 
 public interface ProductService {
@@ -26,8 +27,12 @@ public interface ProductService {
   public ProductImageDTO getProductImage(String id) throws SQLException; // 상품 이미지 정보 가져오는 비즈니스 로직 인스턴스 메서드
 
   // 상품 정보 가져오는 Service 인스턴스 메서드
+  
+  // ( 필터링 없이 모든 상품 )
+  public List<ProductDTO> getFindAllProductService() throws SQLException;
+  
   // ( 메인 카테고리 )
-  public List<ProductDTO> getCategoryFindAllService(String id) throws SQLException;
+  public List<ProductInfoDTO> getCategoryFindAllService(String id) throws SQLException;
   public List<ProductDTO> getCategoryFindNewService(String id) throws SQLException;
 
   // ( 서브 카테고리 )
