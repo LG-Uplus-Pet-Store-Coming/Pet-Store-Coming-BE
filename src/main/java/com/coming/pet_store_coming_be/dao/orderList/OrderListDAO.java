@@ -19,3 +19,5 @@ public interface OrderListDAO {
     @Select("SELECT payment_key FROM order_table WHERE order_id = #{orderId}")
     String findPaymentKeyByOrderId(@Param("orderId") String orderId);
 }
+
+// 조회 및 취소
