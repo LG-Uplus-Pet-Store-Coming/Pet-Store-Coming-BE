@@ -101,10 +101,6 @@ public class CanidaeDTO {
     this.profileImageUrl = profileImageUrl;
   }
 
-  public Boolean isGender() {
-    return this.gender;
-  }
-
   public Boolean getGender() {
     return this.gender;
   }
@@ -119,10 +115,6 @@ public class CanidaeDTO {
 
   public void setWeight(float weight) {
     this.weight = weight;
-  }
-
-  public Boolean isIsPrimary() {
-    return this.isPrimary;
   }
 
   public Boolean getIsPrimary() {
@@ -160,9 +152,9 @@ public class CanidaeDTO {
       ", profileImagePath='" + getProfileImagePath() + "'" +
       ", profileImageName='" + getProfileImageName() + "'" +
       ", profileImageUrl='" + getProfileImageUrl() + "'" +
-      ", gender='" + isGender() + "'" +
+      ", gender='" + getGender() + "'" +
       ", weight='" + getWeight() + "'" +
-      ", isPrimary='" + isIsPrimary() + "'" +
+      ", isPrimary='" + getIsPrimary() + "'" +
       ", createdAt='" + getCreatedAt() + "'" +
       ", updatedAt='" + getUpdatedAt() + "'" +
       "}";
