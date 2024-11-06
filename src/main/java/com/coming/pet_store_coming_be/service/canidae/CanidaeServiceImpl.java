@@ -47,16 +47,11 @@ public class CanidaeServiceImpl implements CanidaeService {
   public void deleteCanidaeInfoService(String canidaeId) throws SQLException {
     CanidaeDTO canidaeToDelete = dao.getCanidaeById(canidaeId);
     
-    dao.deleteCanidaeInfo(canidaeId);
-
-    System.out.println(canidaeToDelete);
     System.out.println("not yet...");
     if(Boolean.TRUE.equals(canidaeToDelete.getIsPrimary())) {
-      System.out.println("Primary Canidae");
       
-      String userId = dao.getUserIdByCanidaeId(canidaeId);
-      System.out.println(userId);
-      List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(userId);
+      System.out.println(canidaeToDelete.getUserId());
+      List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(canidaeToDelete.getUserId());
       System.out.println(remainingCanidaeList);
 
       if(!remainingCanidaeList.isEmpty()) {
@@ -67,6 +62,9 @@ public class CanidaeServiceImpl implements CanidaeService {
         dao.updateCanidae(latestCanidae);
       }
     }
+
+    dao.deleteCanidaeInfo(canidaeToDelete.getId());
+
     System.out.println("end...");
   }
   
