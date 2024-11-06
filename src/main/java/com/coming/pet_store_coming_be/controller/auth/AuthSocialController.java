@@ -105,9 +105,6 @@ public class AuthSocialController {
     Map<String, Object> response = new HashMap<>();
 
     try {
-
-      System.out.println("device_id: " + deviceId);
-
       // 카카오 사용자 정보 가져오기
       String requestKakaoUserInfoUrl = "https://kapi.kakao.com/v2/user/me";
 
@@ -124,20 +121,14 @@ public class AuthSocialController {
 
       Long kakaoId = (Long) kakaoUserInfo.get("id"); // 카카오 고유키 가져오기
 
-      System.out.println(kakaoId);
-
       // 고유키 암호화
       String kakaoIdAsString = String.valueOf(kakaoId);
       String encryptKakaoId = aesUtil.generateHahs(kakaoIdAsString);
-
-      System.out.println(encryptKakaoId);
 
       UserDTO socialUserInfo = authService.getSocialUserInfoService(encryptKakaoId);
 
       // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
       if(socialUserInfo == null) {
-        System.out.println("Hello");
-
         response.put("success", false);
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "User not found. Registration is required to proceed.");
