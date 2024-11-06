@@ -46,13 +46,13 @@ public class AuthSocialController {
 
   RestTemplate restTemplate = new RestTemplate();
 
-  @Value("${kakao.client-id}")
+  @Value("${SOCIAL_CLIENTID}")
   private String clientId;
 
-  @Value("${kakao.redirect-url}")
+  @Value("${SOCIAL_REDIRECT_URL}")
   private String redirectUri;
 
-  @Value("${kakao.token-url}")
+  @Value("${SOCIAL_TOKEN_URL}")
   private String kakaoTokenUrl;
 
   @PostMapping("/kakao/request/token") // 카카오 소셜 로그인을 위한 AccessToken 발급 여부 API
