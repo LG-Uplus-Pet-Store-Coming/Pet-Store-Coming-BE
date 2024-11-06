@@ -34,6 +34,13 @@
     where user_id = #{userId}
   </select>
 
+  <!-- 반려견 정보 수정 관련 Mapper -->
+  <update id="resetPrimaryStatus" parameterType="String">
+    update canidae
+    set is_primary = false
+    where user_id = #{userId}
+  </update>
+
   <update id="updateCanidae" parameterType="CanidaeDTO" >
     update canidae
     <set>
@@ -64,14 +71,27 @@
     where id = #{id}
   </update>
 
+  <delete id="deleteCanidaeInterestProduct" parameterType="String">
+    delete from canidae_interest_product
+    where id = #{id}
+  </delete>
+
+  <!-- 반려견 정보 삭제 관련 Mapper -->
   <delete id="deleteCanidaeInfo" parameterType="String">
     delete from canidae
     where id = #{canidaeId}
   </delete>
 
-  <delete id="deleteCanidaeInterestProduct" parameterType="String">
-    delete from canidae_interest_product
-    where id = #{id}
-  </delete>
+  <select id="getUserIdByCanidaeId" parameterType="String" resultType="String">
+    select user_id
+    from canidae
+    where id = #{canidaeId}
+  </select>
+
+  <select id="getRemainingCanidaeByUserId" parameterType="String" resultType="CanidaeDTO">
+    select * from canidae
+    where user_id = #{userId}
+    order by created_at asc
+  </select>
 
 </mapper>

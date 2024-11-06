@@ -46,6 +46,18 @@ public class CanidaeServiceImpl implements CanidaeService {
   @Override // 반려견 정보 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteCanidaeInfoService(String canidaeId) throws SQLException {
     dao.deleteCanidaeInfo(canidaeId);
+
+    String userId = dao.getUserIdByCanidaeId(canidaeId);
+
+    List<CanidaeDTO> remainingCanidaeList = dao.getRemainingCanidaeByUserId(userId);
+
+    if(!remainingCanidaeList.isEmpty()) {
+      CanidaeDTO latestCanidae = remainingCanidaeList.get(remainingCanidaeList.size() - 1);
+
+      latestCanidae.setIsPrimary(true);
+      dao.updateCanidae(latestCanidae);
+    }
+
   }
   
   @Override // 사용자가 등록한 반려견의 개수 가지고 오기
@@ -56,6 +68,12 @@ public class CanidaeServiceImpl implements CanidaeService {
   @Override // 반려견 정보 수정 비즈니스 로직 인스턴스 메서드
   public void updateCanidaeService(CanidaeDTO canidae, List<CanidaeIntersetUpdateProductDTO> list) throws SQLException {
     
+    // 사용자의 모든 반려견 대표 여부 false로 수정
+    if(canidae.getIsPrimary() != null && canidae.getIsPrimary()) {
+      dao.resetPrimaryStatus(canidae.getUserId());
+    }
+    
+    // 반려견 관심 상품 수정
     if(list != null && !list.isEmpty()) {
       for(CanidaeIntersetUpdateProductDTO item: list) {
         switch (item.getUpdateStatus()) {

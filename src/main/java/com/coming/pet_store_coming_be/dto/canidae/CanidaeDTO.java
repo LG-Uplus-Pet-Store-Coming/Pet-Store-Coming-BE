@@ -12,16 +12,16 @@ public class CanidaeDTO {
   private String profileImagePath;
   private String profileImageName;
   private String profileImageUrl;
-  private boolean gender;
+  private Boolean gender;
   private float weight;
-  private boolean isPrimary;
+  private Boolean isPrimary;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
   public CanidaeDTO() {
   }
 
-  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImagePath, String profileImageName, String profileImageUrl, boolean gender, float weight, boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImagePath, String profileImageName, String profileImageUrl, Boolean gender, float weight, Boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.userId = userId;
     this.name = name;
@@ -101,15 +101,15 @@ public class CanidaeDTO {
     this.profileImageUrl = profileImageUrl;
   }
 
-  public boolean isGender() {
+  public Boolean isGender() {
     return this.gender;
   }
 
-  public boolean getGender() {
+  public Boolean getGender() {
     return this.gender;
   }
 
-  public void setGender(boolean gender) {
+  public void setGender(Boolean gender) {
     this.gender = gender;
   }
 
@@ -121,15 +121,15 @@ public class CanidaeDTO {
     this.weight = weight;
   }
 
-  public boolean isIsPrimary() {
+  public Boolean isIsPrimary() {
     return this.isPrimary;
   }
 
-  public boolean getIsPrimary() {
+  public Boolean getIsPrimary() {
     return this.isPrimary;
   }
 
-  public void setIsPrimary(boolean isPrimary) {
+  public void setIsPrimary(Boolean isPrimary) {
     this.isPrimary = isPrimary;
   }
 
