@@ -21,6 +21,8 @@
       canidae c
     where 
       c.user_id = #{userId}
+    order by
+      c.is_primary DESC, c.created_at ASC
   </select>
 
   <select id="getInterestProductByCanidaeId" parameterType="String" resultType="CanidaeInterestProductDTO">
