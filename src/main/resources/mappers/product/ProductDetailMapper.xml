@@ -10,7 +10,7 @@
       s.thumbnail_image_path as storeThumbnailImagePath,
       s.thumbnail_image_name as storeThumbnailImageName,
       s.thumbnail_image_url as storeThumbnailImageUrl,
-      p.id as productId
+      p.id as productId,
       p.name as productName,
       p.description as productDescription,
       p.price as productPrice,
