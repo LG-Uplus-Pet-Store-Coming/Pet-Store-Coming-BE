@@ -50,7 +50,7 @@ public class CanidaeServiceImpl implements CanidaeService {
     dao.deleteCanidaeInfo(canidaeId);
 
     System.out.println("not yet...");
-    if(canidaeToDelete.getIsPrimary()) {
+    if(Boolean.TRUE.equals(canidaeToDelete.getIsPrimary())) {
       System.out.println("Primary Canidae");
       
       String userId = dao.getUserIdByCanidaeId(canidaeId);
@@ -65,15 +65,6 @@ public class CanidaeServiceImpl implements CanidaeService {
       }
     }
     System.out.println("end...");
-
-    // dao.deleteCanidaeInfo(canidaeId);
-
-    // System.out.println(userId);
-
-    // 
-
-    // 
-
   }
   
   @Override // 사용자가 등록한 반려견의 개수 가지고 오기
