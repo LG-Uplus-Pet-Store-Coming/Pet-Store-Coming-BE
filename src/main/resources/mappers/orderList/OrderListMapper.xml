@@ -5,14 +5,17 @@
     <!-- 유저 ID로 모든 주문 항목 조회 -->
     <select id="findAllOrderItemsByUserId" resultType="com.coming.pet_store_coming_be.dto.orderList.OrderListDTO">
         SELECT 
+            oi.order_item_id AS orderItemId,
             oi.order_id AS orderId,
             oi.product_id AS productId,
             p.name AS productName,
             p.store_id AS storeId,
             p.price AS price,
+            oi.order_item_id AS orderItemId,
             p.discount_price AS discountPrice,
             oi.quantity AS quantity,
             oi.status AS status, <!-- 상품별 상태 추가 -->
+            oi.created_at AS createdAt,
             p.thumbnail_image_url AS thumbnailImageUrl
         FROM 
             order_item oi
