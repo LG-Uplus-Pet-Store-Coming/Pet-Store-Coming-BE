@@ -3,6 +3,7 @@ package com.coming.pet_store_coming_be.dao.canidae;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeInterestProductDTO;
 
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public interface CanidaeDAO {
   public void deleteCanidaeInterestProduct(String id) throws SQLException;
   
   // 사용자가 등록한 반려견 정보 조회 DAO
-  public List<CanidaeDTO> getCanidaeList(String userId) throws SQLException;
+  public List<CanidaeInfoDTO> getCanidaeList(String userId) throws SQLException;
 
   // 반려견 정보 삭제 DAO
   public void deleteCanidaeInfo(String canidaeId) throws SQLException;

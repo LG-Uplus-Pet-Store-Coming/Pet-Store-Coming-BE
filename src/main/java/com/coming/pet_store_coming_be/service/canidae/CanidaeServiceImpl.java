@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeInterestProductDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeIntersetUpdateProductDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
@@ -75,7 +76,7 @@ public class CanidaeServiceImpl implements CanidaeService {
   }
 
   @Override // 사용자가 등록한 모든 반려견 정보 조회 Service
-  public List<CanidaeDTO> getCanidaeListService(String userId) throws SQLException {
+  public List<CanidaeInfoDTO> getCanidaeListService(String userId) throws SQLException {
     return dao.getCanidaeList(userId);
   }
 

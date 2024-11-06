@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeDTO;
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO;
 import com.coming.pet_store_coming_be.dto.canidae.CanidaeRequestDTO;
 import com.coming.pet_store_coming_be.service.canidae.CanidaeService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
@@ -161,7 +162,7 @@ public class CanidaeContoller {
     Map<String, Object> response = new HashMap<>();
 
     try {
-      List<CanidaeDTO> data = canidaeService.getCanidaeListService(userId);
+      List<CanidaeInfoDTO> data = canidaeService.getCanidaeListService(userId);
 
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
