@@ -10,12 +10,11 @@
       s.thumbnail_image_path as storeThumbnailImagePath,
       s.thumbnail_image_name as storeThumbnailImageName,
       s.thumbnail_image_url as storeThumbnailImageUrl,
-
       p.name as productName,
       p.description as productDescription,
       p.price as productPrice,
       p.discount_rate as productDiscountRate,
-      p.discount_price as productDiscountPrice,
+      p.discount_price as productDiscountPrice
     from product p
     join store s on p.store_id = s.id
     where p.id = #{productId}

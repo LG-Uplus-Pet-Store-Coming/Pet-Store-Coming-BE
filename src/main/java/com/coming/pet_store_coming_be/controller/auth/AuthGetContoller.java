@@ -16,7 +16,8 @@ import com.coming.pet_store_coming_be.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -29,14 +30,14 @@ public class AuthGetContoller {
   @Autowired
   TokenProvider tokenProvider;
 
-  @GetMapping("/sign-in")
-  public ResponseEntity<Map<String, Object>> getLoginUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("deviceId") String deviceId) throws SQLException {
+  @PostMapping("/sign-in")
+  public ResponseEntity<Map<String, Object>> getLoginUser(@RequestBody Map<String, String> request) throws SQLException {
     
     
     Map<String, Object>  response = new HashMap<>();
     
     // 입력으로 주어진 email를 통해 DB에서 해당 데이터를 사용자 정보를 가져온다.
-    UserDTO userInfo = authService.getUserEmailMath(email);
+    UserDTO userInfo = authService.getUserEmailMath(request.get("email"));
 
     // 1. email에 해당하는 사용자 정보 데이터가 없을 경우
     if(userInfo == null) {
@@ -49,7 +50,7 @@ public class AuthGetContoller {
     }
 
     // 2. email에 해당하는 사용자 정보 데이터를 가져왔을 경우 - 비밀번호 일치 여부 확인
-    else if(!authService.isPasswordMath(password, userInfo.getPassword())) {
+    else if(!authService.isPasswordMath(request.get("password"), userInfo.getPassword())) {
       response.put("status", HttpStatus.UNAUTHORIZED.value());
       response.put("success", false);
       response.put("message", "The password provided is incorrect.");
@@ -70,9 +71,9 @@ public class AuthGetContoller {
 
     // 3. 모든 조건이 일치하지 않을 경우
     String token = tokenProvider.createToken(userInfo); // 토큰 생성
-    String refreshToken = tokenProvider.createRefreshToken(userInfo.getId(), deviceId);
+    String refreshToken = tokenProvider.createRefreshToken(userInfo.getId(), request.get("deviceId"));
     
-    authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, deviceId); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
+    authService.invalidateAndSaveNewRefreshToken(userInfo.getId(), refreshToken, request.get("deviceId")); // 기존 토큰 무효화 및 새로운 디바이스 리프레시 토큰 저장
 
     // // 로그인 성공 시 refresh_token 및 is_active 갱신
     // userInfo.setRefreshToken(tokenProvider.createRefreshToken(userInfo.getId()));
