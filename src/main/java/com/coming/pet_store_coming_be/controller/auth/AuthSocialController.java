@@ -130,6 +130,8 @@ public class AuthSocialController {
 
       // 카카오 사용자 정보가 DB에 없는 경우 -> 회원가입 진행
       if(socialUserInfo == null) {
+        System.out.println("Hello");
+
         response.put("success", false);
         response.put("status", HttpStatus.NOT_FOUND.value());
         response.put("message", "User not found. Registration is required to proceed.");
