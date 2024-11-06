@@ -4,15 +4,16 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO">
 
   <insert id="insertCanidaeInfo" parameterType="CanidaeDTO">
-    insert into canidae (id, user_id, name, birth, breed, profile_image_url, profile_image_alt, gender, weight, is_primary)
+    insert into canidae (id, user_id, name, birth, breed, profile_image_path, profile_image_name, profile_image_url, gender, weight, is_primary)
     values (
       #{id},
       #{userId},
       #{name},
       #{birth},
       #{breed},
+      #{profileImagePath},
+      #{profileImageName},
       #{profileImageUrl},
-      #{profileImageAlt},
       #{gender},
       #{weight},
       #{isPrimary}
@@ -39,8 +40,9 @@
       name,
       birth,
       breed,
+      profile_image_path as profileImagePath,
+      profile_image_name as profileImageName,
       profile_image_url as profileImageUrl,
-      profile_image_alt as profileImageAlt,
       gender,
       weight,
       is_primary as isPrimary,
@@ -66,8 +68,8 @@
         breed = #{breed},
       </if>
 
-      <if test="profileImageAlt != null">
-        profile_image_alt = #{profileImageAlt},
+      <if test="profileImageName != null">
+        profile_image_name = #{profileImageName},
       </if>
 
       <if test="weight != null">
