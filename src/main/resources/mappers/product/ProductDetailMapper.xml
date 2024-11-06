@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
+
+  <select id="getProductDetail" parameterType="String" resultType="ProductDetailResultMap">
+    select
+      s.id as storeId,
+      s.name as storeBrandName,
+      s.thumbnail_image_path as storeThumbnailImagePath,
+      s.thumbnail_image_name as storeThumbnailImageName,
+      s.thumbnail_image_url as storeThumbnailImageUrl,
+
+      p.name as productName,
+      p.description as productDescription,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+    from product p
+    join store s on p.store_id = s.id
+    where p.id = #{productId}
+  </select>
+
+  <resultMap id="ProductDetailResultMap" type="com.coming.pet_store_coming_be.dto.product.ProductDetailDTO">
+
+    <result property="storeId" column="storeId"/>
+    <result property="storeBrandName" column="storeBrandName"/>
+    <result property="storeThumbnailImagePath" column="storeThumbnailImagePath"/>
+    <result property="storeThumbnailImageName" column="storeThumbnailImageName"/>
+    <result property="storeThumbnailImageUrl" column="storeThumbnailImageUrl"/>
+
+    <result property="productName" column="productName"/>
+    <result property="productDescription" column="productDescription"/>
+    <result property="productPrice" column="productPrice"/>
+    <result property="productDiscountRate" column="productDiscountRate"/>
+    <result property="productDiscountPrice" column="productDiscountPrice"/>
+
+  </resultMap>
+
+</mapper>
