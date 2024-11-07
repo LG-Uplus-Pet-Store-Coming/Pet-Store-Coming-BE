@@ -124,8 +124,8 @@ public class UserController {
 
             response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("success", false);
-            response.put("message", "Password reset failed.");
-            response.put("errorCode", "PASSWORD_RESET_ERROR");
+            response.put("message", "User information update failed.");
+            response.put("errorCode", "USER_UPDATE_ERROR");
             
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
