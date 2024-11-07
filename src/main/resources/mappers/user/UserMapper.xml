@@ -15,4 +15,26 @@
     where email = #{email} and name = #{name} and phone_number = #{phoneNumber}
   </update>
 
+  <update id="updateUserInfo" parameterType="UserDTO">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber},
+      </if>
+
+      <if test="address != null">
+        address = #{address},
+      </if>
+
+      <if test="role != null">
+        role = #{role},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
 </mapper>
