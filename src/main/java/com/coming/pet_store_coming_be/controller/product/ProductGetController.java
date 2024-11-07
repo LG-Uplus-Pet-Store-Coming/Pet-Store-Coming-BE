@@ -251,6 +251,8 @@ public class ProductGetController {
 
     try {
 
+      System.out.println("(**) token" + token);
+
       // 사용자가 로그인 이후 메인 페이지 방문 시
       if(token != null && token.isBlank()) {
 
@@ -300,7 +302,7 @@ public class ProductGetController {
       // 비로그인 사용자가 메인 페이지 접속 시
       List<ProductInfoDTO> popularProduct = productService.getPopularProductService();
 
-      System.out.println("** NO!!!! Popular Product **");
+      System.out.println("** NO!!!! LOGIN!!!! Popular Product **");
       System.out.println(popularProduct);
 
       response.put("status", HttpStatus.OK.value());
