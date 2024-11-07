@@ -47,4 +47,8 @@ public interface ProductService {
   // ( 특정 상품 상세 조회 )
   public ProductDetailDTO getProductDetailService(String productId) throws SQLException;
 
+  // ( 메인 페이지 접속 시 )
+  public List<ProductInfoDTO> getInterstProductService(String userId) throws SQLException;
+  public List<ProductInfoDTO> getPopularProduct(String userId) throws SQLException;
+
 }

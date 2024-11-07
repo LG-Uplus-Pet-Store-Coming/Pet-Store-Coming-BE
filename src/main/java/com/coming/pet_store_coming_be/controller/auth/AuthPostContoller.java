@@ -113,32 +113,49 @@ public class AuthPostContoller {
   public ResponseEntity<Map<String, Object>> postCreateAccount(@RequestBody UserDTO user) throws SQLException {
     Map<String, Object> response = new HashMap<>();
     
-    // 1. 이메일 중복 확인
-    if(!user.getEmail().isBlank() && authService.isUserEmailMath(user.getEmail())) {
-      response.put("status", HttpStatus.CONFLICT.value());
-      response.put("success", false);
-      response.put("errorCode", "DUPLICATE_EMAIL");
-      response.put("message", "Duplicate User Email. Please choose a different one.");
 
-      return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    try {
+        // 1. 이메일 중복 확인
+        if(!user.getEmail().isBlank() && authService.isUserEmailMath(user.getEmail())) {
+          response.put("status", HttpStatus.CONFLICT.value());
+          response.put("success", false);
+          response.put("errorCode", "DUPLICATE_EMAIL");
+          response.put("message", "Duplicate User Email. Please choose a different one.");
+
+          return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        }
+
+        // 2. 입력값이 잘못되었을 경우
+        if(!authService.signUpUser(user)) {
+          response.put("status", HttpStatus.BAD_REQUEST.value());
+          response.put("success", false);
+          response.put("message", "The signup request is invalid. Please check the input values.");
+          response.put("errorCode", "INVALID_SIGNUP_REQUEST");
+
+          return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);  
+        }
+
+        // 3. 회원가입을 성공한 경우
+        response.put("status", HttpStatus.OK.value());
+        response.put("success", true);
+        response.put("message", "Signup completed successfully.");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      // 실패 응답 보내기
+      e.printStackTrace();
+
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "An error occurred while retrieving product details.");
+      response.put("errorCode", "PRODUCT_DETAIL_RETRIEVAL_FAILED");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 2. 입력값이 잘못되었을 경우
-    if(!authService.signUpUser(user)) {
-      response.put("status", HttpStatus.BAD_REQUEST.value());
-      response.put("success", false);
-      response.put("message", "The signup request is invalid. Please check the input values.");
-      response.put("errorCode", "INVALID_SIGNUP_REQUEST");
+    
 
-      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);  
-    }
-
-    // 3. 회원가입을 성공한 경우
-    response.put("status", HttpStatus.OK.value());
-    response.put("success", true);
-    response.put("message", "Signup completed successfully.");
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
+    
   }
   
   @PostMapping("/logout") // 로그아웃 API

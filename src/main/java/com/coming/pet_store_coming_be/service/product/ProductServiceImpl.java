@@ -179,9 +179,19 @@ public class ProductServiceImpl implements ProductService{
     dao.deleteProductImage(id);
   }
 
-  // @Override // 특정 상품 상세 조회 비즈니스 로직 인스턴스 메서드
+  @Override // 특정 상품 상세 조회 비즈니스 로직 인스턴스 메서드
   public ProductDetailDTO getProductDetailService(String productId) throws SQLException {
     return dao.getProductDetail(productId);
+  }
+
+  @Override // 로그인 사용자가 반려견 등록을 한 경우
+  public List<ProductInfoDTO> getInterstProductService(String userId) throws SQLException {
+    return dao.getInterstProduct(userId);
+  }
+
+  @Override
+  public List<ProductInfoDTO> getPopularProduct(String userId) throws SQLException {
+    return dao.getInterstProduct(userId);
   }
 
 }

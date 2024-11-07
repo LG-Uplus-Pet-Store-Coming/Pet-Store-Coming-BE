@@ -261,13 +261,27 @@ public class ProductGetController {
         // 사용자 고유키를 가지고 온 경우
         if(userId != null) {
         
-          // 사용자가 반려견을 등록한 경우
+          // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
           if(canidaeService.getCanidaeListService(userId) != null) {
-            // List<ProductDTO> canidaeInterstProduct
+            List<ProductInfoDTO> canidaeInterstProduct = productService.getInterstProductService(userId);
+
+            response.put("status", HttpStatus.OK.value());
+            response.put("success", true);
+            response.put("data", canidaeInterstProduct);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
           }
 
-          // 사용자가 반려견을 등록하지 않은 경우
-        
+          // 사용자가 반려견을 등록하지 않은 경우 - 인기 상품
+          else {
+            List<ProductInfoDTO> popularProduct = productService.getPopularProduct(userId);
+
+            response.put("status", HttpStatus.OK.value());
+            response.put("success", true);
+            response.put("data", popularProduct);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+          }
         }
       }
       

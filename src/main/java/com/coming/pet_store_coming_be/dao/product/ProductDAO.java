@@ -40,4 +40,7 @@ public interface ProductDAO {
   public ProductImageDTO getProductImage(String id); // 상품 이미지 가져오기
 
   public ProductDetailDTO getProductDetail(String productId); // 특정 상품 전체 조회
+
+  // 메인 페이지 접속 시 상품 조회
+  public List<ProductInfoDTO> getInterstProduct(String userId);
 }
