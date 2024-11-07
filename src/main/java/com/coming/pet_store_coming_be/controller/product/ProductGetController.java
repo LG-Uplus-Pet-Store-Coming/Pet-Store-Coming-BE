@@ -252,7 +252,7 @@ public class ProductGetController {
     try {
 
       // 사용자가 로그인 이후 메인 페이지 방문 시
-      if(token != null) {
+      if(token.isBlank()) {
 
         if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
         if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
