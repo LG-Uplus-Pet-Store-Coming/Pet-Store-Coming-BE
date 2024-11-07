@@ -13,7 +13,7 @@ public class CanidaeDTO {
   private String profileImageName;
   private String profileImageUrl;
   private Boolean gender;
-  private float weight;
+  private Float weight;
   private Boolean isPrimary;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
@@ -21,7 +21,7 @@ public class CanidaeDTO {
   public CanidaeDTO() {
   }
 
-  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImagePath, String profileImageName, String profileImageUrl, Boolean gender, float weight, Boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public CanidaeDTO(String id, String userId, String name, LocalDate birth, String breed, String profileImagePath, String profileImageName, String profileImageUrl, Boolean gender, Float weight, Boolean isPrimary, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.userId = userId;
     this.name = name;
@@ -101,6 +101,10 @@ public class CanidaeDTO {
     this.profileImageUrl = profileImageUrl;
   }
 
+  public Boolean isGender() {
+    return this.gender;
+  }
+
   public Boolean getGender() {
     return this.gender;
   }
@@ -109,12 +113,16 @@ public class CanidaeDTO {
     this.gender = gender;
   }
 
-  public float getWeight() {
+  public Float getWeight() {
     return this.weight;
   }
 
-  public void setWeight(float weight) {
+  public void setWeight(Float weight) {
     this.weight = weight;
+  }
+
+  public Boolean isIsPrimary() {
+    return this.isPrimary;
   }
 
   public Boolean getIsPrimary() {
@@ -152,9 +160,9 @@ public class CanidaeDTO {
       ", profileImagePath='" + getProfileImagePath() + "'" +
       ", profileImageName='" + getProfileImageName() + "'" +
       ", profileImageUrl='" + getProfileImageUrl() + "'" +
-      ", gender='" + getGender() + "'" +
+      ", gender='" + isGender() + "'" +
       ", weight='" + getWeight() + "'" +
-      ", isPrimary='" + getIsPrimary() + "'" +
+      ", isPrimary='" + isIsPrimary() + "'" +
       ", createdAt='" + getCreatedAt() + "'" +
       ", updatedAt='" + getUpdatedAt() + "'" +
       "}";
