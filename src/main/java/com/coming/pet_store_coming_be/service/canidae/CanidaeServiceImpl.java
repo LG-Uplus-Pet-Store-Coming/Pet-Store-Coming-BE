@@ -44,9 +44,10 @@ public class CanidaeServiceImpl implements CanidaeService {
   }
 
   @Override // 반려견 정보 삭제 비즈니스 로직 인스턴스 메서드
-  public void deleteCanidaeInfoService(String canidaeId) throws SQLException {
+  public CanidaeDTO deleteCanidaeInfoService(String canidaeId) throws SQLException {
     // 삭제하려는 반려견 정보 가져오기
     CanidaeDTO canidaeToDelete = dao.getCanidaeById(canidaeId);
+    CanidaeDTO latestCanidae = null;
     
     // 삭제하는 반려견의 대표 반려견일 경우
     if(Boolean.TRUE.equals(canidaeToDelete.getIsPrimary())) {
@@ -56,7 +57,7 @@ public class CanidaeServiceImpl implements CanidaeService {
 
       // 반려견의 정보가 남아있을 경우
       if(!remainingCanidaeList.isEmpty()) {
-        CanidaeDTO latestCanidae = remainingCanidaeList.get(remainingCanidaeList.size() - 1);
+        latestCanidae = remainingCanidaeList.get(remainingCanidaeList.size() - 1);
         
         // 반려견 중 가장 마지막에 등록된 반려견 정보를 가지고 온 후 대표로 수정
         latestCanidae.setIsPrimary(true);
@@ -66,6 +67,8 @@ public class CanidaeServiceImpl implements CanidaeService {
 
     // 반려견 정보 삭제
     dao.deleteCanidaeInfo(canidaeToDelete.getId());
+
+    return latestCanidae;
   }
   
   @Override // 사용자가 등록한 반려견의 개수 가지고 오기

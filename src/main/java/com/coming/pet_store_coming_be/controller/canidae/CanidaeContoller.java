@@ -138,10 +138,11 @@ public class CanidaeContoller {
     Map<String, Object> response = new HashMap<>();
     
     try {
-      canidaeService.deleteCanidaeInfoService(canidaeId);
+      CanidaeDTO newPrimaryCanidae = canidaeService.deleteCanidaeInfoService(canidaeId);
 
       response.put("status", HttpStatus.OK.value());
       response.put("success", true);
+      response.put("newPrimaryCanidae", newPrimaryCanidae);
 
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
