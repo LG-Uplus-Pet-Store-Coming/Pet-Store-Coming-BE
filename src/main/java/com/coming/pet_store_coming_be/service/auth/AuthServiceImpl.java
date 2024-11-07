@@ -25,11 +25,7 @@ public class AuthServiceImpl implements AuthService {
   public boolean signUpUser(UserDTO user) throws SQLException {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // BCryptPasswordEncoder 인스턴스 생성
 
-    // 사용자 고유 번호, 비밀번호 암호화 한 값으로 Set
-    // if(user.getId() == null && user.getId().isEmpty()) {
-      
-    // }
-    user.setId(UUID.randomUUID().toString());
+    // 비밀번호 암호화 한 값으로 Setter
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     // 사용자의 정보 등록을 성공한 경우

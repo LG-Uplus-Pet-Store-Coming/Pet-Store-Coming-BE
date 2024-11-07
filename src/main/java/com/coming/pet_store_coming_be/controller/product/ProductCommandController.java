@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductRequestDTO;
-import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.coming.pet_store_coming_be.service.product.ProductService;
 
@@ -29,9 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/product")
 public class ProductCommandController {
-  
-  @Autowired
-  FileStorageService fileStorageService;
 
   @Autowired
   S3Service s3Service;
@@ -49,7 +45,7 @@ public class ProductCommandController {
       Map<String, Object> response = new HashMap<>();
 
       try {
-
+        
         // 상품의 고유 번호 아이디 부여
         ProductDTO product = productRequest.getProduct();
         product.setId(UUID.randomUUID().toString());
@@ -62,7 +58,7 @@ public class ProductCommandController {
         productService.insertProduct(storeId, product, fileInto); // #1. 상품 정보 등록
         if(productRequest.getOptions() != null && !productRequest.getOptions().isEmpty()) productService.insertProductOption(productRequest.getOptions(), product.getId()); // #2. 상품 옵션 추가
         
-        // #3. 상품 이미지 추가 (이미지가 있고 파일이 유효한 경우에만 추가)
+        // #3. 상품 이미지 추가 (상품 이미지가 있고 파일이 유효한 경우에만 추가)
         if (images != null && !images.isEmpty()) {
             List<MultipartFile> validImages = images.stream()
                 .filter(image -> image != null && !image.isEmpty())
@@ -112,18 +108,19 @@ public class ProductCommandController {
         Map<String, String> fileInfo = 
         s3Service.updateImage(
           newThumbnailImage, 
-          product.getThumbnailImageUrl(), 
-          product.getThumbnailImageAlt()
+          product.getThumbnailImagePath(), 
+          product.getThumbnailImageName()
         );
 
-        product.setThumbnailImageAlt(fileInfo.get("fileName"));
+        product.setThumbnailImageName(fileInfo.get("fileName"));
+        product.setThumbnailImageUrl(fileInfo.get("fileUrl"));
       } else {
         // 상품 대표 이미지를 변경하지 않는다면 thumbnailImageAlt 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-        product.setThumbnailImageAlt(null);
+        product.setThumbnailImageName(null);
       }
 
       // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X
-      product.setThumbnailImageUrl(null);
+      product.setThumbnailImagePath(null);
       
       productService.updateProduct(product); // #1. 상품 정보 변경
 
@@ -137,7 +134,7 @@ public class ProductCommandController {
           productService.deleteProductImage(imageId); // 이미지 테이블에서 삭제
 
           // upload 폴더에 이미지 정보 삭제
-          s3Service.deleteImage(deleteImageFileInfo.getProductImageUrl(), deleteImageFileInfo.getProductImageAlit());
+          s3Service.deleteImage(deleteImageFileInfo.getProductImagePath(), deleteImageFileInfo.getProductImageName());
         }
       }
 

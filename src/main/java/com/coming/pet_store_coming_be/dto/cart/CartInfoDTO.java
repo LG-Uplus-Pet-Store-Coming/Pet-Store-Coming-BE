@@ -1,6 +1,7 @@
 package com.coming.pet_store_coming_be.dto.cart;
 
 public class CartInfoDTO {
+
   private String cartId;
   private String userId;
   private String storeId;
@@ -16,6 +17,7 @@ public class CartInfoDTO {
 
   public CartInfoDTO() {
   }
+
 
   public CartInfoDTO(String cartId, String storeId, String storeBrandName, String productId, String productName,
       String productQuantity, int productPrice, int productDiscountPrice, String productImagePath,
@@ -103,6 +105,16 @@ public class CartInfoDTO {
 
   public void setProductImagePath(String productImagePath) {
     this.productImagePath = productImagePath;
+  }
+
+  public String getProductImageName() {
+    return this.productImageName;
+  }
+
+  public void setProductImageName(String productImageName) {
+    this.productImageName = productImageName;
+  }
+
   }
 
   public String getProductImageName() {

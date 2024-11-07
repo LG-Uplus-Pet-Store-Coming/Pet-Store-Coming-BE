@@ -3,46 +3,207 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.product.ProductDAO">
 
-  <select id="getCategoryFindAll" parameterType="String" resultType="ProductDTO">
-    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+  <select id="getFindAllProduct" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
-    join sub_category sc on p.sub_category_id = sc.id
-    where sc.main_catrgory_id = #{id}
+    join 
+      store s on p.store_id = s.id
   </select>
 
-  <select id="getCategoryFindNew" parameterType="String" resultType="ProductDTO">
-    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+  <select id="getFindNewAllProductService" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
-    join sub_category sc on p.sub_category_id = sc.id
-    where sc.main_catrgory_id = #{id}
+    join 
+      store s on p.store_id = s.id
     order by p.created_at desc
     limit 10
   </select>
 
-  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductDTO">
-    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+  <select id="getCategoryFindAll" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
-    where p.sub_category_id = #{id}
+    join 
+      store s on p.store_id = s.id
+    join 
+      sub_category sc on p.sub_category_id = sc.id
+    where 
+      sc.main_category_id = #{id}
   </select>
 
-  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductDTO">
-    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+  <select id="getCategoryFindNew" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
-    where p.sub_category_id = #{id}
+    join 
+      store s on p.store_id = s.id
+    join 
+      sub_category sc on p.sub_category_id = sc.id
+    where 
+      sc.main_category_id = #{id}
     order by p.created_at desc
     limit 10
   </select>
 
-  <select id="searchFindProdcut" parameterType="String" resultType="ProductDTO">
-    select p.id, p.name, p.price, p.description, p.discount_rate as discountRate, p.discount_price as discountPrice, p.thumbnail_image_url as thumbnailImageUrl, p.thumbnail_image_alt as thumbnailImageAlt
+  <select id="getSubCategoryFindAll" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
     from product p
-    where lower(p.name) like concat(lower(#{search}), '%')
+    join 
+      store s on p.store_id = s.id
+    where 
+      p.sub_category_id = #{id}
+  </select>
+
+  <select id="getSubCategoryFindNew" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
+    from product p
+    join 
+      store s on p.store_id = s.id
+    where 
+      p.sub_category_id = #{id}
+    order by p.created_at desc
+    limit 10
+  </select>
+
+  <select id="searchFindProdcut" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
+    from product p
+    join 
+      store s on p.store_id = s.id
+    where 
+      lower(p.name) like concat(lower(#{search}), '%')
   </select>
 
   <select id="getProductImage" parameterType="String" resultType="ProductImageDTO">
-    select product_image_url as productImageUrl, product_image_alt as productImageAlit
-    from product_image
-    where id = #{id}
+    select 
+      product_image_path as productImagePath, 
+      product_image_name as productImageName,
+      product_image_url as productImageUrl
+    from 
+      product_image
+    where 
+      id = #{id}
   </select>
+
+  <select id="getInterstProduct" parameterType="String" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
+    from product p
+    join
+      store s on p.store_id = s.id
+    join 
+      sub_category sc on p.sub_category_id = sc.id
+    join
+      canidae_interest_product cip on sc.id = cip.sub_category_id
+    join
+      canidae c on cip.canidae_id = c.id
+    join
+      user u on c.user_id = u.id
+    where 
+      u.id = #{userId}
+      and c.is_primary = true
+    order by
+      p.created_at desc
+    limit 5;
+  </select>
+
+  <select id="getPopularProduct" resultType="ProductInfoDTO">
+    select 
+      p.store_id as storeId,
+      s.name as storeBrandName,
+      p.id as productId,
+      p.name as productName,
+      p.price as productPrice,
+      p.discount_rate as productDiscountRate,
+      p.discount_price as productDiscountPrice,
+      p.thumbnail_image_path as productThumbnailImagePath,
+      p.thumbnail_image_name as productThumbnailImageName,
+      p.thumbnail_image_url as productThumbnailImageUrl
+    from product p
+    join
+      store s on p.store_id = s.id
+    order by
+      p.created_at asc
+    limit 5;
+  </select>
+
+  
 
 </mapper>

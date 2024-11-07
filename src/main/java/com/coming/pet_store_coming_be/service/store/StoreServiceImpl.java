@@ -20,8 +20,9 @@ public class StoreServiceImpl implements StoreService {
 
   @Override // 스토어 생성 비즈니스 로직 인스턴스 메서드
   public void createStoreService(StoreDTO store, Map<String, String> fileInfo) throws SQLException {
-    store.setThumbnailImageUrl(fileInfo.get("filePath"));
-    store.setThumbnailImageAlt(fileInfo.get("fileName"));
+    store.setThumbnailImagePath(fileInfo.get("filePath"));
+    store.setThumbnailImageName(fileInfo.get("fileName"));
+    store.setThumbnailImageUrl(fileInfo.get("fileURL"));
 
     dao.createStore(store);
   }

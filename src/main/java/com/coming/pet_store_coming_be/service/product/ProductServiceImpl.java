@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dao.product.ProductDAO;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductDetailDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductImageDTO;
+import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductOptionDTO;
 import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
@@ -33,8 +35,9 @@ public class ProductServiceImpl implements ProductService{
   public void insertProduct(String storeId, ProductDTO product, Map<String, String> fileInfo) throws SQLException {
     // 상품 정보 업데이트
     product.setStoreId(storeId);
-    product.setThumbnailImageUrl(fileInfo.get("filePath"));
-    product.setThumbnailImageAlt(fileInfo.get("fileName"));
+    product.setThumbnailImagePath(fileInfo.get("filePath"));
+    product.setThumbnailImageName(fileInfo.get("fileName"));
+    product.setThumbnailImageUrl(fileInfo.get("fileURL"));
 
     // 상품 설명 JSON 객체로 수정
     ObjectMapper objectMapper = new ObjectMapper();
@@ -71,8 +74,20 @@ public class ProductServiceImpl implements ProductService{
         Map<String, String> fileInfo = s3Service.uploadImage(image, "store/" + storeId + "/product/" + productId + "/images");
 
         // ProdcutImageDTO 생성
-        ProductImageDTO productImage = new ProductImageDTO(UUID.randomUUID().toString(), productId, fileInfo.get("filePath"), fileInfo.get("fileName"));
+        ProductImageDTO productImage = 
+          new ProductImageDTO(
+            UUID.randomUUID().toString(), 
+            productId, 
+            fileInfo.get("filePath"), 
+            fileInfo.get("fileName"),
+            fileInfo.get("fileURL")
+          );
+
+        System.out.println(productImage);
+        
+        // 상품 설명 이미지 DB에 등록
         dao.insertProductImage(productImage);
+
       }
     }
   }
@@ -114,28 +129,38 @@ public class ProductServiceImpl implements ProductService{
     }
   }
 
+  @Override // 필터링 없이 등록된 모든 상품 조회 비즈니스 로직
+  public List<ProductInfoDTO> getFindAllProductService() throws SQLException {
+    return dao.getFindAllProduct();
+  }
+
+  @Override // 필터링 없이 등록된 모든 상품 중 날짜 순 정렬 상품 조회 비즈니스 로직
+  public List<ProductInfoDTO> getFindNewAllProductService() throws SQLException {
+    return dao.getFindNewAllProductService();
+  }
+
   @Override // 특정 메인 카테고리에 속한 모든 상품 정보 가져오기
-  public List<ProductDTO> getCategoryFindAllService(String id) throws SQLException {
+  public List<ProductInfoDTO> getCategoryFindAllService(String id) throws SQLException {
     return dao.getCategoryFindAll(id);
   }
 
   @Override // 특정 메인 카테고리에 속한 모든 상품 정보 가져오기
-  public List<ProductDTO> getCategoryFindNewService(String id) throws SQLException {
+  public List<ProductInfoDTO> getCategoryFindNewService(String id) throws SQLException {
     return dao.getCategoryFindNew(id);
   }
 
   @Override // 특정 서브 카테고리에 속한 모든 상품 정보 가져오기
-  public List<ProductDTO> getSubCategoryFindAllService(String id) throws SQLException {
+  public List<ProductInfoDTO> getSubCategoryFindAllService(String id) throws SQLException {
     return dao.getSubCategoryFindAll(id);
   }
 
   @Override // 특정 서브 카테고리에 속한 모든 상품 정보 가져오기
-  public List<ProductDTO> getSubCategoryFindNewService(String id) throws SQLException {
+  public List<ProductInfoDTO> getSubCategoryFindNewService(String id) throws SQLException {
     return dao.getSubCategoryFindNew(id);
   }
 
   @Override // 상품 검색에 의한 상품 정보 가져오기
-  public List<ProductDTO> getSearchFindProductService(String search) throws SQLException {
+  public List<ProductInfoDTO> getSearchFindProductService(String search) throws SQLException {
     return dao.searchFindProdcut(search);
   }
 
@@ -152,6 +177,21 @@ public class ProductServiceImpl implements ProductService{
   @Override // 상품 이미지 삭제 비즈니스 로직 인스턴스 메서드
   public void deleteProductImage(String id) throws SQLException {
     dao.deleteProductImage(id);
+  }
+
+  @Override // 특정 상품 상세 조회 비즈니스 로직 인스턴스 메서드
+  public ProductDetailDTO getProductDetailService(String productId) throws SQLException {
+    return dao.getProductDetail(productId);
+  }
+
+  @Override // 로그인 사용자가 반려견 등록을 한 경우
+  public List<ProductInfoDTO> getInterstProductService(String userId) throws SQLException {
+    return dao.getInterstProduct(userId);
+  }
+
+  @Override
+  public List<ProductInfoDTO> getPopularProductService() throws SQLException {
+    return dao.getPopularProduct();
   }
 
 }

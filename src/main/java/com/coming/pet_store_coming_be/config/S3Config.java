@@ -12,9 +12,9 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 @Configuration
 public class S3Config {
   
-  @Value("${spring.cloud.aws.region.static}") private String region;
-  @Value("${spring.cloud.aws.credentials.access-key}") private String accessKey;
-  @Value("${spring.cloud.aws.credentials.secret-key}") private String secretKey;
+  @Value("${AWS_REGION}") private String region;
+  @Value("${AWS_ACCESS_KEY}") private String accessKey;
+  @Value("${AWS_SECRET_KEY}") private String secretKey;
 
   @Bean
   public AmazonS3 amazonS3() {

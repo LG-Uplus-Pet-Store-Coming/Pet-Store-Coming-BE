@@ -69,7 +69,7 @@ public class SubCategoryController {
       return new ResponseEntity<>(response, HttpStatus.OK);  
     } catch (Exception e) {
 
-      System.out.println(e);
+      e.printStackTrace();
 
       // 에러가 발생한 경우
       response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());

@@ -8,21 +8,23 @@ public class StoreDTO {
   private String userId;
   private String name;
   private String description;
+  private String thumbnailImagePath;
+  private String thumbnailImageName;
   private String thumbnailImageUrl;
-  private String thumbnailImageAlt;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
   public StoreDTO() {
   }
 
-  public StoreDTO(String id, String userId, String name, String description, String thumbnailImageUrl, String thumbnailImageAlt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+  public StoreDTO(String id, String userId, String name, String description, String thumbnailImagePath, String thumbnailImageName, String thumbnailImageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.userId = userId;
     this.name = name;
     this.description = description;
+    this.thumbnailImagePath = thumbnailImagePath;
+    this.thumbnailImageName = thumbnailImageName;
     this.thumbnailImageUrl = thumbnailImageUrl;
-    this.thumbnailImageAlt = thumbnailImageAlt;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -59,20 +61,28 @@ public class StoreDTO {
     this.description = description;
   }
 
+  public String getThumbnailImagePath() {
+    return this.thumbnailImagePath;
+  }
+
+  public void setThumbnailImagePath(String thumbnailImagePath) {
+    this.thumbnailImagePath = thumbnailImagePath;
+  }
+
+  public String getThumbnailImageName() {
+    return this.thumbnailImageName;
+  }
+
+  public void setThumbnailImageName(String thumbnailImageName) {
+    this.thumbnailImageName = thumbnailImageName;
+  }
+
   public String getThumbnailImageUrl() {
     return this.thumbnailImageUrl;
   }
 
   public void setThumbnailImageUrl(String thumbnailImageUrl) {
     this.thumbnailImageUrl = thumbnailImageUrl;
-  }
-
-  public String getThumbnailImageAlt() {
-    return this.thumbnailImageAlt;
-  }
-
-  public void setThumbnailImageAlt(String thumbnailImageAlt) {
-    this.thumbnailImageAlt = thumbnailImageAlt;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -98,8 +108,9 @@ public class StoreDTO {
       ", userId='" + getUserId() + "'" +
       ", name='" + getName() + "'" +
       ", description='" + getDescription() + "'" +
+      ", thumbnailImagePath='" + getThumbnailImagePath() + "'" +
+      ", thumbnailImageName='" + getThumbnailImageName() + "'" +
       ", thumbnailImageUrl='" + getThumbnailImageUrl() + "'" +
-      ", thumbnailImageAlt='" + getThumbnailImageAlt() + "'" +
       ", createdAt='" + getCreatedAt() + "'" +
       ", updatedAt='" + getUpdatedAt() + "'" +
       "}";

@@ -4,17 +4,19 @@ public class ProductImageDTO {
   
   private String id;
   private String productId;
+  private String productImagePath;
+  private String productImageName;
   private String productImageUrl;
-  private String productImageAlit;
 
   public ProductImageDTO() {
   }
 
-  public ProductImageDTO(String id, String productId, String productImageUrl, String productImageAlit) {
+  public ProductImageDTO(String id, String productId, String productImagePath, String productImageName, String productImageUrl) {
     this.id = id;
     this.productId = productId;
+    this.productImagePath = productImagePath;
+    this.productImageName = productImageName;
     this.productImageUrl = productImageUrl;
-    this.productImageAlit = productImageAlit;
   }
 
   public String getId() {
@@ -33,6 +35,22 @@ public class ProductImageDTO {
     this.productId = productId;
   }
 
+  public String getProductImagePath() {
+    return this.productImagePath;
+  }
+
+  public void setProductImagePath(String productImagePath) {
+    this.productImagePath = productImagePath;
+  }
+
+  public String getProductImageName() {
+    return this.productImageName;
+  }
+
+  public void setProductImageName(String productImageName) {
+    this.productImageName = productImageName;
+  }
+
   public String getProductImageUrl() {
     return this.productImageUrl;
   }
@@ -41,21 +59,14 @@ public class ProductImageDTO {
     this.productImageUrl = productImageUrl;
   }
 
-  public String getProductImageAlit() {
-    return this.productImageAlit;
-  }
-
-  public void setProductImageAlit(String productImageAlit) {
-    this.productImageAlit = productImageAlit;
-  }
-
   @Override
   public String toString() {
     return "{" +
       " id='" + getId() + "'" +
       ", productId='" + getProductId() + "'" +
+      ", productImagePath='" + getProductImagePath() + "'" +
+      ", productImageName='" + getProductImageName() + "'" +
       ", productImageUrl='" + getProductImageUrl() + "'" +
-      ", productImageAlit='" + getProductImageAlit() + "'" +
       "}";
   }
 

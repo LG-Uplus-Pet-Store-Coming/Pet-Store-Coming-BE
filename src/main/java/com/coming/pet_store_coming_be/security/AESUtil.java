@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,6 +28,17 @@ public class AESUtil {
     }
 
     this.secretKey = new SecretKeySpec(keyBytes, ALGORITHM);
+  }
+
+  public String generateHahs(String data) throws Exception {
+    String algorithm = "HmacSHA256";
+
+    SecretKeySpec keySpec = new SecretKeySpec(secretKey.getEncoded(), algorithm);
+    Mac mac = Mac.getInstance(algorithm);
+    mac.init(keySpec);
+
+    byte[] hmacData = mac.doFinal(data.getBytes());
+    return Base64.getEncoder().encodeToString(hmacData);
   }
 
   // 암호화 메서드

@@ -4,15 +4,16 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO">
 
   <insert id="insertCanidaeInfo" parameterType="CanidaeDTO">
-    insert into canidae (id, user_id, name, birth, breed, profile_image_url, profile_image_alt, gender, weight, is_primary)
+    insert into canidae (id, user_id, name, birth, breed, profile_image_path, profile_image_name, profile_image_url, gender, weight, is_primary)
     values (
       #{id},
       #{userId},
       #{name},
       #{birth},
       #{breed},
+      #{profileImagePath},
+      #{profileImageName},
       #{profileImageUrl},
-      #{profileImageAlt},
       #{gender},
       #{weight},
       #{isPrimary}
@@ -33,23 +34,12 @@
     where user_id = #{userId}
   </select>
 
-  <select id="getCanidaeList" resultType="CanidaeDTO" parameterType="String" >
-    select
-      id,
-      name,
-      birth,
-      breed,
-      profile_image_url as profileImageUrl,
-      profile_image_alt as profileImageAlt,
-      gender,
-      weight,
-      is_primary as isPrimary,
-      created_at as createdAt,
-      updated_at as updatedAt
-    from canidae
-    where 
-      user_id = #{userId}
-  </select>
+  <!-- 반려견 정보 수정 관련 Mapper -->
+  <update id="resetPrimaryStatus" parameterType="String">
+    update canidae
+    set is_primary = false
+    where user_id = #{userId}
+  </update>
 
   <update id="updateCanidae" parameterType="CanidaeDTO" >
     update canidae
@@ -66,8 +56,8 @@
         breed = #{breed},
       </if>
 
-      <if test="profileImageAlt != null">
-        profile_image_alt = #{profileImageAlt},
+      <if test="profileImageName != null">
+        profile_image_name = #{profileImageName},
       </if>
 
       <if test="weight != null">
@@ -81,14 +71,50 @@
     where id = #{id}
   </update>
 
+  <delete id="deleteCanidaeInterestProduct" parameterType="String">
+    delete from canidae_interest_product
+    where id = #{id}
+  </delete>
+
+  <!-- 반려견 정보 삭제 관련 Mapper -->
+  <select id="getCanidaeById" parameterType="String" resultType="CanidaeDTO">
+    select
+      id,
+      user_id as userId,
+      name,
+      birth,
+      breed,
+      gender,
+      weight,
+      is_primary as isPrimary
+    from canidae
+    where id = #{canidaeId}
+  </select>
+
   <delete id="deleteCanidaeInfo" parameterType="String">
     delete from canidae
     where id = #{canidaeId}
   </delete>
 
-  <delete id="deleteCanidaeInterestProduct" parameterType="String">
-    delete from canidae_interest_product
-    where id = #{id}
-  </delete>
+  <select id="getUserIdByCanidaeId" parameterType="String" resultType="String">
+    select user_id as userId
+    from canidae
+    where id = #{canidaeId}
+  </select>
+
+  <select id="getRemainingCanidaeByUserId" parameterType="String" resultType="CanidaeDTO">
+    select
+      id,
+      user_id as userId,
+      name,
+      birth,
+      breed,
+      gender,
+      weight,
+      is_primary as isPrimary
+    from canidae
+    where user_id = #{userId}
+    order by created_at asc
+  </select>
 
 </mapper>

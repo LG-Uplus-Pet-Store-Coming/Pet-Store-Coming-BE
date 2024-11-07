@@ -4,7 +4,7 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.category.SubCategoryDAO">
 
   <insert id="insertSubCategory" parameterType="SubCategoryDTO">
-    insert into sub_category (id, main_catrgory_id, name, slug)
+    insert into sub_category (id, main_category_id, name, slug)
     values (
       #{id},
       #{mainCategoryId},
@@ -16,7 +16,7 @@
   <select id="findAllSubCategoryInfo" resultType="SubCategoryDTO">
     select 
       id,
-      main_catrgory_id as mainCategoryId,
+      main_category_id as mainCategoryId,
       name,
       slug
     from sub_category;

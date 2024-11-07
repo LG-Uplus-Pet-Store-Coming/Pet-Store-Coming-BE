@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.coming.pet_store_coming_be.dto.StoreDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductDTO;
-import com.coming.pet_store_coming_be.service.file.FileStorageService;
 import com.coming.pet_store_coming_be.service.file.S3Service;
 import com.coming.pet_store_coming_be.service.store.StoreService;
 
@@ -34,9 +33,6 @@ public class StoreController {
   @Autowired
   StoreService storeService;
 
-  @Autowired
-  FileStorageService fileStorageService;
-  
   @Autowired
   S3Service s3Service;
 
@@ -135,14 +131,15 @@ public class StoreController {
         Map<String, String> fileInfo =
           s3Service.updateImage(
             newThumbnailImage, 
-            updateStoreInfo.getThumbnailImageUrl(), 
-            updateStoreInfo.getThumbnailImageAlt()
+            updateStoreInfo.getThumbnailImagePath(),
+            updateStoreInfo.getThumbnailImageName()
           );
 
-        updateStoreInfo.setThumbnailImageAlt(fileInfo.get("fileName"));
+        updateStoreInfo.setThumbnailImageName(fileInfo.get("fileName"));
+        updateStoreInfo.setThumbnailImageUrl(fileInfo.get("fileUrl"));
       } else {
         // 스토어 대표 이미지를 변경하지 않는 경우
-        updateStoreInfo.setThumbnailImageAlt(null);
+        updateStoreInfo.setThumbnailImageName(null);
       }
 
       // thumbnailImageUrl 값을 null로 수정한다 -> MyBatis의 if 문법을 통해 값 변경 X

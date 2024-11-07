@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.coming.pet_store_coming_be.config.JwtProperties;
 import com.coming.pet_store_coming_be.dto.UserDTO;
-import com.coming.pet_store_coming_be.validation.UserValidationService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,9 +30,6 @@ public class TokenProvider {
   @Autowired
   private RedisTemplate<String, String> redisTemplate;
 
-  @Autowired
-  UserValidationService userValidationService;
-
   // 토큰 생성 로직
   public String createToken(UserDTO user) {
     Map<String, Object> claims = new HashMap<>();
@@ -43,6 +39,7 @@ public class TokenProvider {
     claims.put("email", user.getEmail());
     claims.put("name", user.getName());
     claims.put("address", user.getAddress());
+    claims.put("phoneNumber", user.getPhoneNumber());
     claims.put("platform", user.getPlatform());
     claims.put("role", user.getRole());
 

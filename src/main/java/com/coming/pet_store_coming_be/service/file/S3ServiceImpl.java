@@ -21,7 +21,7 @@ public class S3ServiceImpl implements S3Service {
   @Autowired
   private AmazonS3 amazonS3;
 
-  @Value("${spring.cloud.aws.s3.bucket}")
+  @Value("${AWS_S3_BUCKET_NAME}")
   private String BUCKET_NAME;
 
   @Override // 이미지 업로드 비즈니스 로직

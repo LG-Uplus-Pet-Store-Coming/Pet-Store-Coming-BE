@@ -4,14 +4,15 @@
 <mapper namespace="com.coming.pet_store_coming_be.dto.store.StoreDAO">
 
   <insert id="createStore" parameterType="StoreDTO">
-    insert into store (id, user_id, name, description, thumbnail_image_url, thumbnail_image_alt)
+    insert into store (id, user_id, name, description, thumbnail_image_path, thumbnail_image_name, thumbnail_image_url)
     values (
       #{id},
       #{userId},
       #{name},
       #{description},
-      #{thumbnailImageUrl},
-      #{thumbnailImageAlt}
+      #{thumbnailImagePath},
+      #{thumbnailImageName},
+      #{thumbnailImageUrl}
     )
   </insert>
 
@@ -21,7 +22,15 @@
   </delete>
 
   <select id="getStoreInfo" parameterType="Map" resultType="StoreDTO">
-    select id, user_id as userId, name, description, thumbnail_image_url as thumbnailImageUrl, thumbnail_image_alt as thumbnailImageAlt, created_at as createdAt, updated_at as updatedAt
+    select 
+      id, 
+      user_id as userId, 
+      name, description, 
+      thumbnail_image_path as thumbnailImagePath, 
+      thumbnail_image_name as thumbnailImageName, 
+      thumbnail_image_url as thumbnailImageUrl, 
+      created_at as createdAt, 
+      updated_at as updatedAt
     from store
     <choose>
       <when test="userId != null">
@@ -74,12 +83,16 @@
         description = #{description},
       </if>
 
-      <if test="thumbnailImageUrl != null">
-        thumbnail_image_url = #{thumbnailImageUrl},
+      <if test="thumbnailImagePath != null">
+        thumbnail_image_path = #{thumbnailImagePath},
       </if>
 
-      <if test="thumbnailImageAlt != null">
-        thumbnail_image_alt = #{thumbnailImageAlt},
+      <if test="thumbnailImageName != null">
+        thumbnail_image_name = #{thumbnailImageName},
+      </if>
+
+      <if test="thumbnailImageUrl != null">
+        thumbnail_image_url = #{thumbnailImageUrl},
       </if>
     </set>
     where id = #{id}
