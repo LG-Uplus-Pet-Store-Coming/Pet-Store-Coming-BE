@@ -6,8 +6,9 @@ import java.util.HashMap;
 
 import com.coming.pet_store_coming_be.dao.user.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class UserServiceImpl implements UserService {
 
   @Autowired
