@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
   UserDAO dao;
 
   @Override
-  public String getFindUserEmailService(String name, String phoneNumber) throws SQLException {
+  public Map<String, Object> getFindUserEmailService(String name, String phoneNumber) throws SQLException {
     Map<String, Object> params = new HashMap<>();
 
     params.put("name", name);

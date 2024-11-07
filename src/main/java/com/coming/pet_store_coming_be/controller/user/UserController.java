@@ -31,19 +31,33 @@ public class UserController {
         
         try {
             // 이메일 찾기 및 성공 경우
-            String findEmail = userService.getFindUserEmailService(name, phoneNumber);
+            Map<String, Object> findInfo = userService.getFindUserEmailService(name, phoneNumber);
 
-            // 입력으로 주어진 이메일이 없는 경우
-            if(findEmail.isBlank()) {
+            // 입력으로 주어진 정보가 없을 경우
+            if(findInfo == null) {
                 response.put("status", HttpStatus.NOT_FOUND.value());
                 response.put("success", false);
+                response.put("messagee", "false");
+                response.put("errorCode", "CANIDAE_REGISTRATION_ERROR");
                 
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
 
+            // 소셜 로그인을 통해서 회원가입을 사용자일 경우
+            if(findInfo.get("platform") != null && !findInfo.get("platform").toString().isEmpty()) {
+                response.put("status", HttpStatus.NOT_FOUND.value());
+                response.put("success", false);
+                response.put("messagee", "false");
+                response.put("errorCode", "CANIDAE_REGISTRATION_ERROR");
+                response.put("platform", findInfo.get("platform"));
+                
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+
+            // 사용자 정보 찾기 성공
             response.put("status", HttpStatus.OK.value());
             response.put("success", true);
-            response.put("email", findEmail);
+            response.put("data", findInfo);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -66,6 +80,8 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         
         System.out.println(updateUserInfo.get("email"));
+        System.out.println(updateUserInfo.get("name"));
+        System.out.println(updateUserInfo.get("phone_number"));
         System.out.println(updateUserInfo.get("newPassword"));
 
         try {

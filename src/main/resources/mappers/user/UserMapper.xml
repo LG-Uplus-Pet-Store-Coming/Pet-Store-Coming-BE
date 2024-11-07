@@ -3,16 +3,16 @@
 
 <mapper namespace="com.coming.pet_store_coming_be.dao.user.UserDAO">
   
-  <select id="getFindUserEmail" parameterType="Map" resultType="String">
-    select email
+  <select id="getFindUserEmail" parameterType="Map" resultType="Map">
+    select email, platform
     from user
     where email = #{name} and phone_number = #{phoneNumber}
   </select>
 
   <update id="updateUserPassword" parameterType="Map">
-    update store
+    update user
     set password=#{newPassword}
-    where email = #{email}
+    where email = #{email} and name = #{name} and phone_number = #{phoneNumber}
   </update>
 
 </mapper>
