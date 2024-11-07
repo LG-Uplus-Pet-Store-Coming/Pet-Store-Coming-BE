@@ -14,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -28,13 +26,13 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/recover-credentials/email") // 이메일과 비밀번호 복구 절차를 포괄하는 API
-    public ResponseEntity<Map<String, Object>> getFindUserEmailController(@RequestParam("name") String name, @RequestParam("phone_number") String phoneNumber) {
+    public ResponseEntity<Map<String, Object>> getFindUserEmailController(@RequestParam(value = "email", required = false) String email, @RequestParam("name") String name, @RequestParam("phone_number") String phoneNumber) {
         
         Map<String, Object> response = new HashMap<>();
         
         try {
             // 이메일 찾기 및 성공 경우
-            Map<String, Object> findInfo = userService.getFindUserEmailService(name, phoneNumber);
+            Map<String, Object> findInfo = userService.getFindUserEmailService(email, name, phoneNumber);
 
             // 입력으로 주어진 정보가 없을 경우
             if(findInfo == null) {

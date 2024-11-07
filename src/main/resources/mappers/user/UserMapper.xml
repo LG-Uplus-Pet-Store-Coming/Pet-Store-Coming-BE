@@ -6,13 +6,18 @@
   <select id="getFindUserEmail" parameterType="Map" resultType="Map">
     select email, platform
     from user
-    where name = #{name} and phone_number = #{phoneNumber}
+    where 
+      <if test="email != null">
+        email = #{email} and
+      </if>
+      name = #{name} and phone_number = #{phoneNumber}
   </select>
 
   <update id="updateUserPassword" parameterType="Map">
     update user
     set password=#{newPassword}
-    where email = #{email} and name = #{name} and phone_number = #{phoneNumber}
+    where 
+    email = #{email} and name = #{name} and phone_number = #{phoneNumber}
   </update>
 
   <update id="updateUserInfo" parameterType="UserDTO">
