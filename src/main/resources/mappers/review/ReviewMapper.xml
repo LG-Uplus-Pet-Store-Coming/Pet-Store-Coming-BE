@@ -4,8 +4,8 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.review.ReviewDAO">
     
     <insert id="insertReview" parameterType="com.coming.pet_store_coming_be.dto.review.ReviewDTO">
-        INSERT INTO review (id, product_id, user_name, comment, created_at)
-        VALUES (#{id}, #{productId}, #{userName}, #{comment}, NOW())
+        INSERT INTO review (product_id, user_name, comment, created_at)
+        VALUES (#{productId}, #{userName}, #{comment}, NOW())
     </insert>
 
     <delete id="deleteReview" parameterType="string">
@@ -13,7 +13,8 @@
     </delete>
 
     <select id="getReviewsByProductId" parameterType="string" resultType="com.coming.pet_store_coming_be.dto.review.ReviewDTO">
-        SELECT * FROM review
+        SELECT id, product_id AS productId, user_name AS userName, comment, created_at AS createdAt
+        FROM review
         WHERE product_id = #{productId}
     </select>
     
