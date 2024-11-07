@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductDetailDTO;
 import com.coming.pet_store_coming_be.dto.product.ProductInfoDTO;
 import com.coming.pet_store_coming_be.service.product.ProductService;
@@ -260,6 +261,10 @@ public class ProductGetController {
 
           // 사용자 고유키를 가지고 온 경우
           if(userId != null) {
+
+            List<CanidaeInfoDTO> canidaeInfo =  canidaeService.getCanidaeListService(userId);
+            System.out.println(canidaeInfo);
+
             // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
             if(canidaeService.getCanidaeListService(userId) != null) {
               List<ProductInfoDTO> canidaeInterstProduct = productService.getInterstProductService(userId);
