@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.coming.pet_store_coming_be.security.TokenProvider;
+import com.coming.pet_store_coming_be.service.canidae.CanidaeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("/product")
@@ -25,6 +29,11 @@ public class ProductGetController {
   @Autowired
   ProductService productService;
 
+  @Autowired
+  CanidaeService canidaeService;
+
+  @Autowired
+  TokenProvider tokenProvider;
 
   @GetMapping("/find-all") // 1. 필터링 없는 모든 상품 조회
   public ResponseEntity<Map<String, Object>> getFindAllProductController() {
@@ -236,5 +245,55 @@ public class ProductGetController {
     }
   }
   
+  @GetMapping("/product/list/main") // 메인 페이지 방문 시
+  public ResponseEntity<Map<String, Object>> getMainPageProductList(@RequestHeader(value = "Authorization", required = false) String token) {
+    Map<String, Object> response = new HashMap<>();
+
+    try {
+
+      // 사용자가 로그인 이후 메인 페이지 방문 시
+      if(token != null) {
+
+      if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
+      if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
+        String userId = tokenProvider.getUserIdFromToken(token);
+
+        // 사용자 고유키를 가지고 온 경우
+        if(userId != null) {
+        
+          // 사용자가 반려견을 등록한 경우
+          if(canidaeService.getCanidaeListService(userId) != null) {
+            // List<ProductDTO> canidaeInterstProduct
+          }
+
+          // 사용자가 반려견을 등록하지 않은 경우
+        
+        }
+      }
+      
+
+      }
+
+      
+
+    } catch (Exception e) {
+      // 실패 응답 보내기
+      e.printStackTrace();
+
+      response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+      response.put("success", false);
+      response.put("message", "An error occurred while retrieving product details.");
+      response.put("errorCode", "PRODUCT_DETAIL_RETRIEVAL_FAILED");
+
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+  
+
+  // 비회원일 경우 메인 페이지 접속
+
+  // 회원일 경우 메인 페이지 접속
 
 }

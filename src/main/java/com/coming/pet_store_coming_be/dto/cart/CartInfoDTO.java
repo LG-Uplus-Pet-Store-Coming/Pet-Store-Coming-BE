@@ -2,6 +2,7 @@ package com.coming.pet_store_coming_be.dto.cart;
 
 public class CartInfoDTO {
  
+  private String userId;
   private String storeId;
   private String storeBrandName;
   private String productId;
