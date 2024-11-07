@@ -107,12 +107,7 @@ public class UserController {
     
 
     // 회원정보 수정
-    @PutMapping("path/{id}")
-    public String putMethodName(@PathVariable String id, @RequestBody String entity) {
-        //TODO: process PUT request
-        
-        return entity;
-    }("/info")
+    @PutMapping("/update/info")
     public ResponseEntity<Map<String, Object>> updateUserInfoController(@RequestBody UserDTO user) {
         Map<String, Object> response = new HashMap<>();
         
