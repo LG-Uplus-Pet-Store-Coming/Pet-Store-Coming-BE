@@ -14,10 +14,10 @@ public class UserServiceImpl implements UserService {
   UserDAO dao;
 
   @Override
-  public String getFindUserEmailService(String email, String phoneNumber) throws SQLException {
+  public String getFindUserEmailService(String name, String phoneNumber) throws SQLException {
     Map<String, Object> params = new HashMap<>();
 
-    params.put("email", email);
+    params.put("name", name);
     params.put("phoneNumber", phoneNumber);
    
     return dao.getFindUserEmail(params);

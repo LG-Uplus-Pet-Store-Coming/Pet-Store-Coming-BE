@@ -4,9 +4,9 @@
 <mapper namespace="com.coming.pet_store_coming_be.dao.user.UserDAO">
   
   <select id="getFindUserEmail" parameterType="Map" resultType="String">
-    select email 
+    select email
     from user
-    where email = #{email} and phone_number = #{phoneNumber}
+    where email = #{name} and phone_number = #{phoneNumber}
   </select>
 
 </mapper>
