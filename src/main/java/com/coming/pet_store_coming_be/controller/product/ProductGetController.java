@@ -251,7 +251,7 @@ public class ProductGetController {
 
     try {
 
-      System.out.println("(**) token" + token);
+      System.out.println("(**) token : " + token);
 
       // 사용자가 로그인 이후 메인 페이지 방문 시
       if(token != null && token.isBlank()) {
@@ -262,11 +262,10 @@ public class ProductGetController {
         if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
           String userId = tokenProvider.getUserIdFromToken(token);
 
-          System.out.println("2. token" + token);
-
+          System.out.println("2. User ID : " + userId);
           // 사용자 고유키를 가지고 온 경우
           if(userId != null) {
-            System.out.println("3. User ID" + userId);
+            System.out.println("3. In User ID : ");
 
             // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
             if(canidaeService.getCanidaeListService(userId) != null) {
