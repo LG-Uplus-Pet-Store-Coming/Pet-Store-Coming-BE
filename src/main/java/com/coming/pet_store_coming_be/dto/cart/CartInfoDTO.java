@@ -1,7 +1,8 @@
 package com.coming.pet_store_coming_be.dto.cart;
 
 public class CartInfoDTO {
- 
+
+  private String cartId;
   private String userId;
   private String storeId;
   private String storeBrandName;
@@ -17,7 +18,11 @@ public class CartInfoDTO {
   public CartInfoDTO() {
   }
 
-  public CartInfoDTO(String storeId, String storeBrandName, String productId, String productName, String productQuantity, int productPrice, int productDiscountPrice, String productImagePath, String productImageName, String productImageUrl) {
+
+  public CartInfoDTO(String cartId, String storeId, String storeBrandName, String productId, String productName,
+      String productQuantity, int productPrice, int productDiscountPrice, String productImagePath,
+      String productImageName, String productImageUrl) {
+    this.cartId = cartId;
     this.storeId = storeId;
     this.storeBrandName = storeBrandName;
     this.productId = productId;
@@ -28,6 +33,14 @@ public class CartInfoDTO {
     this.productImagePath = productImagePath;
     this.productImageName = productImageName;
     this.productImageUrl = productImageUrl;
+  }
+
+  public String getCartId() {
+    return this.cartId;
+  }
+
+  public void setCartId(String cartId) {
+    this.cartId = cartId;
   }
 
   public String getStoreId() {
@@ -92,6 +105,16 @@ public class CartInfoDTO {
 
   public void setProductImagePath(String productImagePath) {
     this.productImagePath = productImagePath;
+  }
+
+  public String getProductImageName() {
+    return this.productImageName;
+  }
+
+  public void setProductImageName(String productImageName) {
+    this.productImageName = productImageName;
+  }
+
   }
 
   public String getProductImageName() {
