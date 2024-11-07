@@ -9,5 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserDAO {
 
   public String getFindUserEmail(Map<String, Object> params) throws SQLException;
+  public void updateUserPassword(Map<String, String> params) throws SQLException;
   
 }

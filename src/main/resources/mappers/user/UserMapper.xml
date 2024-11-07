@@ -9,4 +9,10 @@
     where email = #{name} and phone_number = #{phoneNumber}
   </select>
 
+  <update id="updateUserPassword" parameterType="Map">
+    update store
+    set password=#{newPassword}
+    where email = #{email}
+  </update>
+
 </mapper>
