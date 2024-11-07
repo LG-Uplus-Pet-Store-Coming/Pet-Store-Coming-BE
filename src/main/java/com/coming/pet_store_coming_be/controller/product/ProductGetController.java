@@ -245,7 +245,7 @@ public class ProductGetController {
     }
   }
   
-  @GetMapping("/product/list/main") // 메인 페이지 방문 시
+  @GetMapping("/list/main") // 메인 페이지 방문 시
   public ResponseEntity<Map<String, Object>> getMainPageProductList(@RequestHeader(value = "Authorization", required = false) String token) {
     Map<String, Object> response = new HashMap<>();
 

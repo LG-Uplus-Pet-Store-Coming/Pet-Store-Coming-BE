@@ -15,7 +15,7 @@
 
   <select id="getCartItemList" parameterType="String" resultType="CartInfoDTO">
     select
-        c.user_id as #{userId}
+        c.user_id as #{userId},
         s.id as storeId,
         s.name as storeBrandName,
         p.id as productId,
