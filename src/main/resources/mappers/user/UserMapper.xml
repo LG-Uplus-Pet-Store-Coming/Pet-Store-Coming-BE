@@ -23,10 +23,6 @@
   <update id="updateUserInfo" parameterType="UserDTO">
     update user
     <set>
-      <if test="name != null">
-        name = #{name},
-      </if>
-
       <if test="phoneNumber != null">
         phone_number = #{phoneNumber},
       </if>
