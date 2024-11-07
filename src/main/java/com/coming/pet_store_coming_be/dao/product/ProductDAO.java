@@ -43,4 +43,5 @@ public interface ProductDAO {
 
   // 메인 페이지 접속 시 상품 조회
   public List<ProductInfoDTO> getInterstProduct(String userId);
+  public List<ProductInfoDTO> getPopularProduct();
 }

@@ -254,41 +254,46 @@ public class ProductGetController {
       // 사용자가 로그인 이후 메인 페이지 방문 시
       if(token != null) {
 
-      if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
-      if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
-        String userId = tokenProvider.getUserIdFromToken(token);
+        if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
+        if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
+          String userId = tokenProvider.getUserIdFromToken(token);
 
-        // 사용자 고유키를 가지고 온 경우
-        if(userId != null) {
-        
-          // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
-          if(canidaeService.getCanidaeListService(userId) != null) {
-            List<ProductInfoDTO> canidaeInterstProduct = productService.getInterstProductService(userId);
+          // 사용자 고유키를 가지고 온 경우
+          if(userId != null) {
+          
+            // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
+            if(canidaeService.getCanidaeListService(userId) != null) {
+              List<ProductInfoDTO> canidaeInterstProduct = productService.getInterstProductService(userId);
 
-            response.put("status", HttpStatus.OK.value());
-            response.put("success", true);
-            response.put("data", canidaeInterstProduct);
+              response.put("status", HttpStatus.OK.value());
+              response.put("success", true);
+              response.put("data", canidaeInterstProduct);
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
-          }
+              return new ResponseEntity<>(response, HttpStatus.OK);
+            }
 
-          // 사용자가 반려견을 등록하지 않은 경우 - 인기 상품
-          else {
-            List<ProductInfoDTO> popularProduct = productService.getPopularProduct(userId);
+            // 사용자가 반려견을 등록하지 않은 경우 - 인기 상품
+            else {
+              List<ProductInfoDTO> popularProduct = productService.getPopularProductService();
 
-            response.put("status", HttpStatus.OK.value());
-            response.put("success", true);
-            response.put("data", popularProduct);
+              response.put("status", HttpStatus.OK.value());
+              response.put("success", true);
+              response.put("data", popularProduct);
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
+              return new ResponseEntity<>(response, HttpStatus.OK);
+            }
           }
         }
       }
-      
 
-      }
+      // 비로그인 사용자가 메인 페이지 접속 시
+      List<ProductInfoDTO> popularProduct = productService.getPopularProductService();
 
-      
+      response.put("status", HttpStatus.OK.value());
+      response.put("success", true);
+      response.put("data", popularProduct);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
 
     } catch (Exception e) {
       // 실패 응답 보내기
@@ -301,13 +306,6 @@ public class ProductGetController {
 
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
-
-  // 비회원일 경우 메인 페이지 접속
-
-  // 회원일 경우 메인 페이지 접속
-
 }

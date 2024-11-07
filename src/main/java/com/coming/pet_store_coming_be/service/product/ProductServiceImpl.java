@@ -190,8 +190,8 @@ public class ProductServiceImpl implements ProductService{
   }
 
   @Override
-  public List<ProductInfoDTO> getPopularProduct(String userId) throws SQLException {
-    return dao.getInterstProduct(userId);
+  public List<ProductInfoDTO> getPopularProductService() throws SQLException {
+    return dao.getPopularProduct();
   }
 
 }
