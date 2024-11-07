@@ -260,7 +260,7 @@ public class ProductGetController {
 
         if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
 
-        System.out.println();
+        System.out.println(token);
 
         if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
           String userId = tokenProvider.getUserIdFromToken(token);
