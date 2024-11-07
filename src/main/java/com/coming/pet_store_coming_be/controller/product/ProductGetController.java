@@ -251,31 +251,18 @@ public class ProductGetController {
 
     try {
 
-      System.out.println("(**) token : " + token);
-
       // 사용자가 로그인 이후 메인 페이지 방문 시
       if(token != null && !token.isBlank()) {
 
-        System.out.println("1. Hello");
-
         if(token.startsWith("Bearer ")) token = token.substring(7); // 토큰에 'Bearer' 이 포함되어 있을 경우 접두사 제거
-
-        System.out.println("token:" + token);
-
         if(!tokenProvider.isTokenInvalid(token)) { // 토큰이 아직 유효할 경우
           String userId = tokenProvider.getUserIdFromToken(token);
 
-          System.out.println("2. User ID : " + userId);
           // 사용자 고유키를 가지고 온 경우
           if(userId != null) {
-            System.out.println("3. In User ID : ");
-
             // 사용자가 반려견을 등록한 경우 - 관심 상품 중 인기 상품
             if(canidaeService.getCanidaeListService(userId) != null) {
               List<ProductInfoDTO> canidaeInterstProduct = productService.getInterstProductService(userId);
-
-              System.out.println("*** Interset Product ***");
-              System.out.println(canidaeInterstProduct);
 
               response.put("status", HttpStatus.OK.value());
               response.put("success", true);
@@ -287,9 +274,6 @@ public class ProductGetController {
             // 사용자가 반려견을 등록하지 않은 경우 - 인기 상품
             else {
               List<ProductInfoDTO> popularProduct = productService.getPopularProductService();
-
-              System.out.println("** NO!!!! Popular Product **");
-              System.out.println(popularProduct);
 
               response.put("status", HttpStatus.OK.value());
               response.put("success", true);

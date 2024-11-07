@@ -18,11 +18,9 @@ public class CartInfoDTO {
   public CartInfoDTO() {
   }
 
-
-  public CartInfoDTO(String cartId, String storeId, String storeBrandName, String productId, String productName,
-      String productQuantity, int productPrice, int productDiscountPrice, String productImagePath,
-      String productImageName, String productImageUrl) {
+  public CartInfoDTO(String cartId, String userId, String storeId, String storeBrandName, String productId, String productName, String productQuantity, int productPrice, int productDiscountPrice, String productImagePath, String productImageName, String productImageUrl) {
     this.cartId = cartId;
+    this.userId = userId;
     this.storeId = storeId;
     this.storeBrandName = storeBrandName;
     this.productId = productId;
@@ -41,6 +39,14 @@ public class CartInfoDTO {
 
   public void setCartId(String cartId) {
     this.cartId = cartId;
+  }
+
+  public String getUserId() {
+    return this.userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getStoreId() {
@@ -115,16 +121,6 @@ public class CartInfoDTO {
     this.productImageName = productImageName;
   }
 
-  }
-
-  public String getProductImageName() {
-    return this.productImageName;
-  }
-
-  public void setProductImageName(String productImageName) {
-    this.productImageName = productImageName;
-  }
-
   public String getProductImageUrl() {
     return this.productImageUrl;
   }
@@ -136,7 +132,9 @@ public class CartInfoDTO {
   @Override
   public String toString() {
     return "{" +
-      " storeId='" + getStoreId() + "'" +
+      " cartId='" + getCartId() + "'" +
+      ", userId='" + getUserId() + "'" +
+      ", storeId='" + getStoreId() + "'" +
       ", storeBrandName='" + getStoreBrandName() + "'" +
       ", productId='" + getProductId() + "'" +
       ", productName='" + getProductName() + "'" +
