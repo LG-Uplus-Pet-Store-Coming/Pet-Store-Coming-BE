@@ -6,7 +6,7 @@
   <select id="getFindUserEmail" parameterType="Map" resultType="Map">
     select email, platform
     from user
-    where email = #{name} and phone_number = #{phoneNumber}
+    where name = #{name} and phone_number = #{phoneNumber}
   </select>
 
   <update id="updateUserPassword" parameterType="Map">
