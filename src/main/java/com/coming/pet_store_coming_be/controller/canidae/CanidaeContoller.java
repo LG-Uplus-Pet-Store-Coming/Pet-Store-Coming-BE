@@ -50,6 +50,10 @@ public class CanidaeContoller {
 
     try {
       // 사용자가 처음 반려견 정보를 등록할 경우 해당 반려견의 대표 반료견으로 선택한다.
+
+      int value = canidaeService.getCandiaeLengthService(canidaeRequest.getCanidae().getUserId());
+      System.out.println(value);
+
       if(canidaeService.getCandiaeLengthService(canidaeRequest.getCanidae().getUserId()) == 0) {
         canidaeRequest.getCanidae().setIsPrimary(true);
       }
