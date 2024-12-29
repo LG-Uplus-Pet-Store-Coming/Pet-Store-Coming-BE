@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.user.UserDAO">
+  
+  <select id="getFindUserEmail" parameterType="Map" resultType="Map">
+    select email, platform
+    from user
+    where 
+      <if test="email != null">
+        email = #{email} and
+      </if>
+      name = #{name} and phone_number = #{phoneNumber}
+  </select>
+
+  <update id="updateUserPassword" parameterType="Map">
+    update user
+    set password=#{newPassword}
+    where 
+    email = #{email} and name = #{name} and phone_number = #{phoneNumber}
+  </update>
+
+  <update id="updateUserInfo" parameterType="UserDTO">
+    update user
+    <set>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber},
+      </if>
+
+      <if test="address != null">
+        address = #{address},
+      </if>
+
+      <if test="role != null">
+        role = #{role},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>

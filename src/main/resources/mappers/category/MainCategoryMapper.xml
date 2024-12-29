@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.category.MainCategoryDAO">
+
+  <insert id="insertMainCategory" parameterType="MainCategoryDTO">
+    insert into main_category (id, name, slug, thumbnail_path, thumbnail_name, thumbnail_url)
+    values (
+      #{id},
+      #{name},
+      #{slug},
+      #{thumbnailPath},
+      #{thumbnailName},
+      #{thumbnailUrl}
+    )
+  </insert>
+
+  <select id="findAllMainCategoryInfo" resultType="MainCategoryDTO">
+    select 
+      id,
+      name,
+      slug,
+      thumbnail_path as thumbnailPath,
+      thumbnail_name as thumbnailName,
+      thumbnail_url as thumbnailUrl
+    from main_category;
+  </select>
+
+</mapper>

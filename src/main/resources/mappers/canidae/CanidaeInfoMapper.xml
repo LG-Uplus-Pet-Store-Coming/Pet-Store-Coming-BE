@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.canidae.CanidaeDAO">
+
+  <select id="getCanidaeList" parameterType="String" resultMap="CanidaeInfoResultMap">
+    select
+      c.id as id,
+      c.name as name,
+      c.birth as birth,
+      c.breed as breed,
+      c.profile_image_path as profileImagePath,
+      c.profile_image_name as profileImageName,
+      c.profile_image_url as profileImageUrl,
+      c.gender as gender,
+      c.weight as weight,
+      c.is_primary as isPrimary,
+      c.created_at as createdAt,
+      c.updated_at as updatedAt
+    from 
+      canidae c
+    where 
+      c.user_id = #{userId}
+    order by
+      c.is_primary DESC, c.created_at ASC
+  </select>
+
+  <select id="getInterestProductByCanidaeId" parameterType="String" resultType="CanidaeInterestProductDTO">
+    select
+      id,
+      sub_category_id as subCategoryId
+    from 
+      canidae_interest_product
+    where 
+      canidae_id = #{canidaeId}
+  </select>
+
+  <resultMap id="CanidaeInfoResultMap" type="com.coming.pet_store_coming_be.dto.canidae.CanidaeInfoDTO">
+
+    <association property="canidae" javaType="CanidaeDTO">
+      <result property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="birth" column="birth"/>
+      <result property="breed" column="breed"/>
+      <result property="profileImagePath" column="profileImagePath"/>
+      <result property="profileImageName" column="profileImageName"/>
+      <result property="profileImageUrl" column="profileImageUrl"/>
+      <result property="gender" column="gender"/>
+      <result property="weight" column="weight"/>
+      <result property="isPrimary" column="isPrimary"/>
+      <result property="createdAt" column="createdAt"/>
+      <result property="updatedAt" column="updatedAt"/>
+    </association>
+
+    <collection property="interstProductList" ofType="CanidaeInterestProductDTO" select="getInterestProductByCanidaeId" column="id"/>
+
+  </resultMap>
+
+</mapper>

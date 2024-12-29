@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.auth.AuthDAO">
+
+  <select id="getUserByEmail" resultType="UserDTO" parameterType="String"> 
+    select id, email, password, name, phone_number as phoneNumber, address, role
+    from user 
+    where email = #{email}
+  </select>
+
+  <select id="getSocialUserInfo" parameterType="String" resultType="UserDTO"> 
+    select id, name, address, role, platform
+    from user
+    where id = #{id}
+  </select>
+
+  <insert id="insertSignUpUser" parameterType="UserDTO">
+    insert into user (id
+      <if test="email != null">
+        , email
+      </if>
+      <if test="password != null">
+        , password
+      </if>
+      , name, phone_number, address
+      <if test="platform != null">
+        , platform
+      </if>
+      <if test="role != null">
+        , role
+      </if>
+    )
+    values (
+      #{id}
+      <if test="email != null">
+        , #{email}
+      </if>
+      <if test="password != null">
+        , #{password}
+      </if>
+      , #{name},
+      #{phoneNumber},
+      #{address}
+      <if test="platform != null">
+        , #{platform}
+      </if>
+      <if test="role != null">
+        , #{role}
+      </if>
+    )
+  </insert>
+
+</mapper>

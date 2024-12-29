@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coming.pet_store_coming_be.dao.category.SubCategoryDAO">
+
+  <insert id="insertSubCategory" parameterType="SubCategoryDTO">
+    insert into sub_category (id, main_category_id, name, slug)
+    values (
+      #{id},
+      #{mainCategoryId},
+      #{name},
+      #{slug}
+    )
+  </insert>
+
+  <select id="findAllSubCategoryInfo" resultType="SubCategoryDTO">
+    select 
+      id,
+      main_category_id as mainCategoryId,
+      name,
+      slug
+    from sub_category;
+  </select>
+
+
+
+</mapper>
